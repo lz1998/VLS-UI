@@ -5,7 +5,7 @@
         <div class="wrapper-in"></div>
       </el-col>
       <el-col :span="12" class="header-item">
-        <div class="wrapper-in"></div>
+        <marquee class="roll-info">热烈欢迎xxxx前来参观</marquee>
       </el-col>
       <el-col :span="6" class="header-item">
         <div class="wrapper-in"></div>
@@ -69,7 +69,7 @@ export default {
   .header{
     width:100%;
     height:10vh;
-    background: turquoise;
+    background-color: mediumpurple;
   }
   .wrapper-out{
     width: 25vw;
@@ -80,7 +80,8 @@ export default {
   .wrapper-in{
     width:100%;
     height:100%;
-    background-color: aqua;
+    background-color: mediumpurple;
+    border-radius: 10px;
   }
   .wrapper-map-out{
     width: 50vw;
@@ -93,5 +94,16 @@ export default {
     height: 100%;
     padding:0 1vw;
     background-color: red;
+  }
+  .roll-info{
+    width:100%;
+    height:5vh;
+    line-height: 5vh;
+    margin-top:2.5vh;
+    font-size:3vh;
+    font-weight: 700;
+    border:1px solid black;
+    border-radius: 2vh;
+    background-color: blue;
   }
 </style>
