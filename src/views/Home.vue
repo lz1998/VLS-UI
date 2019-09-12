@@ -102,8 +102,8 @@ export default {
     margin-top:2.5vh;
     font-size:3vh;
     font-weight: 700;
-    border:1px solid black;
     border-radius: 2vh;
     background-color: blue;
+    color:white
   }
 </style>
