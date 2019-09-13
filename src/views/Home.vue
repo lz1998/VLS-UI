@@ -4,7 +4,7 @@
     <el-row class="header">
       <el-col :span="6" class="header-item">
         <div class="wrapper-in">
-          <logo></logo>
+          <logo :img="img"></logo>
         </div>
       </el-col>
       <el-col :span="12" class="header-item">
@@ -60,6 +60,7 @@
 <script>
   import Time1 from "../components/Time.vue"
   import logo  from "../components/logo.vue"
+  import img from '../image/logo.png'
 
 
 export default {
@@ -70,7 +71,7 @@ export default {
   },
   data(){
     return {
-
+      img:img
     }
   },
   methods:{

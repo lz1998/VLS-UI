@@ -1,14 +1,19 @@
 <template>
     <div>
-        <img width="100%" height="100vh" src="../image/logo.png">
+        <img width="100%" height="100%" :src="img">
     </div>
 </template>
 
 <script type="text/ecmascript-6">
-
+    import img from '../image/logo.png'
     export default {
-        name: "logo"
-
+        name: "logo",
+        props:{
+            img: {
+                type: Object,
+                default: img
+            }
+        }
     }
 </script>
 
