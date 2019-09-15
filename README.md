@@ -1,5 +1,9 @@
-# vls
+# VLS-UI
+[![Build Status](https://travis-ci.org/lz1998/VLS-UI.png)](https://travis-ci.org/lz1998/VLS-UI)
 
+
+## 华东理工大学大屏项目
+By lz1998 & szh1998
 ## Project setup
 ```
 npm install
