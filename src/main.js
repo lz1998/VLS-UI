@@ -28,6 +28,8 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/visualMap'
 import 'echarts/lib/component/dataset'
 import 'echarts/map/js/world'
+import 'echarts/map/js/china'
+
 
 Vue.component('chart', ECharts)
 
