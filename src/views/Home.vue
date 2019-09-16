@@ -20,37 +20,58 @@
     <el-row>
       <el-col :span="6">
         <el-row class="wrapper-out">
-          <div class="wrapper-in"></div>
+          <div class="wrapper-in">
+              <chartline seriesType="bar"></chartline>
+
+          </div>
         </el-row>
         <el-row class="wrapper-out">
-          <div class="wrapper-in"></div>
+          <div class="wrapper-in">
+              <chartline seriesType="line"></chartline>
+
+          </div>
         </el-row>
         <el-row class="wrapper-out">
-          <div class="wrapper-in"></div>
+          <div class="wrapper-in">
+              <chartline seriesType="scatter"></chartline>
+          </div>
         </el-row>
       </el-col>
       <el-col :span="12">
         <el-row class="wrapper-map-out">
-          <div class="wrapper-in"></div>
+          <div class="wrapper-in">
+              <map1></map1>
+
+          </div>
         </el-row>
         <el-row>
           <el-col :span="12" class="wrapper-out">
-            <div class="wrapper-in"></div>
+            <div class="wrapper-in">
+                <chartline seriesType="line"></chartline>
+            </div>
           </el-col>
           <el-col :span="12" class="wrapper-out">
-            <div class="wrapper-in"></div>
+            <div class="wrapper-in">
+                <chartline seriesType="bar"></chartline>
+            </div>
           </el-col>
         </el-row>
       </el-col>
       <el-col :span="6">
         <el-row class="wrapper-out">
-          <div class="wrapper-in"></div>
+          <div class="wrapper-in">
+              <chartline seriesType="line"></chartline>
+          </div>
         </el-row>
         <el-row class="wrapper-out">
-          <div class="wrapper-in"></div>
+          <div class="wrapper-in">
+              <chartline seriesType="effectScatter"></chartline>
+          </div>
         </el-row>
         <el-row class="wrapper-out">
-          <div class="wrapper-in"></div>
+          <div class="wrapper-in">
+              <chartline seriesType="line"></chartline>
+          </div>
         </el-row>
       </el-col>
     </el-row>
@@ -61,13 +82,18 @@
   import Time1 from "../components/Time.vue"
   import logo  from "../components/logo.vue"
   import img from '../image/logo.png'
+  import chartline from "../components/chartline.vue"
+  import map1 from "../components/map1.vue"
+
 
 
 export default {
   name: 'home',
   components: {
     Time1,
-    logo
+    logo,
+    chartline,
+    map1
   },
   data(){
     return {

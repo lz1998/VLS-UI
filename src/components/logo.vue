@@ -10,7 +10,7 @@
         name: "logo",
         props:{
             img: {
-                type: Object,
+                type: String,
                 default: img
             }
         }

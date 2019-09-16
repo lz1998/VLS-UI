@@ -51,7 +51,7 @@
             let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
             this.timer = setInterval(() => {
                 _this.time=new Date();
-                _this.$forceUpdate();
+
             }, 1000)
         },
         beforeDestroy() {
