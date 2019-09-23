@@ -15,7 +15,7 @@
                 <span slot="title">大屏管理</span>
             </el-menu-item>
             <el-menu-item index="3">
-                <i class="el-icon-setting9"></i>
+                <i class="el-icon-setting"></i>
                 <span slot="title">账号管理</span>
             </el-menu-item>
         </el-menu>
