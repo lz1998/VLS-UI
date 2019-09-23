@@ -8,6 +8,10 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect:'/layout'
+    },
+    {
+      path: '/home',
       name: 'home',
       component: () => import('../views/Home.vue')
     },
@@ -15,6 +19,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import('../views/Login.vue')
+    },
+    {
+      path: '/layout',
+      name: 'layout',
+      component: () => import('../views/Layout.vue')
     }
   ]
 })

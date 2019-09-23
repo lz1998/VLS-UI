@@ -31,6 +31,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+    import {login} from '@/api/test.js'
     export default {
         name: "Login",
         data() {
@@ -53,6 +54,18 @@
             handleLogin() {
                 this.$refs['loginForm'].validate(valid => {
                     console.log(valid)
+                    if(valid){
+                        let data = new URLSearchParams();
+                        data.append("username",this.loginForm.username)
+                        data.append("password",this.loginForm.password)
+                        login(data).then(res=>{
+                            if(res.status){
+                                // TODO 跳转
+                            }
+                        })
+                    }else{
+
+                    }
                 })
             }
         }
