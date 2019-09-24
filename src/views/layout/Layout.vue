@@ -20,7 +20,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import MyMenu from '@/components/MyMenu'
+    import MyMenu from './components/MyMenu'
     export default {
         name: "Layout",
         components:{

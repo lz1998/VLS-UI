@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../views/home/index.vue'
 
 Vue.use(Router)
 
@@ -8,7 +7,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect:'/layout'
+      redirect:'/home'
     },
     {
       path: '/home',
@@ -23,7 +22,7 @@ export default new Router({
     {
       path: '/layout',
       name: 'layout',
-      component: () => import('../views/Layout.vue'),
+      component: () => import('../views/layout/Layout.vue'),
       children:[
         {
           path: '/',
