@@ -5,16 +5,17 @@
                 class="el-menu-vertical-demo"
                 background-color="#545c64"
                 text-color="#fff"
-                active-text-color="#ffd04b">
-            <el-menu-item index="1">
+                active-text-color="#ffd04b"
+        :router="true">
+            <el-menu-item index="/chartManage">
                 <i class="el-icon-menu"></i>
                 <span slot="title">图表管理</span>
             </el-menu-item>
-            <el-menu-item index="2">
+            <el-menu-item index="/screenManage">
                 <i class="el-icon-news"></i>
                 <span slot="title">大屏管理</span>
             </el-menu-item>
-            <el-menu-item index="3">
+            <el-menu-item index="/accountManage">
                 <i class="el-icon-setting"></i>
                 <span slot="title">账号管理</span>
             </el-menu-item>

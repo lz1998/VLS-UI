@@ -10,7 +10,7 @@
                     <div class="logout">退出</div>
                 </el-header >
                 <el-main >
-                    123
+                    <router-view/>
                 </el-main>
 
             </el-container>

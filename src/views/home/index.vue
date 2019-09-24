@@ -79,11 +79,11 @@
 </template>
 
 <script>
-  import Time1 from "../components/Time.vue"
-  import logo  from "../components/logo.vue"
-  import img from '../image/logo.png'
-  import chartline from "../components/chartline.vue"
-  import map1 from "../components/map1.vue"
+  import Time1 from "../../components/Time.vue"
+  import logo  from "../../components/logo.vue"
+  import img from '../../image/logo.png'
+  import chartline from "../../components/chartline.vue"
+  import map1 from "../../components/map1.vue"
 
 
 

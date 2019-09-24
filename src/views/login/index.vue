@@ -60,7 +60,8 @@
                         data.append("password",this.loginForm.password)
                         login(data).then(res=>{
                             if(res.status){
-                                // TODO 跳转
+                                this.$router.push("/layout")
+                                // TODO 存用户名全局变量
                             }
                         })
                     }else{
