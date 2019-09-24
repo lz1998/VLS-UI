@@ -2,13 +2,13 @@
     <div class="account-manage">
         <el-form ref="form" :model="updatePasswordForm" label-width="80px">
             <el-form-item label="原密码">
-                <el-input v-model="updatePasswordForm.oldPassword"></el-input>
+                <el-input v-model="updatePasswordForm.oldPassword" type="password"></el-input>
             </el-form-item>
             <el-form-item label="新密码">
-                <el-input v-model="updatePasswordForm.newPassword"></el-input>
+                <el-input v-model="updatePasswordForm.newPassword" type="password"></el-input>
             </el-form-item>
             <el-form-item label="再次输入">
-                <el-input v-model="updatePasswordForm.repeatPassword"></el-input>
+                <el-input v-model="updatePasswordForm.repeatPassword" type="password"></el-input>
             </el-form-item>
 
             <el-form-item>
@@ -21,6 +21,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+    import {updatePassword} from "@/api/test";
+
     export default {
         name: "index",
         data(){
@@ -38,6 +40,15 @@
                     alert("两次密码不一致")
                     return
                 }
+                let data=new URLSearchParams()
+                data.append("oldPassword",this.updatePasswordForm.oldPassword)
+                data.append("newPassword",this.updatePasswordForm.newPassword)
+                updatePassword(data).then(res=>{
+                    if(res.status){
+                        alert("修改成功")
+                    }
+                })
+
 
 
             }

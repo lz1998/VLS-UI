@@ -58,6 +58,7 @@
                         let data = new URLSearchParams();
                         data.append("username",this.loginForm.username)
                         data.append("password",this.loginForm.password)
+                        console.log(data.toString())
                         login(data).then(res=>{
                             if(res.status){
                                 this.$router.push("/layout")

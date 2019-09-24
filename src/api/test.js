@@ -16,5 +16,12 @@ export function login(data) {
         method: 'post',
         data
     })
+}
 
+export function updatePassword(data) {
+    return request({
+        url:'/user/updatePassword',
+        method: 'post',
+        data
+    })
 }
