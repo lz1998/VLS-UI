@@ -94,426 +94,203 @@
                 chartOption:{
                     title:{
                         desc:'标题组件，包含主标题和副标题',
-                        show:()=>{
-                            return{
-                                default:true,
-                                desc:'是否显示标题组件'
-                            }
-                        },
-                        text:()=>{
-                            return{
-                                default:'主标题',
-                                desc:'主标题文本'
-                            }
-                        },
+                        show:()=>{return{default:true, desc:'是否显示标题组件'}},
+                        text:()=>{return{default:'主标题', desc:'主标题文本'}},
                         textStyle:{
                             desc:'主标题文本样式',
-                            color:()=>{
-                                return{
-                                    default:'red',
-                                    desc:'主标题文字的颜色'
-                                }
-                            },
-                            fontStyle:()=>{
-                                return{
-                                    default:'normal',
-                                    desc:'主标题文字字体的风格'
-                                }
-                            },
-                            fontWeight:()=>{
-                                return{
-                                    default:'normal',
-                                    desc:'主标题文字字体的粗细'
-                                }
-                            },
-                            fontSize:()=>{
-                                return{
-                                    default:18,
-                                    desc:'主标题文字的字体大小'
-                                }
-                            },
-                            lineHeight:()=>{
-                                return{
-                                    default:56,
-                                    desc:'行高'
-                                }
-                            }
+                            color:()=>{return{default:'red', desc:'主标题文字的颜色'}},
+                            fontStyle:()=>{return{default:'normal', desc:'主标题文字字体的风格'}},
+                            fontWeight:()=>{return{default:'normal', desc:'主标题文字字体的粗细'}},
+                            fontSize:()=>{return{default:18, desc:'主标题文字的字体大小'}},
+                            lineHeight:()=>{return{default:56, desc:'行高'}}
                         },
-                        subText:()=>{
-                            return{
-                                default:'副标题',
-                                desc:'副标题文本'
-                            }
-                        },
+                        subText:()=>{return{default:'副标题', desc:'副标题文本'}},
                         subtextStyle:{
                             desc:'副标题文本样式',
-                            color:()=>{
-                                return{
-                                    default:'white',
-                                    desc:'副标题文字的颜色'
-                                }
-                            },
-                            fontStyle:()=>{
-                                return{
-                                    default:'normal',
-                                    desc:'副标题文字字体的风格'
-                                }
-                            },
-                            fontWeight:()=>{
-                                return{
-                                    default:'normal',
-                                    desc:'副标题文字字体的粗细'
-                                }
-                            },
-                            fontSize:()=>{
-                                return{
-                                    default:12,
-                                    desc:'副标题文字的字体大小'
-                                }
-                            },
-                            lineHeight:()=>{
-                                return{
-                                    default:56,
-                                    desc:'行高'
-                                }
-                            }
+                            color:()=>{return{default:'white', desc:'副标题文字的颜色'}},
+                            fontStyle:()=>{return{default:'normal', desc:'副标题文字字体的风格'}},
+                            fontWeight:()=>{return{default:'normal', desc:'副标题文字字体的粗细'}},
+                            fontSize:()=>{return{default:12, desc:'副标题文字的字体大小'}},
+                            lineHeight:()=>{return{default:56, desc:'行高'}}
                         },
-                        textAlign:()=>{
-                            return{
-                                default:'auto',
-                                desc:'整体的水平对齐'
-                            }
-                        },
-                        padding:()=>{
-                            return{
-                                default:'5',
-                                desc:'标题内边距，单位px'
-                            }
-                        },
-                        left:()=>{
-                            return{
-                                default:'auto',
-                                desc:'grid 组件离容器左侧的距离'
-                            }
-                        },
-                        top:()=>{
-                            return{
-                                default:'auto',
-                                desc:'grid 组件离容器上侧的距离'
-                            }
-                        },
-                        right:()=>{
-                            return{
-                                default:'auto',
-                                desc:'grid 组件离容器右侧的距离'
-                            }
-                        },
-                        bottom:()=>{
-                            return{
-                                default:'auto',
-                                desc:'grid 组件离容器下侧的距离'
-                            }
-                        },
-                        backgroundColor:()=>{
-                            return{
-                                default:'transparent',
-                                desc:'标题背景色'
-                            }
-                        },
-                        borderColor:()=>{
-                            return{
-                                default:'#ccc',
-                                desc:'标题的边框颜色'
-                            }
-                        },
-                        borderWidth:()=>{
-                            return{
-                                default:0,
-                                desc:'标题的边框线宽'
-                            }
-                        },
-                        borderRadius:()=>{
-                            return{
-                                default:0,
-                                desc:'圆角半径'
-                            }
-                        }
+                        textAlign:()=>{return{default:'auto', desc:'整体的水平对齐'}},
+                        padding:()=>{return{default:5, desc:'标题内边距，单位px'}},
+                        left:()=>{return{default:'auto', desc:'grid 组件离容器左侧的距离'}},
+                        top:()=>{return{default:'auto', desc:'grid 组件离容器上侧的距离'}},
+                        right:()=>{return{default:'auto', desc:'grid 组件离容器右侧的距离'}},
+                        bottom:()=>{return{default:'auto', desc:'grid 组件离容器下侧的距离'}},
+                        backgroundColor:()=>{return{default:'transparent', desc:'标题背景色'}},
+                        borderColor:()=>{return{default:'#ccc', desc:'标题的边框颜色'}},
+                        borderWidth:()=>{return{default:0, desc:'标题的边框线宽'}},
+                        borderRadius:()=>{return{default:0, desc:'圆角半径'}}
                     },
                     legend:{
                         desc:'图例组件',
-                        show:()=>{
-                            return{
-                                default:true,
-                                desc:'是否显示图例组件'
-                            }
-                        },
-                        left:()=>{
-                            return{
-                                default:'auto',
-                                desc:'图例组件离容器左侧的距离'
-                            }
-                        },
-                        top:()=>{
-                            return{
-                                default:'auto',
-                                desc:'图例组件离容器上侧的距离'
-                            }
-                        },
-                        right:()=>{
-                            return{
-                                default:'auto',
-                                desc:'图例组件离容器右侧的距离'
-                            }
-                        },
-                        bottom:()=>{
-                            return{
-                                default:'auto',
-                                desc:'图例组件离容器下侧的距离'
-                            }
-                        },
-                        width:()=>{
-                            return{
-                                default:'auto',
-                                desc:'图例组件的宽度'
-                            }
-                        },
-                        height:()=>{
-                            return{
-                                default:'auto',
-                                desc:'图例组件的高度'
-                            }
-                        },
-                        orient:()=>{
-                            return{
-                                default:'horizontal',
-                                desc:'图例列表的布局朝向'
-                            }
-                        },
-                        align:()=>{
-                            return{
-                                default:'auto',
-                                desc:'图例标记和文本的对齐'
-                            }
-                        },
-                        padding:()=>{
-                            return{
-                                default:'5',
-                                desc:'图例内边距，单位px'
-                            }
-                        },
-                        itemGap:()=>{
-                            return{
-                                default:10,
-                                desc:'图例每项之间的间隔'
-                            }
-                        },
-                        itemWidth:()=>{
-                            return{
-                                default:25,
-                                desc:'图例标记的图形宽度'
-                            }
-                        },
-                        itemHeight:()=>{
-                            return{
-                                default:14,
-                                desc:'图例标记的图形高度'
-                            }
-                        },
+                        show:()=>{return{default:true, desc:'是否显示图例组件'}},
+                        left:()=>{return{default:'auto', desc:'图例组件离容器左侧的距离'}},
+                        top:()=>{return{default:'auto', desc:'图例组件离容器上侧的距离'}},
+                        right:()=>{return{default:'auto', desc:'图例组件离容器右侧的距离'}},
+                        bottom:()=>{return{default:'auto', desc:'图例组件离容器下侧的距离'}},
+                        width:()=>{return{default:'auto', desc:'图例组件的宽度'}},
+                        height:()=>{return{default:'auto', desc:'图例组件的高度'}},
+                        orient:()=>{return{default:'horizontal', desc:'图例列表的布局朝向'}},
+                        align:()=>{return{default:'auto', desc:'图例标记和文本的对齐'}},
+                        padding:()=>{return{default:5, desc:'图例内边距，单位px'}},
+                        itemGap:()=>{return{default:10, desc:'图例每项之间的间隔'}},
+                        itemWidth:()=>{return{default:25, desc:'图例标记的图形宽度'}},
+                        itemHeight:()=>{return{default:14, desc:'图例标记的图形高度'}},
                         textStyle:{
                             desc:'图例的公用文本样式',
-                            color:()=>{
-                                return{
-                                    default:'#333',
-                                    desc:'文字的颜色'
-                                }
-                            },
-                            fontStyle:()=>{
-                                return{
-                                    default:'normal',
-                                    desc:'文字字体的风格'
-                                }
-                            },
-                            fontWeight:()=>{
-                                return{
-                                    default:'normal',
-                                    desc:'文字字体的粗细'
-                                }
-                            },
-                            fontSize:()=>{
-                                return{
-                                    default:12,
-                                    desc:'文字的字体大小'
-                                }
-                            },
-                            lineHeight:()=>{
-                                return{
-                                    default:56,
-                                    desc:'行高'
-                                }
-                            }
+                            color:()=>{return{default:'#333', desc:'文字的颜色'}},
+                            fontStyle:()=>{return{default:'normal', desc:'文字字体的风格'}},
+                            fontWeight:()=>{return{default:'normal', desc:'文字字体的粗细'}},
+                            fontSize:()=>{return{default:12, desc:'文字的字体大小'}},
+                            lineHeight:()=>{return{default:56, desc:'行高'}}
                         },
-                        icon:()=>{
-                            return{
-                                default:'circle',
-                                desc:'图例项的 icon'
-                            }
-                        },
-                        backgroundColor:()=>{
-                            return{
-                                default:'transparent',
-                                desc:'图例背景色'
-                            }
-                        },
-                        borderColor:()=>{
-                            return{
-                                default:'#ccc',
-                                desc:'图例的边框颜色'
-                            }
-                        },
-                        borderWidth:()=>{
-                            return{
-                                default:1,
-                                desc:'图例的边框线宽'
-                            }
-                        },
-                        borderRadius:()=>{
-                            return{
-                                default:0,
-                                desc:'圆角半径，单位px'
-                            }
-                        }
+                        icon:()=>{return{default:'circle', desc:'图例项的 icon'}},
+                        backgroundColor:()=>{return{default:'transparent', desc:'图例背景色'}},
+                        borderColor:()=>{return{default:'#ccc', desc:'图例的边框颜色'}},
+                        borderWidth:()=>{return{default:1, desc:'图例的边框线宽'}},
+                        borderRadius:()=>{return{default:0, desc:'圆角半径，单位px'}}
                     },
                     grid:{
-                        show:null,
-                        left:null,
-                        top:null,
-                        right:null,
-                        bottom:null,
-                        width:null,
-                        height:null,
-                        backgroundColor:null,
-                        borderColor:null,
-                        borderWidth:null
+                        desc:'直角坐标系内绘图网格组件',
+                        show:()=>{return{default:false, desc:'是否显示直角坐标系网格'}},
+                        left:()=>{return{default:'10%', desc:'组件离容器左侧的距离'}},
+                        top:()=>{return{default:60, desc:'组件离容器上侧的距离'}},
+                        right:()=>{return{default:'10%', desc:'组件离容器右侧的距离'}},
+                        bottom:()=>{return{default:60, desc:'组件离容器下侧的距离'}},
+                        width:()=>{return{default:'auto', desc:'组件的宽度'}},
+                        height:()=>{return{default:'auto', desc:'组件的高度'}},
+                        backgroundColor:()=>{return{default:'transparent', desc:'网格背景色'}},
+                        borderColor:()=>{return{default:'#ccc', desc:'网格的边框颜色'}},
+                        borderWidth:()=>{return{default:1, desc:'网格的边框线宽'}}
                     },
                     xAxis:{
-                        show:null,
-                        position:null,
-                        type:null,
-                        name:null,
-                        nameLocation:null,
+                        desc:'xx',
+                        show:()=>{return{default:'xx', desc:'xx'}},
+                        position:()=>{return{default:'xx', desc:'xx'}},
+                        type:()=>{return{default:'xx', desc:'xx'}},
+                        name:()=>{return{default:'xx', desc:'xx'}},
+                        nameLocation:()=>{return{default:'xx', desc:'xx'}},
                         nameTextStyle:{
-                            color:null,
-                            fontStyle:null,
-                            fontWeight:null,
-                            fontSize:null,
-                            lineHeight:null,
-                            width:null,
-                            height:null
+                            desc:'xx',
+                            color:()=>{return{default:'xx', desc:'xx'}},
+                            fontStyle:()=>{return{default:'xx', desc:'xx'}},
+                            fontWeight:()=>{return{default:'xx', desc:'xx'}},
+                            fontSize:()=>{return{default:'xx', desc:'xx'}},
+                            lineHeight:()=>{return{default:'xx', desc:'xx'}}
                         },
-                        nameGap:null,
-                        splitNumber:null,
+                        nameGap:()=>{return{default:'xx', desc:'xx'}},
+                        splitNumber:()=>{return{default:'xx', desc:'xx'}},
                         axisLine:{
-                            show:null,
-                            symbol:null,
-                            symbolSize:null,
-                            symbolOffset:null,
+                            desc:'xx',
+                            show:()=>{return{default:'xx', desc:'xx'}},
+                            symbol:()=>{return{default:'xx', desc:'xx'}},
+                            symbolSize:()=>{return{default:'xx', desc:'xx'}},
+                            symbolOffset:()=>{return{default:'xx', desc:'xx'}},
                             lineStyle:{
-                                color:null,
-                                width:null,
-                                type:null
+                                desc:'xx',
+                                color:()=>{return{default:'xx', desc:'xx'}},
+                                width:()=>{return{default:'xx', desc:'xx'}},
+                                type:()=>{return{default:'xx', desc:'xx'}}
                             }
                         },
                         axisTick:{
-                            show:null,
-                            interval:null,
-                            inside:null,
-                            length:null,
+                            desc:'xx',
+                            show:()=>{return{default:'xx', desc:'xx'}},
+                            interval:()=>{return{default:'xx', desc:'xx'}},
+                            inside:()=>{return{default:'xx', desc:'xx'}},
+                            length:()=>{return{default:'xx', desc:'xx'}},
                             lineStyle:{
-                                color:null,
-                                width:null,
-                                type:null
+                                desc:'xx',
+                                color:()=>{return{default:'xx', desc:'xx'}},
+                                width:()=>{return{default:'xx', desc:'xx'}},
+                                type:()=>{return{default:'xx', desc:'xx'}}
                             }
                         },
                         axisLabel:{
-                            show:null,
-                            interval:null,
-                            inside:null,
-                            rotate:null,
-                            margin:null,
-                            color:null,
-                            fontStyle:null,
-                            fontWeight:null,
-                            fontSize:null,
-                            lineHeight:null,
-                            backgroundColor:null,
-                            borderColor:null,
-                            borderWidth:null,
-                            borderRadius:null,
-                            padding:null,
-                            width:null,
-                            height:null
+                            desc:'xx',
+                            show:()=>{return{default:'xx', desc:'xx'}},
+                            interval:()=>{return{default:'xx', desc:'xx'}},
+                            inside:()=>{return{default:'xx', desc:'xx'}},
+                            rotate:()=>{return{default:'xx', desc:'xx'}},
+                            margin:()=>{return{default:'xx', desc:'xx'}},
+                            color:()=>{return{default:'xx', desc:'xx'}},
+                            fontStyle:()=>{return{default:'xx', desc:'xx'}},
+                            fontWeight:()=>{return{default:'xx', desc:'xx'}},
+                            fontSize:()=>{return{default:'xx', desc:'xx'}},
+                            lineHeight:()=>{return{default:'xx', desc:'xx'}},
+                            backgroundColor:()=>{return{default:'xx', desc:'xx'}},
+                            borderColor:()=>{return{default:'xx', desc:'xx'}},
+                            borderWidth:()=>{return{default:'xx', desc:'xx'}},
+                            borderRadius:()=>{return{default:'xx', desc:'xx'}},
+                            padding:()=>{return{default:'xx', desc:'xx'}}
                         }
                     },
                     yAxis:{
-                        show:null,
-                        position:null,
-                        type:null,
-                        name:null,
-                        nameLocation:null,
+                        desc:'xx',
+                        show:()=>{return{default:'xx', desc:'xx'}},
+                        position:()=>{return{default:'xx', desc:'xx'}},
+                        type:()=>{return{default:'xx', desc:'xx'}},
+                        name:()=>{return{default:'xx', desc:'xx'}},
+                        nameLocation:()=>{return{default:'xx', desc:'xx'}},
                         nameTextStyle:{
-                            color:null,
-                            fontStyle:null,
-                            fontWeight:null,
-                            fontSize:null,
-                            lineHeight:null,
-                            width:null,
-                            height:null
+                            desc:'xx',
+                            color:()=>{return{default:'xx', desc:'xx'}},
+                            fontStyle:()=>{return{default:'xx', desc:'xx'}},
+                            fontWeight:()=>{return{default:'xx', desc:'xx'}},
+                            fontSize:()=>{return{default:'xx', desc:'xx'}},
+                            lineHeight:()=>{return{default:'xx', desc:'xx'}}
                         },
-                        nameGap:null,
-                        splitNumber:null,
+                        nameGap:()=>{return{default:'xx', desc:'xx'}},
+                        splitNumber:()=>{return{default:'xx', desc:'xx'}},
                         axisLine:{
-                            show:null,
-                            symbol:null,
-                            symbolSize:null,
-                            symbolOffset:null,
+                            desc:'xx',
+                            show:()=>{return{default:'xx', desc:'xx'}},
+                            symbol:()=>{return{default:'xx', desc:'xx'}},
+                            symbolSize:()=>{return{default:'xx', desc:'xx'}},
+                            symbolOffset:()=>{return{default:'xx', desc:'xx'}},
                             lineStyle:{
-                                color:null,
-                                width:null,
-                                type:null
+                                desc:'xx',
+                                color:()=>{return{default:'xx', desc:'xx'}},
+                                width:()=>{return{default:'xx', desc:'xx'}},
+                                type:()=>{return{default:'xx', desc:'xx'}}
                             }
                         },
                         axisTick:{
-                            show:null,
-                            interval:null,
-                            inside:null,
-                            length:null,
+                            desc:'xx',
+                            show:()=>{return{default:'xx', desc:'xx'}},
+                            interval:()=>{return{default:'xx', desc:'xx'}},
+                            inside:()=>{return{default:'xx', desc:'xx'}},
+                            length:()=>{return{default:'xx', desc:'xx'}},
                             lineStyle:{
-                                color:null,
-                                width:null,
-                                type:null
+                                desc:'xx',
+                                color:()=>{return{default:'xx', desc:'xx'}},
+                                width:()=>{return{default:'xx', desc:'xx'}},
+                                type:()=>{return{default:'xx', desc:'xx'}}
                             }
                         },
                         axisLabel:{
-                            show:null,
-                            interval:null,
-                            inside:null,
-                            rotate:null,
-                            margin:null,
-                            color:null,
-                            fontStyle:null,
-                            fontWeight:null,
-                            fontSize:null,
-                            lineHeight:null,
-                            backgroundColor:null,
-                            borderColor:null,
-                            borderWidth:null,
-                            borderRadius:null,
-                            padding:null,
-                            width:null,
-                            height:null
+                            desc:'xx',
+                            show:()=>{return{default:'xx', desc:'xx'}},
+                            interval:()=>{return{default:'xx', desc:'xx'}},
+                            inside:()=>{return{default:'xx', desc:'xx'}},
+                            rotate:()=>{return{default:'xx', desc:'xx'}},
+                            margin:()=>{return{default:'xx', desc:'xx'}},
+                            color:()=>{return{default:'xx', desc:'xx'}},
+                            fontStyle:()=>{return{default:'xx', desc:'xx'}},
+                            fontWeight:()=>{return{default:'xx', desc:'xx'}},
+                            fontSize:()=>{return{default:'xx', desc:'xx'}},
+                            lineHeight:()=>{return{default:'xx', desc:'xx'}},
+                            backgroundColor:()=>{return{default:'xx', desc:'xx'}},
+                            borderColor:()=>{return{default:'xx', desc:'xx'}},
+                            borderWidth:()=>{return{default:'xx', desc:'xx'}},
+                            borderRadius:()=>{return{default:'xx', desc:'xx'}},
+                            padding:()=>{return{default:'xx', desc:'xx'}}
                         }
                     },
-                    backgroundColor:null
+                    backgroundColor:()=>{return{default:'', desc:'背景色'}}
                 },
                 treeData:[],
                 currentOptionDataId:''
