@@ -40,8 +40,8 @@
                 </el-form-item>
                 <el-tree :data="treeData" ref="optionTree">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
-                        <span style="width: 120px;display: inline-block;text-align: left;" @click="currentOptionDataId=node.id">{{ node.label}}</span>
-                        <span v-if="currentOptionDataId!=node.id && node.value!=null">{{node.value}}</span>
+                        <span style="width: 200px;display: inline-block;text-align: left;" @click="currentOptionDataId=node.id">{{data.desc}}</span>
+                        <span v-if="currentOptionDataId!=node.id && data.value!=null">{{data.value}}</span>
                         <span v-if="currentOptionDataId==node.id && node.isLeaf">
                             <input size="mini" v-model="data.value"></input>
                         </span>
@@ -93,37 +93,151 @@
                 chartFormLabelWidth:'120px',
                 chartOption:{
                     title:{
-                        show:null,
-                        text:null,
+                        desc:'标题组件，包含主标题和副标题',
+                        show:()=>{
+                            return{
+                                default:true,
+                                desc:'是否显示标题组件'
+                            }
+                        },
+                        text:()=>{
+                            return{
+                                default:'主标题',
+                                desc:'主标题文本'
+                            }
+                        },
                         textStyle:{
-                            color:null,
-                            fontStyle:null,
-                            fontWeight:null,
-                            fontSize:null,
-                            lineHeight:null,
-                            width:null,
-                            height:null
+                            desc:'主标题文本样式',
+                            color:()=>{
+                                return{
+                                    default:'red',
+                                    desc:'主标题文字的颜色'
+                                }
+                            },
+                            fontStyle:()=>{
+                                return{
+                                    default:'normal',
+                                    desc:'主标题文字字体的风格'
+                                }
+                            },
+                            fontWeight:()=>{
+                                return{
+                                    default:'normal',
+                                    desc:'主标题文字字体的粗细'
+                                }
+                            },
+                            fontSize:()=>{
+                                return{
+                                    default:18,
+                                    desc:'主标题文字的字体大小'
+                                }
+                            },
+                            lineHeight:()=>{
+                                return{
+                                    default:56,
+                                    desc:'行高'
+                                }
+                            }
                         },
-                        subText:null,
+                        subText:()=>{
+                            return{
+                                default:'副标题',
+                                desc:'副标题文本'
+                            }
+                        },
                         subtextStyle:{
-                            color:null,
-                            fontStyle:null,
-                            fontWeight:null,
-                            fontSize:null,
-                            lineHeight:null,
-                            width:null,
-                            height:null
+                            desc:'副标题文本样式',
+                            color:()=>{
+                                return{
+                                    default:'white',
+                                    desc:'副标题文字的颜色'
+                                }
+                            },
+                            fontStyle:()=>{
+                                return{
+                                    default:'normal',
+                                    desc:'副标题文字字体的风格'
+                                }
+                            },
+                            fontWeight:()=>{
+                                return{
+                                    default:'normal',
+                                    desc:'副标题文字字体的粗细'
+                                }
+                            },
+                            fontSize:()=>{
+                                return{
+                                    default:12,
+                                    desc:'副标题文字的字体大小'
+                                }
+                            },
+                            lineHeight:()=>{
+                                return{
+                                    default:56,
+                                    desc:'行高'
+                                }
+                            }
                         },
-                        textAlign:null,
-                        padding:null,
-                        left:null,
-                        top:null,
-                        right:null,
-                        bottom:null,
-                        backgroundColor:null,
-                        borderColor:null,
-                        borderWidth:null,
-                        borderRadius:null
+                        textAlign:()=>{
+                            return{
+                                default:'auto',
+                                desc:'整体的水平对齐'
+                            }
+                        },
+                        padding:()=>{
+                            return{
+                                default:'5',
+                                desc:'标题内边距，单位px'
+                            }
+                        },
+                        left:()=>{
+                            return{
+                                default:'auto',
+                                desc:'grid 组件离容器左侧的距离'
+                            }
+                        },
+                        top:()=>{
+                            return{
+                                default:'auto',
+                                desc:'grid 组件离容器上侧的距离'
+                            }
+                        },
+                        right:()=>{
+                            return{
+                                default:'auto',
+                                desc:'grid 组件离容器右侧的距离'
+                            }
+                        },
+                        bottom:()=>{
+                            return{
+                                default:'auto',
+                                desc:'grid 组件离容器下侧的距离'
+                            }
+                        },
+                        backgroundColor:()=>{
+                            return{
+                                default:'transparent',
+                                desc:'标题背景色'
+                            }
+                        },
+                        borderColor:()=>{
+                            return{
+                                default:'#ccc',
+                                desc:'标题的边框颜色'
+                            }
+                        },
+                        borderWidth:()=>{
+                            return{
+                                default:0,
+                                desc:'标题的边框线宽'
+                            }
+                        },
+                        borderRadius:()=>{
+                            return{
+                                default:0,
+                                desc:'圆角半径'
+                            }
+                        }
                     },
                     legend:{
                         show:null,
@@ -299,6 +413,10 @@
             constructTreeData(myjson,id){
                 const list=[]
                 for(let key in myjson){
+                    if(key=='desc'){
+                        console.log('desc')
+                        continue
+                    }
                     const obj={}
                     obj.label=key
                     if(id==''){
@@ -308,8 +426,15 @@
                     }
                     obj.value=null
 
-                    if(myjson[key]!=null){
+                    if(typeof(myjson[key])!='function'){
                         obj.children=this.constructTreeData(myjson[key],obj.id)
+                        if(myjson[key]!=null){
+
+                            obj.desc=myjson[key].desc
+                        }
+                    }else if(myjson[key]!=null){
+                        obj.value=myjson[key]().default
+                        obj.desc=myjson[key]().desc
                     }
                     list.push(obj)
                 }
@@ -348,7 +473,6 @@
             },
             addChart(){
                 this.chartDialogVisible=false
-                console.log(this.constructOptionData(this.treeData))
 
             },
             updateChart(){
@@ -360,6 +484,7 @@
         created() {
             this.loadData()
             this.treeData=this.constructTreeData(this.chartOption,'')
+            console.log(this.treeData)
         }
     }
 </script>
