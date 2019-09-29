@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {login} from'@/api/test.js'
+import {login,logout} from'@/api/test.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    username:''
+    username:null
   },
   getters:{
     username: state => state.username,
@@ -29,6 +29,16 @@ export default new Vuex.Store({
           }else{
             reject()
           }
+        })
+      })
+      return promise
+    },
+
+    Logout({commit}){
+      const promise = new Promise((resolve)=>{
+        logout().then(()=>{
+          commit('setUsername',null)
+          resolve()
         })
       })
       return promise

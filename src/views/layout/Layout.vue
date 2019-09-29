@@ -28,7 +28,9 @@
         },
         methods:{
             handleLogout(){
-                this.$router.push("/login")
+                this.$store.dispatch("Logout").then(()=>{
+                    this.$router.push("/login")
+                })
             }
         }
     }
