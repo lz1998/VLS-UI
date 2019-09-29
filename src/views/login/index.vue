@@ -53,18 +53,18 @@
         methods: {
             handleLogin() {
                 this.$refs['loginForm'].validate(valid => {
-                    console.log(valid)
+                    // console.log(valid)
                     if(valid){
-                        let data = new URLSearchParams();
-                        data.append("username",this.loginForm.username)
-                        data.append("password",this.loginForm.password)
-                        console.log(data.toString())
-                        login(data).then(res=>{
-                            if(res.status){
-                                this.$router.push("/layout")
-                                // TODO 存用户名全局变量
-                            }
+
+                        this.$store.dispatch('Login',this.loginForm).then(()=>{
+                            console.log("登录成功")
+                            console.log(this.$store.state.username)
+                            this.$router.push("/layout")
+                        }).catch(()=>{
+                            console.log("登录失败")
                         })
+
+
                     }else{
 
                     }
