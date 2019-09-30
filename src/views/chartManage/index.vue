@@ -167,130 +167,142 @@
                         borderWidth:()=>{return{default:1, desc:'网格的边框线宽'}}
                     },
                     xAxis:{
-                        desc:'xx',
-                        show:()=>{return{default:'xx', desc:'xx'}},
-                        position:()=>{return{default:'xx', desc:'xx'}},
-                        type:()=>{return{default:'xx', desc:'xx'}},
-                        name:()=>{return{default:'xx', desc:'xx'}},
-                        nameLocation:()=>{return{default:'xx', desc:'xx'}},
+                        desc:'直角坐标系 grid 中的 x 轴',
+                        show:()=>{return{default:true, desc:'是否显示 x 轴'}},
+                        position:()=>{return{default:'bottom', desc:'x 轴的位置'}},
+                        type:()=>{return{default:'category', desc:'坐标轴类型'}},
+                        name:()=>{return{default:'', desc:'坐标轴名称'}},
+                        nameLocation:()=>{return{default:'end', desc:'坐标轴名称显示位置'}},
                         nameTextStyle:{
-                            desc:'xx',
-                            color:()=>{return{default:'xx', desc:'xx'}},
-                            fontStyle:()=>{return{default:'xx', desc:'xx'}},
-                            fontWeight:()=>{return{default:'xx', desc:'xx'}},
-                            fontSize:()=>{return{default:'xx', desc:'xx'}},
-                            lineHeight:()=>{return{default:'xx', desc:'xx'}}
+                            desc:'坐标轴名称的文字样式',
+                            color:()=>{return{default:'white', desc:'坐标轴名称的颜色'}},
+                            fontStyle:()=>{return{default:'normal', desc:'坐标轴名称文字字体的风格'}},
+                            fontWeight:()=>{return{default:'normal', desc:'坐标轴名称文字字体的粗细'}},
+                            fontSize:()=>{return{default:12, desc:'坐标轴名称文字的字体大小'}},
+                            lineHeight:()=>{return{default:56, desc:'行高'}}
                         },
-                        nameGap:()=>{return{default:'xx', desc:'xx'}},
-                        splitNumber:()=>{return{default:'xx', desc:'xx'}},
+                        nameGap:()=>{return{default:15, desc:'坐标轴名称与轴线之间的距离'}},
+                        splitNumber:()=>{return{default:5, desc:'坐标轴的分割段数'}},
                         axisLine:{
-                            desc:'xx',
-                            show:()=>{return{default:'xx', desc:'xx'}},
-                            symbol:()=>{return{default:'xx', desc:'xx'}},
-                            symbolSize:()=>{return{default:'xx', desc:'xx'}},
-                            symbolOffset:()=>{return{default:'xx', desc:'xx'}},
+                            desc:'坐标轴轴线相关设置',
+                            show:()=>{return{default:true, desc:'是否显示坐标轴轴线'}},
+                            symbol:()=>{return{default:'none', desc:'轴线两边的箭头'}},
+                            symbolSize:()=>{return{default:[10, 15], desc:'轴线两边的箭头的大小'}},
+                            symbolOffset:()=>{return{default:[0, 0] , desc:'轴线两边的箭头的偏移'}},
                             lineStyle:{
-                                desc:'xx',
-                                color:()=>{return{default:'xx', desc:'xx'}},
-                                width:()=>{return{default:'xx', desc:'xx'}},
-                                type:()=>{return{default:'xx', desc:'xx'}}
+                                desc:'线条样式',
+                                color:()=>{return{default:'#333', desc:'轴线颜色'}},
+                                width:()=>{return{default:1, desc:'轴线宽度'}},
+                                type:()=>{return{default:'solid', desc:'轴线类型'}}
                             }
                         },
                         axisTick:{
-                            desc:'xx',
-                            show:()=>{return{default:'xx', desc:'xx'}},
-                            interval:()=>{return{default:'xx', desc:'xx'}},
-                            inside:()=>{return{default:'xx', desc:'xx'}},
-                            length:()=>{return{default:'xx', desc:'xx'}},
+                            desc:'坐标轴刻度相关设置',
+                            show:()=>{return{default:true, desc:'是否显示坐标轴刻度'}},
+                            interval:()=>{return{default:'auto', desc:'坐标轴刻度的显示间隔'}},
+                            inside:()=>{return{default:'false', desc:'坐标轴刻度是否朝内'}},
+                            length:()=>{return{default:5, desc:'坐标轴刻度的长度'}},
                             lineStyle:{
-                                desc:'xx',
-                                color:()=>{return{default:'xx', desc:'xx'}},
-                                width:()=>{return{default:'xx', desc:'xx'}},
-                                type:()=>{return{default:'xx', desc:'xx'}}
+                                desc:'线条样式',
+                                color:()=>{return{default:'#333', desc:'刻度线的颜色'}},
+                                width:()=>{return{default:1, desc:'坐标轴刻度线宽'}},
+                                type:()=>{return{default:'solid', desc:'坐标轴刻度线的类型'}}
                             }
                         },
                         axisLabel:{
-                            desc:'xx',
-                            show:()=>{return{default:'xx', desc:'xx'}},
-                            interval:()=>{return{default:'xx', desc:'xx'}},
-                            inside:()=>{return{default:'xx', desc:'xx'}},
-                            rotate:()=>{return{default:'xx', desc:'xx'}},
-                            margin:()=>{return{default:'xx', desc:'xx'}},
-                            color:()=>{return{default:'xx', desc:'xx'}},
-                            fontStyle:()=>{return{default:'xx', desc:'xx'}},
-                            fontWeight:()=>{return{default:'xx', desc:'xx'}},
-                            fontSize:()=>{return{default:'xx', desc:'xx'}},
-                            lineHeight:()=>{return{default:'xx', desc:'xx'}},
-                            backgroundColor:()=>{return{default:'xx', desc:'xx'}},
-                            borderColor:()=>{return{default:'xx', desc:'xx'}},
-                            borderWidth:()=>{return{default:'xx', desc:'xx'}},
-                            borderRadius:()=>{return{default:'xx', desc:'xx'}},
-                            padding:()=>{return{default:'xx', desc:'xx'}}
+                            desc:'坐标轴刻度标签的相关设置',
+                            show:()=>{return{default:true, desc:'是否显示刻度标签'}},
+                            interval:()=>{return{default:'auto', desc:'坐标轴刻度标签的显示间隔'}},
+                            inside:()=>{return{default:false, desc:'刻度标签是否朝内，默认朝外'}},
+                            rotate:()=>{return{default:0, desc:'刻度标签旋转的角度'}},
+                            margin:()=>{return{default:8, desc:'刻度标签与轴线之间的距离'}},
+                            color:()=>{return{default:'white', desc:'刻度标签文字的颜色'}},
+                            fontStyle:()=>{return{default:'normal', desc:'文字字体的风格'}},
+                            fontWeight:()=>{return{default:'normal', desc:'文字字体的粗细'}},
+                            fontSize:()=>{return{default:12, desc:'文字的字体大小'}},
+                            lineHeight:()=>{return{default:56, desc:'行高'}},
+                            backgroundColor:()=>{return{default:'transparent', desc:'文字块背景色'}},
+                            borderColor:()=>{return{default:'transparent', desc:'文字块边框颜色'}},
+                            borderWidth:()=>{return{default:0, desc:'文字块边框宽度'}},
+                            borderRadius:()=>{return{default:0, desc:'文字块的圆角'}},
+                            padding:()=>{return{default:0, desc:'文字块的内边距'}}
                         }
                     },
                     yAxis:{
-                        desc:'xx',
-                        show:()=>{return{default:'xx', desc:'xx'}},
-                        position:()=>{return{default:'xx', desc:'xx'}},
-                        type:()=>{return{default:'xx', desc:'xx'}},
-                        name:()=>{return{default:'xx', desc:'xx'}},
-                        nameLocation:()=>{return{default:'xx', desc:'xx'}},
+                        desc:'直角坐标系 grid 中的 y 轴',
+                        show:()=>{return{default:true, desc:'是否显示 y 轴'}},
+                        position:()=>{return{default:'left', desc:'y 轴的位置'}},
+                        type:()=>{return{default:'value', desc:'坐标轴类型'}},
+                        name:()=>{return{default:'xx', desc:'坐标轴名称'}},
+                        nameLocation:()=>{return{default:'end', desc:'坐标轴名称显示位置'}},
                         nameTextStyle:{
-                            desc:'xx',
-                            color:()=>{return{default:'xx', desc:'xx'}},
-                            fontStyle:()=>{return{default:'xx', desc:'xx'}},
-                            fontWeight:()=>{return{default:'xx', desc:'xx'}},
-                            fontSize:()=>{return{default:'xx', desc:'xx'}},
-                            lineHeight:()=>{return{default:'xx', desc:'xx'}}
+                            desc:'坐标轴名称的文字样式',
+                            color:()=>{return{default:'white', desc:'坐标轴名称的颜色'}},
+                            fontStyle:()=>{return{default:'normal', desc:'坐标轴名称文字字体的风格'}},
+                            fontWeight:()=>{return{default:'normal', desc:'坐标轴名称文字字体的粗细'}},
+                            fontSize:()=>{return{default:12, desc:'坐标轴名称文字的字体大小'}},
+                            lineHeight:()=>{return{default:56, desc:'行高'}}
                         },
-                        nameGap:()=>{return{default:'xx', desc:'xx'}},
-                        splitNumber:()=>{return{default:'xx', desc:'xx'}},
+                        nameGap:()=>{return{default:15, desc:'x坐标轴名称与轴线之间的距离'}},
+                        splitNumber:()=>{return{default:5, desc:'坐标轴的分割段数'}},
                         axisLine:{
-                            desc:'xx',
-                            show:()=>{return{default:'xx', desc:'xx'}},
-                            symbol:()=>{return{default:'xx', desc:'xx'}},
-                            symbolSize:()=>{return{default:'xx', desc:'xx'}},
-                            symbolOffset:()=>{return{default:'xx', desc:'xx'}},
+                            desc:'坐标轴轴线相关设置',
+                            show:()=>{return{default:true, desc:'是否显示坐标轴轴线'}},
+                            symbol:()=>{return{default:'none', desc:'轴线两边的箭头'}},
+                            symbolSize:()=>{return{default:[10, 15], desc:'轴线两边的箭头的大小'}},
+                            symbolOffset:()=>{return{default:[0, 0] , desc:'轴线两边的箭头的偏移'}},
                             lineStyle:{
                                 desc:'xx',
-                                color:()=>{return{default:'xx', desc:'xx'}},
-                                width:()=>{return{default:'xx', desc:'xx'}},
-                                type:()=>{return{default:'xx', desc:'xx'}}
+                                color:()=>{return{default:'#333', desc:'轴线颜色'}},
+                                width:()=>{return{default:1, desc:'轴线宽度'}},
+                                type:()=>{return{default:'solid', desc:'轴线类型'}}
                             }
                         },
                         axisTick:{
-                            desc:'xx',
-                            show:()=>{return{default:'xx', desc:'xx'}},
-                            interval:()=>{return{default:'xx', desc:'xx'}},
-                            inside:()=>{return{default:'xx', desc:'xx'}},
-                            length:()=>{return{default:'xx', desc:'xx'}},
+                            desc:'坐标轴刻度相关设置',
+                            show:()=>{return{default:true, desc:'是否显示坐标轴刻度'}},
+                            interval:()=>{return{default:'auto', desc:'坐标轴刻度的显示间隔'}},
+                            inside:()=>{return{default:false, desc:'坐标轴刻度是否朝内，默认朝外'}},
+                            length:()=>{return{default:5, desc:'坐标轴刻度的长度'}},
                             lineStyle:{
-                                desc:'xx',
-                                color:()=>{return{default:'xx', desc:'xx'}},
-                                width:()=>{return{default:'xx', desc:'xx'}},
-                                type:()=>{return{default:'xx', desc:'xx'}}
+                                desc:'线条样式',
+                                color:()=>{return{default:'#333', desc:'刻度线的颜色'}},
+                                width:()=>{return{default:1, desc:'坐标轴刻度线宽'}},
+                                type:()=>{return{default:'solid', desc:'坐标轴刻度线的类型'}}
                             }
                         },
                         axisLabel:{
-                            desc:'xx',
-                            show:()=>{return{default:'xx', desc:'xx'}},
-                            interval:()=>{return{default:'xx', desc:'xx'}},
-                            inside:()=>{return{default:'xx', desc:'xx'}},
-                            rotate:()=>{return{default:'xx', desc:'xx'}},
-                            margin:()=>{return{default:'xx', desc:'xx'}},
-                            color:()=>{return{default:'xx', desc:'xx'}},
-                            fontStyle:()=>{return{default:'xx', desc:'xx'}},
-                            fontWeight:()=>{return{default:'xx', desc:'xx'}},
-                            fontSize:()=>{return{default:'xx', desc:'xx'}},
-                            lineHeight:()=>{return{default:'xx', desc:'xx'}},
-                            backgroundColor:()=>{return{default:'xx', desc:'xx'}},
-                            borderColor:()=>{return{default:'xx', desc:'xx'}},
-                            borderWidth:()=>{return{default:'xx', desc:'xx'}},
-                            borderRadius:()=>{return{default:'xx', desc:'xx'}},
-                            padding:()=>{return{default:'xx', desc:'xx'}}
+                            desc:'坐标轴刻度标签的相关设置',
+                            show:()=>{return{default:true, desc:'是否显示刻度标签'}},
+                            interval:()=>{return{default:'auto', desc:'坐标轴刻度标签的显示间隔'}},
+                            inside:()=>{return{default:false, desc:'刻度标签是否朝内，默认朝外'}},
+                            rotate:()=>{return{default:0, desc:'刻度标签旋转的角度'}},
+                            margin:()=>{return{default:8 , desc:'刻度标签与轴线之间的距离'}},
+                            color:()=>{return{default:'white', desc:'刻度标签文字的颜色'}},
+                            fontStyle:()=>{return{default:'normal', desc:'文字字体的风格'}},
+                            fontWeight:()=>{return{default:'normal', desc:'文字字体的粗细'}},
+                            fontSize:()=>{return{default:12, desc:'文字的字体大小'}},
+                            lineHeight:()=>{return{default:56, desc:'行高'}},
+                            backgroundColor:()=>{return{default:'transparent', desc:'文字块背景色'}},
+                            borderColor:()=>{return{default:'transparent', desc:'文字块边框颜色'}},
+                            borderWidth:()=>{return{default:0, desc:'文字块边框颜色'}},
+                            borderRadius:()=>{return{default:0, desc:'文字块的圆角'}},
+                            padding:()=>{return{default:0, desc:'文字块的内边距'}}
                         }
                     },
                     backgroundColor:()=>{return{default:'', desc:'背景色'}}
+                },
+                userOption:{
+                    xAxis: {
+                        show:true,
+                        type: 'category',
+                        axisLine:{
+                            show:true
+                        }
+                    },
+                    yAxis: {
+                        type: 'value'
+                    }
                 },
                 treeData:[],
                 currentOptionDataId:''
@@ -306,7 +318,6 @@
                 const list=[]
                 for(let key in myjson){
                     if(key=='desc'){
-                        console.log('desc')
                         continue
                     }
                     const obj={}
@@ -337,7 +348,6 @@
             constructOptionData(mylist){
                 const obj={}
                 mylist.forEach(item=>{
-                    console.log(item.label)
                     if(item.children==undefined){
                         obj[item.label]=item.value
                     }else{
