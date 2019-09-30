@@ -252,7 +252,7 @@
                             symbolSize:()=>{return{default:[10, 15], desc:'轴线两边的箭头的大小'}},
                             symbolOffset:()=>{return{default:[0, 0] , desc:'轴线两边的箭头的偏移'}},
                             lineStyle:{
-                                desc:'xx',
+                                desc:'轴线样式',
                                 color:()=>{return{default:'#333', desc:'轴线颜色'}},
                                 width:()=>{return{default:1, desc:'轴线宽度'}},
                                 type:()=>{return{default:'solid', desc:'轴线类型'}}
