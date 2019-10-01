@@ -9,11 +9,17 @@ export default new Vuex.Store({
     username:null
   },
   getters:{
-    username: state => state.username,
+    username(state){
+      if(!state.username){
+        state.username=sessionStorage.getItem("username")
+      }
+      return state.username
+    }
   },
   mutations: {
     setUsername(state,username){
       state.username=username
+      sessionStorage.setItem("username",username)
     }
   },
   actions: {
