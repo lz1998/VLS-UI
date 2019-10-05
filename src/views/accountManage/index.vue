@@ -21,7 +21,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import {updatePassword} from "@/api/test";
+    import {updatePassword} from "@/api/user";
 
     export default {
         name: "index",

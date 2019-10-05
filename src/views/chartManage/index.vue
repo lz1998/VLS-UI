@@ -15,7 +15,7 @@
         </el-form>
 
         <div class="chart-container">
-            <div class="chart-item" v-for="chartItem in chartList">
+            <div class="chart-item" v-for="(chartItem,index) in chartFormList">
                 <div class="chart-title">
                     {{chartItem.title}}(id:{{chartItem.id}})
                 </div>
@@ -23,17 +23,17 @@
                     <chartline seriesType="scatter"></chartline>
                 </div>
                 <div class="manage">
-                    <el-button type="primary" size="small" @click="showEditChartDialog">编辑</el-button>
+                    <el-button type="primary" size="small" @click="showEditChartDialog(index)">编辑</el-button>
                     <el-button type="danger" size="small" @click="delChart">删除</el-button>
                 </div>
             </div>
         </div>
 
         <!--新增/编辑图表对话框-->
-        <el-dialog :visible.sync="chartDialogVisible" :title="isAddOperation?'新增图表':'编辑图表'">
+        <el-dialog :model="chartForm" :visible.sync="chartDialogVisible" :title="isAddOperation?'新增图表':'编辑图表'">
             <el-form>
                 <el-form-item :label-width="chartFormLabelWidth" label="图表标题">
-                    <el-input></el-input>
+                    <el-input v-model="chartForm.title"></el-input>
                 </el-form-item>
                 <el-form-item :label-width="chartFormLabelWidth" label="数据源URL">
                     <el-input></el-input>
@@ -48,8 +48,7 @@
                     </span>
                 </el-tree>
                 <el-form-item>
-                    <el-button v-if="isAddOperation" type="primary" @click="addChart">保存</el-button>
-                    <el-button v-if="!isAddOperation" type="primary" @click="updateChart">保存</el-button>
+                    <el-button type="primary" @click="saveChart">保存</el-button>
                     <el-button @click="chartDialogVisible=false">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -70,11 +69,15 @@
                     title:"",
                     id:""
                 },
-                chartList:[
+                chartFormList:[
                     {
                         id:1,
                         title:"标题1",
-                        option:{}
+                        option:{
+                            title:{
+                                show:false
+                            }
+                        }
                     },
                     {
                         id:2,
@@ -91,7 +94,7 @@
                 isAddOperation:true, // true是新增，false是编辑
                 chartDialogVisible:false, // 显示对话框
                 chartFormLabelWidth:'120px',
-                chartOption:{
+                defaultChartOption:{
                     title:{
                         desc:'标题组件，包含主标题和副标题',
                         show:()=>{return{default:true, desc:'是否显示标题组件'}},
@@ -291,27 +294,20 @@
                         }
                     },
                     backgroundColor:()=>{return{default:'', desc:'背景色'}}
-                },
-                userOption:{
-                    xAxis: {
-                        show:true,
-                        type: 'category',
-                        axisLine:{
-                            show:true
-                        }
-                    },
-                    yAxis: {
-                        type: 'value'
-                    }
-                },
+                }, // 默认的option
                 treeData:[],
-                currentOptionDataId:''
+                currentOptionDataId:'', // 树形控件中当前正在编辑的option的id
+                chartForm:{
+                    id:null,
+                    title:'',
+                    option:''
+                }
             }
         },
         methods:{
             // test()
             loadData(){
-                // 在这里读取chartList
+                // TODO 在这里调用接口，读取chartList
             },
             // 根据option生成树形控件
             constructTreeData(myjson,id){
@@ -356,7 +352,36 @@
                 })
                 return obj
             },
+            // 通过id设置树节点值，参数treeData，需要设置的id，值
+            setTreeNodeValueById(mylist, id, value){
+                mylist.forEach(item=>{
+                    if(item.id==id){
+                        item.value=value
+                    }else if(id.substring(0,item.id.length)==item.id){
+                        this.setTreeNodeValueById(item.children,id,value)
+                    }
+                })
+            },
+            // 树加载option，参数treeData,需要加载到treeData的option(后端获取)
+            treeLoadOption(treeData,myjson, id){
+                for(let key in myjson){
 
+                    let _id=''
+                    if(id=='' || id==null || id==undefined){
+                        _id=key
+                    }else{
+                        _id=id+'.'+key
+                    }
+
+                    if(typeof(myjson[key]) == "object" && Object.prototype.toString.call(myjson[key]).toLowerCase() == "[object object]" && !myjson[key].length){
+                        // 是json，继续深入一层
+                        this.treeLoadOption(treeData,myjson[key],_id)
+                    }else{
+                        // 不是json，根据id赋值
+                        this.setTreeNodeValueById(treeData,_id,myjson[key])
+                    }
+                }
+            },
             queryChart(){
 
             },
@@ -364,29 +389,38 @@
                 // 新增，清空表单数据
                 this.isAddOperation=true
                 this.chartDialogVisible=true
+                this.treeData=this.constructTreeData(this.defaultChartOption,'')
+                this.chartForm={
+                    id:null,
+                    title:'',
+                    option:''
+                }
+
             },
-            showEditChartDialog(){
+            showEditChartDialog(index){
                 // 编辑，读取表单数据
                 this.isAddOperation=false
                 this.chartDialogVisible=true
+                //加载已有数据
+                this.chartForm=this.chartFormList[index]
+                this.treeData=this.constructTreeData(this.defaultChartOption,'')
+                this.treeLoadOption(this.treeData,this.chartFormList[index].option,'')
             },
             delChart(){
-
+                // TODO 删除图表
             },
-            addChart(){
+            saveChart(){
                 this.chartDialogVisible=false
-
-            },
-            updateChart(){
-                this.chartDialogVisible=false
+                // 根据treeData生成option，并转换字符串
+                this.chartForm.option=JSON.stringify(this.constructOptionData(this.treeData))
+                console.log(this.chartForm)
+                // TODO 调用后端接口，保存图表
 
             }
 
         },
         created() {
             this.loadData()
-            this.treeData=this.constructTreeData(this.chartOption,'')
-            console.log(this.treeData)
         }
     }
 </script>
