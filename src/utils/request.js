@@ -19,9 +19,7 @@ service.interceptors.response.use(function (response) {
             type: 'error',
             duration: 3000
         })
-        store.dispatch("Logout").then(()=>{
-            this.$router.push("/login")
-        })
+        store.commit('setUsername',null);
     }else{
         Message({
             message: data.msg,
