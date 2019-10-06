@@ -21,3 +21,11 @@ export function getChartsByTitleContaining(data) {
         data
     })
 }
+
+export function delChartById(data) {
+    return request({
+        url:'/chart/delChartById',
+        method: 'post',
+        data
+    })
+}

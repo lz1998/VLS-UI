@@ -25,7 +25,7 @@
                 </div>
                 <div class="manage">
                     <el-button type="primary" size="small" @click="showEditChartDialog(index)">编辑</el-button>
-                    <el-button type="danger" size="small" @click="delChart">删除</el-button>
+                    <el-button type="danger" size="small" @click="delChart(index)" >删除</el-button>
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@
 
 <script type="text/ecmascript-6">
     import chartline from "@/components/chartline.vue"
-    import {listChart,setChart,getChartsByTitleContaining} from "@/api/chart.js"
+    import {listChart,setChart,getChartsByTitleContaining,delChartById} from "@/api/chart.js"
     export default {
         name: "index",
         components:{
@@ -397,10 +397,9 @@
                 data.append("title",this.queryChartForm.title)
                 getChartsByTitleContaining(data).then(res=>{
                     res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
-                    console.log(res)
+                    //console.log(res)
                     this.chartFormList=res.chartList
-                    console.log(this.chartFormList)
-
+                    //console.log(this.chartFormList)
                 })
             },
             showAddChartDialog(){
@@ -427,7 +426,35 @@
                 this.treeData=this.constructTreeData(this.defaultChartOption,'')
                 this.treeLoadOption(this.treeData,this.chartFormList[index].option,'')
             },
-            delChart(){
+            delChart(index){
+                this.chartForm=this.chartFormList[index]
+                let data=new URLSearchParams()
+                data.append("id",this.chartForm.id)
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    delChartById(data).then(res=>{
+                        if(res.status){
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                            this.loadData()
+                        }else{
+                            this.$message({
+                                type: 'error',
+                                message: '删除失败'
+                            });
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
                 // TODO 删除图表
             },
             saveChart(){
@@ -446,15 +473,15 @@
                 setChart(data).then(res=>{
                     if(res.status){
                         // success
-                        this.Message({
-                            message: "bao cun cheng gong",
+                        this.$message({
+                            message: "保存成功",
                             type: 'success',
                             duration: 3000
                         })
                         this.loadData()
                     }else{
-                        this.Message({
-                            message: "baocunshibai",
+                        this.$message({
+                            message: "保存失败",
                             type: 'error',
                             duration: 3000
                         })
