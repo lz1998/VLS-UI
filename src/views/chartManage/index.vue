@@ -367,7 +367,8 @@
                 mylist.forEach(item=>{
                     if(item.id==id){
                         item.value=value
-                    }else if(id.substring(0,item.id.length)==item.id){
+                    }else if(id.substring(0,item.id.length+1)==item.id+"."){
+                        //多匹配一个点，防止title.text，title.textStyle混淆
                         this.setTreeNodeValueById(item.children,id,value)
                     }
                 })
