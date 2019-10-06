@@ -419,22 +419,19 @@
                 this.isAddOperation=false
                 this.chartDialogVisible=true
                 //加载已有数据
-
                 this.chartForm=this.chartFormList[index]
-                console.log("-------------")
-                console.log(this.chartForm)
                 this.treeData=this.constructTreeData(this.defaultChartOption,'')
                 this.treeLoadOption(this.treeData,this.chartFormList[index].option,'')
             },
             delChart(index){
-                this.chartForm=this.chartFormList[index]
-                let data=new URLSearchParams()
-                data.append("id",this.chartForm.id)
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+
+                this.$confirm('确认删除图表, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    let data=new URLSearchParams()
+                    data.append("id",this.chartFormList[index].id)
                     delChartById(data).then(res=>{
                         if(res.status){
                             this.$message({
@@ -452,10 +449,9 @@
                 }).catch(() => {
                     this.$message({
                         type: 'info',
-                        message: '已取消删除'
+                        message: '取消删除'
                     });
                 });
-                // TODO 删除图表
             },
             saveChart(){
                 this.chartDialogVisible=false
