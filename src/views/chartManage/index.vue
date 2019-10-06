@@ -59,7 +59,7 @@
 
 <script type="text/ecmascript-6">
     import chartline from "@/components/chartline.vue"
-    import {listChart,setChart} from "@/api/chart.js"
+    import {listChart,setChart,getChartsByTitleContaining} from "@/api/chart.js"
     export default {
         name: "index",
         components:{
@@ -393,7 +393,15 @@
                 }
             },
             queryChart(){
+                let data=new URLSearchParams()
+                data.append("title",this.queryChartForm.title)
+                getChartsByTitleContaining(data).then(res=>{
+                    res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
+                    console.log(res)
+                    this.chartFormList=res.chartList
+                    console.log(this.chartFormList)
 
+                })
             },
             showAddChartDialog(){
                 // 新增，清空表单数据
