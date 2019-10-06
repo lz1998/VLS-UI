@@ -420,9 +420,9 @@
                 this.isAddOperation=false
                 this.chartDialogVisible=true
                 //加载已有数据
-                this.chartForm=this.chartFormList[index]
+                this.chartForm=JSON.parse(JSON.stringify(this.chartFormList[index]))
                 this.treeData=this.constructTreeData(this.defaultChartOption,'')
-                this.treeLoadOption(this.treeData,this.chartFormList[index].option,'')
+                this.treeLoadOption(this.treeData,this.chartForm.option,'')
             },
             delChart(index){
 
