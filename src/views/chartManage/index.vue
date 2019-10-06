@@ -5,9 +5,6 @@
             <el-form-item label="图表标题">
                 <el-input v-model="queryChartForm.title" placeholder="图表标题"/>
             </el-form-item>
-            <el-form-item label="图表编号">
-                <el-input v-model="queryChartForm.id" placeholder="图表编号" />
-            </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="queryChart">查询图表</el-button>
                 <el-button type="primary" @click="showAddChartDialog">新增图表</el-button>
@@ -20,7 +17,11 @@
                     {{chartItem.title}}(id:{{chartItem.id}})
                 </div>
                 <div class="chart">
-                    <chartline seriesType="scatter"></chartline>
+                    <chart
+                            :options="chartItem.option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
                 </div>
                 <div class="manage">
                     <el-button type="primary" size="small" @click="showEditChartDialog(index)">编辑</el-button>
@@ -58,6 +59,7 @@
 
 <script type="text/ecmascript-6">
     import chartline from "@/components/chartline.vue"
+    import {listChart,setChart} from "@/api/chart.js"
     export default {
         name: "index",
         components:{
@@ -66,8 +68,7 @@
         data(){
             return{
                 queryChartForm:{
-                    title:"",
-                    id:""
+                    title:""
                 },
                 chartFormList:[
                     {
@@ -307,6 +308,15 @@
         methods:{
             // test()
             loadData(){
+                listChart().then(res=>{
+
+                    res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
+                    console.log(res)
+                    this.chartFormList=res.chartList
+                    console.log(this.chartFormList[3])
+
+                })
+
                 // TODO 在这里调用接口，读取chartList
             },
             // 根据option生成树形控件
@@ -402,7 +412,10 @@
                 this.isAddOperation=false
                 this.chartDialogVisible=true
                 //加载已有数据
+
                 this.chartForm=this.chartFormList[index]
+                console.log("-------------")
+                console.log(this.chartForm)
                 this.treeData=this.constructTreeData(this.defaultChartOption,'')
                 this.treeLoadOption(this.treeData,this.chartFormList[index].option,'')
             },
@@ -415,6 +428,30 @@
                 this.chartForm.option=JSON.stringify(this.constructOptionData(this.treeData))
                 console.log(this.chartForm)
                 // TODO 调用后端接口，保存图表
+                let data=new URLSearchParams()
+                if(!this.isAddOperation){
+                    data.append("id",this.chartForm.id)
+                }
+
+                data.append("title",this.chartForm.title)
+                data.append("option",this.chartForm.option)
+                setChart(data).then(res=>{
+                    if(res.status){
+                        // success
+                        this.Message({
+                            message: "bao cun cheng gong",
+                            type: 'success',
+                            duration: 3000
+                        })
+                        this.loadData()
+                    }else{
+                        this.Message({
+                            message: "baocunshibai",
+                            type: 'error',
+                            duration: 3000
+                        })
+                    }
+                })
 
             }
 
