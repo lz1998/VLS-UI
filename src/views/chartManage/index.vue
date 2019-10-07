@@ -39,12 +39,27 @@
                 <el-form-item :label-width="chartFormLabelWidth" label="数据源URL">
                     <el-input></el-input>
                 </el-form-item>
-                <el-tree :data="treeData" ref="optionTree">
+                <el-tree :data="optionTreeData" ref="optionTree">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span style="width: 200px;display: inline-block;text-align: left;" @click="currentOptionDataId=node.id">{{data.desc}}</span>
-                        <span v-if="currentOptionDataId!=node.id && data.value!=null">{{data.value}}</span>
-                        <span v-if="currentOptionDataId==node.id && node.isLeaf">
-                            <input size="mini" v-model="data.value"></input>
+                            {{data.id}}
+
+                        <!--叶子节点，非series，可编辑value-->
+                        <span v-if="node.isLeaf && data.id!='series'">
+                            <!--非series-->
+                            <span v-if="currentOptionDataId!=node.id">{{data.value}}</span>
+                            <span v-if="currentOptionDataId==node.id">
+                                <input size="mini" v-model="data.value"></input>
+                            </span>
+                        </span>
+                        <!--如果是series，有新增按钮-->
+                        <span v-if="data.id=='series'">
+                            <!--加上stop防止树形控件被点击到-->
+                            <button @click.stop="appendSeries(data)">添加</button>
+                        </span>
+                        <!--如果是series的子节点，有删除按钮-->
+                        <span v-if="data.id.startsWith('series') && node.parent.data.id=='series'">
+                            <button @click.stop="deleteSeries(node,data)">删除</button>
                         </span>
                     </span>
                 </el-tree>
@@ -294,9 +309,45 @@
                             padding:()=>{return{default:0, desc:'文字块的内边距'}}
                         }
                     },
-                    backgroundColor:()=>{return{default:'', desc:'背景色'}}
+                    backgroundColor:()=>{return{default:'', desc:'背景色'}},
+                    series:()=>{
+                        return{
+                            desc:"图形",
+                            default:[]
+                        }
+                    }
                 }, // 默认的option
-                treeData:[],
+                defaultLineOption:{
+                    desc:'折线',
+                    type:()=>{return{desc:'类型',default:'line'}},// TODO 不可改
+                    symbol:()=>{return{desc:'xx',default:'xx'}},
+                    symbolSize:()=>{return{desc:'xx',default:'xx'}},
+                    symbolRotate:()=>{return{desc:'xx',default:'xx'}},
+                    symbolKeepAspect:()=>{return{desc:'xx',default:'xx'}},
+                    showSymbol:()=>{return{desc:'xx',default:'xx'}},
+                    showAllSymbol:()=>{return{desc:'xx',default:'xx'}},
+                    hoverAnimation:()=>{return{desc:'xx',default:'xx'}},
+                    stack:()=>{return{desc:'xx',default:'xx'}},
+                    connectNulls:()=>{return{desc:'是否连接空数据',default:false}},
+                    clipOverflow:()=>{return{desc:'是否对超出部分裁剪',default:true}},
+                    step:()=>{return{desc:'是否是阶梯线图',default:false}},
+                },
+                defaultBarOption:{
+                    desc:'柱子',
+                    type:()=>{return{desc:'类型',default:'line'}},// TODO 不可改
+                    symbol:()=>{return{desc:'xx',default:'xx'}},
+                    symbolSize:()=>{return{desc:'xx',default:'xx'}},
+                    symbolRotate:()=>{return{desc:'xx',default:'xx'}},
+                    symbolKeepAspect:()=>{return{desc:'xx',default:'xx'}},
+                    showSymbol:()=>{return{desc:'xx',default:'xx'}},
+                    showAllSymbol:()=>{return{desc:'xx',default:'xx'}},
+                    hoverAnimation:()=>{return{desc:'xx',default:'xx'}},
+                    stack:()=>{return{desc:'xx',default:'xx'}},
+                    connectNulls:()=>{return{desc:'是否连接空数据',default:false}},
+                    clipOverflow:()=>{return{desc:'是否对超出部分裁剪',default:true}},
+                    step:()=>{return{desc:'是否是阶梯线图',default:false}},
+                },// TODO 数据纯属虚构，需要修改
+                optionTreeData:[],
                 currentOptionDataId:'', // 树形控件中当前正在编辑的option的id
                 chartForm:{
                     id:null,
@@ -306,18 +357,42 @@
             }
         },
         methods:{
-            // test()
+            appendSeries(data){
+                // 如果原本没有，先变成[]
+                if (!data.children) {
+                    this.$set(data, 'children', []);
+                }
+                let seriesLabel='0';
+                if(data.children.length>0){
+                    // 如果数组原先就有元素，label是最后一个+1
+                    seriesLabel=(parseInt(data.children.slice(-1)[0].label)+1).toString()
+                }
+                let seriesId='series.'+seriesLabel
+                // TODO 弹出对话框，让用户选择新增类型
+
+                let seriesTreeData=this.constructTreeData(this.defaultLineOption,seriesId)
+                const newSeries = {
+                    label: seriesLabel,//当前的编号n
+                    id: seriesId,//series.n
+                    children: seriesTreeData,
+                    desc:'折线'
+                };
+
+                data.children.push(newSeries);
+                // console.log(this.optionTreeData)
+            },
+            deleteSeries(node,data){
+                // TODO 这里是直接抄饿了么的，没仔细读过
+                const parent=node.parent
+                const children=parent.data.children || parent.data
+                const index = children.findIndex(d => d.id === data.id);
+                children.splice(index, 1);
+            },
             loadData(){
                 listChart().then(res=>{
-
                     res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
-                    console.log(res)
                     this.chartFormList=res.chartList
-                    console.log(this.chartFormList[3])
-
                 })
-
-                // TODO 在这里调用接口，读取chartList
             },
             // 根据option生成树形控件
             constructTreeData(myjson,id){
@@ -336,6 +411,7 @@
                     obj.value=null
 
                     if(typeof(myjson[key])!='function'){
+
                         obj.children=this.constructTreeData(myjson[key],obj.id)
                         if(myjson[key]!=null){
 
@@ -407,7 +483,7 @@
                 // 新增，清空表单数据
                 this.isAddOperation=true
                 this.chartDialogVisible=true
-                this.treeData=this.constructTreeData(this.defaultChartOption,'')
+                this.optionTreeData=this.constructTreeData(this.defaultChartOption,'')
                 this.chartForm={
                     id:null,
                     title:'',
@@ -421,8 +497,8 @@
                 this.chartDialogVisible=true
                 //加载已有数据
                 this.chartForm=JSON.parse(JSON.stringify(this.chartFormList[index]))
-                this.treeData=this.constructTreeData(this.defaultChartOption,'')
-                this.treeLoadOption(this.treeData,this.chartForm.option,'')
+                this.optionTreeData=this.constructTreeData(this.defaultChartOption,'')
+                this.treeLoadOption(this.optionTreeData,this.chartForm.option,'')
             },
             delChart(index){
 
@@ -457,9 +533,9 @@
             saveChart(){
                 this.chartDialogVisible=false
                 // 根据treeData生成option，并转换字符串
-                this.chartForm.option=JSON.stringify(this.constructOptionData(this.treeData))
+                this.chartForm.option=JSON.stringify(this.constructOptionData(this.optionTreeData))
                 console.log(this.chartForm)
-                // TODO 调用后端接口，保存图表
+                // 调用后端接口，保存图表
                 let data=new URLSearchParams()
                 if(!this.isAddOperation){
                     data.append("id",this.chartForm.id)
