@@ -110,6 +110,7 @@
                 isAddOperation:true, // true是新增，false是编辑
                 chartDialogVisible:false, // 显示对话框
                 chartFormLabelWidth:'120px',
+                // TODO 模板内容需要抽出放入另一个js文件中
                 defaultChartOption:{
                     title:{
                         desc:'标题组件，包含主标题和副标题',
@@ -480,8 +481,7 @@
                         this.treeLoadOption(treeData,myjson[key],_id)
                     }else if(key=='series'){
                         // TODO 这里要构造series的treeData
-                        // TODO 手动构造，不用setTreeNodeValueById
-                        // TODO 或者先套用模板，然后把series加载到模板中
+                        // TODO 先判断类型套用模板,读到描述，然后把series加载到模板中
                         // TODO 最后setTreeNodeValueById到series
                         let seriesList=myjson[key]
                         let seriesOption={
