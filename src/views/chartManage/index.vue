@@ -42,7 +42,7 @@
                 <el-tree :data="optionTreeData" ref="optionTree">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span style="width: 200px;display: inline-block;text-align: left;" @click="currentOptionDataId=node.id">{{data.desc}}</span>
-                            {{data.id}}
+                            <!--{{data.id}}-->
 
                         <!--叶子节点，非series，可编辑value-->
                         <span v-if="node.isLeaf && data.id!='series'">
@@ -320,17 +320,54 @@
                 defaultLineOption:{
                     desc:'折线',
                     type:()=>{return{desc:'类型',default:'line'}},// TODO 不可改
-                    symbol:()=>{return{desc:'xx',default:'xx'}},
-                    symbolSize:()=>{return{desc:'xx',default:'xx'}},
-                    symbolRotate:()=>{return{desc:'xx',default:'xx'}},
-                    symbolKeepAspect:()=>{return{desc:'xx',default:'xx'}},
-                    showSymbol:()=>{return{desc:'xx',default:'xx'}},
-                    showAllSymbol:()=>{return{desc:'xx',default:'xx'}},
-                    hoverAnimation:()=>{return{desc:'xx',default:'xx'}},
-                    stack:()=>{return{desc:'xx',default:'xx'}},
+                    symbol:()=>{return{desc:'标记的图形',default:'emptyCircle'}},
+                    symbolSize:()=>{return{desc:'标记的大小',default:4}},
+                    symbolKeepAspect:()=>{return{desc:'缩放时保持图形长宽比',default:false}},
+                    showSymbol:()=>{return{desc:'是否显示标记',default:true}},
+                    showAllSymbol:()=>{return{desc:'是否显示全部标记',default:'auto'}},
+                    hoverAnimation:()=>{return{desc:'开启鼠标悬浮动画',default:true}},
                     connectNulls:()=>{return{desc:'是否连接空数据',default:false}},
                     clipOverflow:()=>{return{desc:'是否对超出部分裁剪',default:true}},
                     step:()=>{return{desc:'是否是阶梯线图',default:false}},
+                    // label暂时不想做，以后可以考虑
+                    itemStyle:{
+                        desc:'折线拐点标志的样式',
+                        color:()=>{return{desc:'图形的颜色',default:'自适应'}},// TODO ???
+                        borderColor:()=>{return{desc:'图形的描边颜色',default:'#000'}},
+                        borderWidth:()=>{return{desc:'描边线宽',default:'0'}},
+                        borderType:()=>{return{desc:'柱条的描边类型',default:'solid'}},
+                        opacity:()=>{return{desc:'图形透明度',default:1}}
+                    },
+                    lineStyle:{
+                        desc:'线条样式',
+                        color:()=>{return{desc:'线的颜色',default:'#000'}},
+                        width:()=>{return{desc:'线宽',default:2}},
+                        type:()=>{return{desc:'线的类型',default:'solid'}},
+                        opacity:()=>{return{desc:'图形透明度',default:1}}
+                    },
+                    areaStyle:{
+                        desc:'区域填充样式',
+                        color:()=>{return{desc:'填充的颜色',default:'#000'}},
+                        origin:()=>{return{desc:'图形区域的起始位置',default:'auto'}},
+                        opacity:()=>{return{desc:'图形透明度',default:1}}
+                    },
+                    // emphasis暂行不想做
+                    smooth:()=>{return{desc:'是否平滑曲线显示',default:false}},
+                    // TODO dimensions看上去很重要，但是没看懂，暂时不管
+                    // TODO encode看上去很重要，但是没看懂，暂时不管
+                    seriesLayoutBy:()=>{return{desc:'数据按行还是列',default:'column'}},
+                    // TODO datasetIndex看上去很重要，但是没看懂，暂时不管
+                    // TODO markPoint 不太好做，暂时不做
+                    // TODO markLine 不太好做，暂时不做
+                    silent:()=>{return{desc:'不响应和触发鼠标事件',default:false}},
+                    animation:()=>{return{desc:'是否开启动画',default:true}},
+                    animationThreshold:()=>{return{desc:'动画的阈值',default:2000}},
+                    animationDuration:()=>{return{desc:'初始动画的时长',default:1000}},
+                    animationEasing:()=>{return{desc:'初始动画的缓动效果',default:'linear'}},
+                    animationDelay:()=>{return{desc:'初始动画的延迟',default:0}},
+                    animationDurationUpdate:()=>{return{desc:'数据更新动画的时长',default:300}},
+                    animationDelayUpdate:()=>{return{desc:'数据更新动画的延迟',default:0}},
+                    // tooltip:{desc:'提示框'} TODO 不好做，暂时不做
                 },
                 defaultBarOption:{
                     desc:'柱子',
@@ -346,7 +383,7 @@
                     connectNulls:()=>{return{desc:'是否连接空数据',default:false}},
                     clipOverflow:()=>{return{desc:'是否对超出部分裁剪',default:true}},
                     step:()=>{return{desc:'是否是阶梯线图',default:false}},
-                },// TODO 数据纯属虚构，需要修改
+                },// TODO 数据纯属虚构，需要删除，重写
                 optionTreeData:[],
                 currentOptionDataId:'', // 树形控件中当前正在编辑的option的id
                 chartForm:{
@@ -357,41 +394,12 @@
             }
         },
         methods:{
-            appendSeries(data){
-                // 如果原本没有，先变成[]
-                if (!data.children) {
-                    this.$set(data, 'children', []);
-                }
-                let seriesLabel='0';
-                if(data.children.length>0){
-                    // 如果数组原先就有元素，label是最后一个+1
-                    seriesLabel=(parseInt(data.children.slice(-1)[0].label)+1).toString()
-                }
-                let seriesId='series.'+seriesLabel
-                // TODO 弹出对话框，让用户选择新增类型
 
-                let seriesTreeData=this.constructTreeData(this.defaultLineOption,seriesId)
-                const newSeries = {
-                    label: seriesLabel,//当前的编号n
-                    id: seriesId,//series.n
-                    children: seriesTreeData,
-                    desc:'折线'
-                };
-
-                data.children.push(newSeries);
-                // console.log(this.optionTreeData)
-            },
-            deleteSeries(node,data){
-                // TODO 这里是直接抄饿了么的，没仔细读过
-                const parent=node.parent
-                const children=parent.data.children || parent.data
-                const index = children.findIndex(d => d.id === data.id);
-                children.splice(index, 1);
-            },
             loadData(){
                 listChart().then(res=>{
                     res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
                     this.chartFormList=res.chartList
+                    console.log(this.chartFormList[2].option)
                 })
             },
             // 根据option生成树形控件
@@ -414,7 +422,6 @@
 
                         obj.children=this.constructTreeData(myjson[key],obj.id)
                         if(myjson[key]!=null){
-
                             obj.desc=myjson[key].desc
                         }
                     }else if(myjson[key]!=null){
@@ -433,7 +440,15 @@
                     if(item.children==undefined){
                         obj[item.label]=item.value
                     }else{
-                        obj[item.label]=this.constructOptionData(item.children)
+                        if(item.label=='series'){
+                            // series 特殊处理，把childres逐个转换，加入到数组
+                            obj.series=[]
+                            item.children.forEach(child=>{
+                                obj.series.push(this.constructOptionData(child.children))
+                            })
+                        }else{
+                            obj[item.label]=this.constructOptionData(item.children)
+                        }
                     }
                 })
                 return obj
@@ -463,11 +478,56 @@
                     if(typeof(myjson[key]) == "object" && Object.prototype.toString.call(myjson[key]).toLowerCase() == "[object object]" && !myjson[key].length){
                         // 是json，继续深入一层
                         this.treeLoadOption(treeData,myjson[key],_id)
+                    }else if(key=='series'){
+                        // TODO 这里要构造series的treeData
+                        // TODO 手动构造，不用setTreeNodeValueById
+                        // TODO 或者先套用模板，然后把series加载到模板中
+                        // TODO 最后setTreeNodeValueById到series
+                        let seriesList=myjson[key]
+                        let seriesOption={
+                            label:'',
+                            id:'',
+                            children:[]
+                        }
+                        console.log(seriesList)
                     }else{
                         // 不是json，根据id赋值
                         this.setTreeNodeValueById(treeData,_id,myjson[key])
                     }
                 }
+            },
+            // 增加图形
+            appendSeries(data){
+                // 如果原本没有，先变成[]
+                if (!data.children) {
+                    this.$set(data, 'children', []);
+                }
+                let seriesLabel='0';
+                if(data.children.length>0){
+                    // 如果数组原先就有元素，label是最后一个+1
+                    seriesLabel=(parseInt(data.children.slice(-1)[0].label)+1).toString()
+                }
+                let seriesId='series.'+seriesLabel
+                // TODO 弹出对话框，让用户选择新增类型
+
+                let seriesTreeData=this.constructTreeData(this.defaultLineOption,seriesId)
+                const newSeries = {
+                    label: seriesLabel,//当前的编号n
+                    id: seriesId,//series.n
+                    children: seriesTreeData,
+                    desc:'折线'
+                };
+
+                data.children.push(newSeries);
+                // console.log(this.optionTreeData)
+            },
+            // 删除图形
+            deleteSeries(node,data){
+                // TODO 这里是直接抄饿了么的，没仔细读过
+                const parent=node.parent
+                const children=parent.data.children || parent.data
+                const index = children.findIndex(d => d.id === data.id);
+                children.splice(index, 1);
             },
             queryChart(){
                 let data=new URLSearchParams()
@@ -533,6 +593,7 @@
             saveChart(){
                 this.chartDialogVisible=false
                 // 根据treeData生成option，并转换字符串
+                console.log(this.constructOptionData(this.optionTreeData))
                 this.chartForm.option=JSON.stringify(this.constructOptionData(this.optionTreeData))
                 console.log(this.chartForm)
                 // 调用后端接口，保存图表
