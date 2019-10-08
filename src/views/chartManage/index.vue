@@ -43,7 +43,8 @@
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span style="width: 200px;display: inline-block;text-align: left;" @click="currentOptionDataId=node.id">{{data.desc}}</span>
                             <!--{{data.id}}-->
-
+<!--                        {{data.label}}-->
+<!--                        {{node.parent.parent.data.label}}-->
                         <!--叶子节点，非series，可编辑value-->
                         <span v-if="node.isLeaf && data.id!='series'">
                             <!--非series-->
@@ -55,11 +56,11 @@
                         <!--如果是series，有新增按钮-->
                         <span v-if="data.id=='series'">
                             <!--加上stop防止树形控件被点击到-->
-                            <button @click.stop="appendSeries(data)">添加</button>
+                            <span class="btn-add" @click.stop="appendSeries(data)">添加</span>
                         </span>
                         <!--如果是series的子节点，有删除按钮-->
-                        <span v-if="data.id.startsWith('series') && node.parent.data.id=='series'">
-                            <button @click.stop="deleteSeries(node,data)">删除</button>
+                        <span v-if="node.parent.data.id=='series'">
+                            <span class="btn-del" @click.stop="deleteSeries(node,data)">删除</span>
                         </span>
                     </span>
                 </el-tree>
@@ -85,27 +86,7 @@
                 queryChartForm:{
                     title:""
                 },
-                chartFormList:[
-                    {
-                        id:1,
-                        title:"标题1",
-                        option:{
-                            title:{
-                                show:false
-                            }
-                        }
-                    },
-                    {
-                        id:2,
-                        title:"标题2",
-                        option:{}
-                    },
-                    {
-                        id:3,
-                        title:"标题3",
-                        option:{}
-                    }
-                ],
+                chartFormList:[],
 
                 isAddOperation:true, // true是新增，false是编辑
                 chartDialogVisible:false, // 显示对话框
@@ -335,7 +316,7 @@
                         desc:'折线拐点标志的样式',
                         color:()=>{return{desc:'图形的颜色',default:'自适应'}},// TODO ???
                         borderColor:()=>{return{desc:'图形的描边颜色',default:'#000'}},
-                        borderWidth:()=>{return{desc:'描边线宽',default:'0'}},
+                        borderWidth:()=>{return{desc:'描边线宽',default:0}},
                         borderType:()=>{return{desc:'柱条的描边类型',default:'solid'}},
                         opacity:()=>{return{desc:'图形透明度',default:1}}
                     },
@@ -372,18 +353,45 @@
                 },
                 defaultBarOption:{
                     desc:'柱子',
-                    type:()=>{return{desc:'类型',default:'line'}},// TODO 不可改
-                    symbol:()=>{return{desc:'xx',default:'xx'}},
-                    symbolSize:()=>{return{desc:'xx',default:'xx'}},
-                    symbolRotate:()=>{return{desc:'xx',default:'xx'}},
-                    symbolKeepAspect:()=>{return{desc:'xx',default:'xx'}},
-                    showSymbol:()=>{return{desc:'xx',default:'xx'}},
-                    showAllSymbol:()=>{return{desc:'xx',default:'xx'}},
-                    hoverAnimation:()=>{return{desc:'xx',default:'xx'}},
-                    stack:()=>{return{desc:'xx',default:'xx'}},
-                    connectNulls:()=>{return{desc:'是否连接空数据',default:false}},
-                    clipOverflow:()=>{return{desc:'是否对超出部分裁剪',default:true}},
-                    step:()=>{return{desc:'是否是阶梯线图',default:false}},
+                    type:()=>{return{desc:'类型',default:'bar'}},// TODO 不可改
+                    legendHoverLink:()=>{return{desc:'是否启用图例 hover 时的联动高亮',default:'true'}},
+                    coordinateSystem:()=>{return{desc:'该系列使用的坐标系',default:'cartesian2d'}},
+                    xAxisIndex:()=>{return{desc:'使用的 x 轴的 index',default:0}},
+                    yAxisIndex:()=>{return{desc:'使用的 y 轴的 index',default:0}},
+                    itemStyle:{
+                        desc:'图形样式',
+                        color:()=>{return{desc:'柱条的颜色',default:'自适应'}},// TODO ???
+                        borderColor:()=>{return{desc:'柱条的描边颜色',default:'#000'}},
+                        borderWidth:()=>{return{desc:'柱条的描边宽度',default:0}},
+                        borderType:()=>{return{desc:'柱条的描边类型',default:'solid'}},
+                        barBorderRadius:()=>{return{desc:'圆角半径',default:0}},
+                        shadowBlur:()=>{return{desc:'图形阴影的模糊大小',default:10}},
+                        shadowColor:()=>{return{desc:'阴影颜色',default:'#000'}},
+                        shadowOffsetX:()=>{return{desc:'阴影水平方向上的偏移距离',default:0}},
+                        shadowOffsetY:()=>{return{desc:'阴影垂直方向上的偏移距离',default:0}},
+                        opacity:()=>{return{desc:'图形透明度',default:1}},
+
+                    },
+                    //stack:()=>{return{desc:'数据堆叠',default:null}},
+                    cursor:()=>{return{desc:'鼠标悬浮时在图形元素上时鼠标的样式是什么',default:'pointer'}},
+                    barWidth:()=>{return{desc:'柱条的宽度',default:'自适应'}},
+                    barMaxWidth:()=>{return{desc:'柱条最大宽度',default:'自适应'}},
+                    barMinHeight:()=>{return{desc:'柱条最小高度',default:0}},
+                    barGap:()=>{return{desc:'不同系列的柱间距离',default:"30%"}},
+                    barCategoryGap:()=>{return{desc:'同一系列的柱间距离',default:'20%'}},
+                    large:()=>{return{desc:'是否开启大数据量优化',default:false}},
+                    largeThreshold:()=>{return{desc:'开启绘制优化的阈值',default:400}},
+                    progressive:()=>{return{desc:'渐进式渲染时每一帧绘制图形数量',default:5000}},
+                    animation:()=>{return{desc:'是否开启动画',default:'true'}},
+                    animationThreshold:()=>{return{desc:'是否开启动画的阈值',default:2000}},
+                    animationDuration:()=>{return{desc:'同一系列的柱间距离',default:1000}},
+                    animationEasing:()=>{return{desc:'初始动画的缓动效果',default:'cubicOut'}},
+                    animationDelay:()=>{return{desc:'初始动画的延迟',default:0}},
+                    animationDurationUpdate:()=>{return{desc:'数据更新动画的时长',default:300}},
+                    animationEasingUpdate:()=>{return{desc:'数据更新动画的缓动效果',default:'cubicOut'}},
+                    animationDelayUpdate:()=>{return{desc:'数据更新动画的延迟',default:0}},
+
+
                 },// TODO 数据纯属虚构，需要删除，重写
                 optionTreeData:[],
                 currentOptionDataId:'', // 树形控件中当前正在编辑的option的id
@@ -468,7 +476,7 @@
             // 树加载option，参数treeData,需要加载到treeData的option(后端获取)
             treeLoadOption(treeData,myjson, id){
                 for(let key in myjson){
-
+9
                     let _id=''
                     if(id=='' || id==null || id==undefined){
                         _id=key
@@ -502,6 +510,7 @@
                 if (!data.children) {
                     this.$set(data, 'children', []);
                 }
+                //console.log(data.children)
                 let seriesLabel='0';
                 if(data.children.length>0){
                     // 如果数组原先就有元素，label是最后一个+1
@@ -662,6 +671,22 @@
                     background-color: #000080;
                 }
             }
+        }
+        .btn-add{
+            display: inline-block;
+            background-color: #67C23A;
+            color: white;
+            width: 50px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn-del{
+            display: inline-block;
+            background-color: #F56C6C;
+            color: white;
+            width: 50px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
     }
 </style>
