@@ -224,7 +224,10 @@
                 }
                 // 先加载默认数据
                 // TODO 根据类型加载
-                let seriesTreeData=this.constructTreeData(eval(seriesType+'SeriesDefaultOption'),seriesId)
+                console.log(lineSeriesDefaultOption)
+                console.log(eval('lineSeriesDefaultOption'))
+                // TODO 暂时直接调用line，希望改成根据字符串，自动调用
+                let seriesTreeData=this.constructTreeData(lineSeriesDefaultOption,seriesId)
                 if(seriesData!=null){
                     // TODO 有数据，加载用户数据
                     this.treeLoadOption(seriesTreeData,seriesData,seriesId)
