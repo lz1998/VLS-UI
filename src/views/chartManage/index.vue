@@ -79,6 +79,7 @@
 <script type="text/ecmascript-6">
     import chartline from "@/components/chartline.vue"
     import {listChart,setChart,getChartsByTitleContaining,delChartById} from "@/api/chart.js"
+    import {getChartData} from "@/api/data.js"
     import {chartDefaultOption,lineSeriesDefaultOption,barSeriesDefaultOption} from './defaultOption.js'
     export default {
         name: "index",
@@ -99,6 +100,7 @@
                 currentOptionDataId:'', // 树形控件中当前正在编辑的option的id
                 chartForm:{
                     id:null,
+                    dataSourceUrl:'',
                     title:'',
                     option:''
                 }
@@ -109,8 +111,54 @@
             loadData(){
                 listChart().then(res=>{
                     res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
+                    // TODO tmp
+                    res.chartList.forEach(chartItem=>{
+                        console.log(chartItem.dataSourceUrl)
+                        getChartData(chartItem.dataSourceUrl).then(res=>{
+                            // chartItem.option={
+                            //     dataset:{
+                            //         source:[
+                            //             ['product', '2015', '2016', '2017'],
+                            //             ['Matcha Latte', 43.3, 85.8, 93.7],
+                            //             ['Milk Tea', 83.1, 73.4, 55.1],
+                            //             ['Cheese Cocoa', 86.4, 65.2, 82.5],
+                            //             ['Walnut Brownie', 72.4, 53.9, 39.1]
+                            //         ]
+                            //     },
+                            //     xAxis: {type: 'category'},
+                            //     yAxis: {type: 'value'},
+                            //     series:[
+                            //         {type:'line'}
+                            //     ]
+                            // }
+                            chartItem.option.dataset={
+                                source:res.data
+                            }
+                            chartItem.option.yAxis={}
+                            console.log(chartItem)
+                        })
+
+                    })
+                    // TODO tmp
+
+
                     this.chartFormList=res.chartList
+                    // this.loadChartData()
                 })
+            },
+            loadChartData(){
+                this.chartFormList.forEach(chartItem=>{
+                    console.log(chartItem.dataSourceUrl)
+                    getChartData(chartItem.dataSourceUrl).then(res=>{
+                        console.log(res)
+                        chartItem.option.dataset={
+                            source:res.data
+                        }
+                        console.log(chartItem)
+                    })
+
+                })
+
             },
             // 根据option生成树形控件
             constructTreeData(myjson,id){
@@ -262,6 +310,7 @@
                 getChartsByTitleContaining(data).then(res=>{
                     res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
                     this.chartFormList=res.chartList
+                    this.loadChartData()
                 })
             },
             showAddChartDialog(){
@@ -271,6 +320,7 @@
                 this.optionTreeData=this.constructTreeData(chartDefaultOption,'')
                 this.chartForm={
                     id:null,
+                    dataSourceUrl:'',
                     title:'',
                     option:''
                 }
@@ -326,6 +376,7 @@
                 }
 
                 data.append("title",this.chartForm.title)
+                data.append("dataSourceUrl",this.chartForm.dataSourceUrl)
                 data.append("option",this.chartForm.option)
                 setChart(data).then(res=>{
                     if(res.status){
