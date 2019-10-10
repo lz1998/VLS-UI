@@ -297,3 +297,6 @@ export const barSeriesDefaultOption={
     animationEasingUpdate:()=>{return{desc:'数据更新动画的缓动效果',default:'cubicOut',inputType:'text'}},
     animationDelayUpdate:()=>{return{desc:'数据更新动画的延迟',default:0,inputType:'text'}},
 }
+export function getSeriesDefaultOption(seriesType) {
+    return eval(seriesType+'SeriesDefaultOption')
+}

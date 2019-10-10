@@ -31,8 +31,8 @@
         </div>
 
         <!--新增/编辑图表对话框-->
-        <el-dialog :model="chartForm" :visible.sync="chartDialogVisible" :title="isAddOperation?'新增图表':'编辑图表'">
-            <el-form>
+        <el-dialog :visible.sync="chartDialogVisible" :title="isAddOperation?'新增图表':'编辑图表'">
+            <el-form :model="chartForm">
                 <el-form-item :label-width="chartFormLabelWidth" label="图表标题">
                     <el-input v-model="chartForm.title"></el-input>
                 </el-form-item>
@@ -53,7 +53,7 @@
                                 <span v-if="data.inputType=='uneditable'">{{data.value}}</span>
                                 <input v-if="data.inputType=='text'" size="mini" v-model="data.value"></input>
                                 <!--<input type="color" v-model="data.value"></input>-->
-                                <el-color-picker v-if="data.inputType=='color'" v-model="data.value" size="mini"></el-color-picker>
+                                <el-color-picker v-if="data.inputType=='color'" v-model="data.value" size="mini" show-alpha></el-color-picker>
                             </span>
                         </span>
                         <!--如果是series，有新增按钮-->
@@ -73,6 +73,15 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
+        <!--<el-dialog :visible.sync="seriesSelectDialogShow" title="选择类型">-->
+            <!--<el-form>-->
+                <!--<el-form-item></el-form-item>-->
+                <!--<el-form-item>-->
+                    <!--<el-button type="primary" @click="saveChart">保存</el-button>-->
+                <!--</el-form-item>-->
+            <!--</el-form>-->
+        <!--</el-dialog>-->
+
     </div>
 </template>
 
@@ -80,7 +89,7 @@
     import chartline from "@/components/chartline.vue"
     import {listChart,setChart,getChartsByTitleContaining,delChartById} from "@/api/chart.js"
     import {getChartData} from "@/api/data.js"
-    import {chartDefaultOption,lineSeriesDefaultOption,barSeriesDefaultOption} from './defaultOption.js'
+    import {chartDefaultOption,getSeriesDefaultOption} from './defaultOption.js'
     export default {
         name: "index",
         components:{
@@ -92,7 +101,6 @@
                     title:""
                 },
                 chartFormList:[],
-
                 isAddOperation:true, // true是新增，false是编辑
                 chartDialogVisible:false, // 显示对话框
                 chartFormLabelWidth:'120px',
@@ -107,7 +115,6 @@
             }
         },
         methods:{
-
             loadData(){
                 listChart().then(res=>{
                     res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
@@ -121,7 +128,6 @@
                         this.$set(chartItem.option, 'dataset', {source:res.data})
                     })
                 })
-
             },
             // 根据option生成树形控件
             constructTreeData(myjson,id){
@@ -140,7 +146,6 @@
                     obj.value=null
 
                     if(typeof(myjson[key])!='function'){
-
                         obj.children=this.constructTreeData(myjson[key],obj.id)
                         if(myjson[key]!=null){
                             obj.desc=myjson[key].desc
@@ -200,9 +205,7 @@
                         // 是json，继续深入一层
                         this.treeLoadOption(treeData,myjson[key],_id)
                     }else if(key=='series'){
-                        // TODO 这里要构造series的treeData
-                        // TODO 先判断类型套用模板,读到描述，然后把series加载到模板中
-                        // TODO 最后setTreeNodeValueById到series
+                        // 逐个添加series
                         let seriesList=myjson.series
                         treeData.forEach(treeDataItem=>{
                             if(treeDataItem.id=='series'){
@@ -221,7 +224,7 @@
                 }
             },
             // 增加图形
-            appendSeries(data,seriesType,seriesData){
+            async appendSeries(data,seriesType,seriesData){
 
                 // 如果原本没有，先变成[]
                 if (!data.children) {
@@ -235,18 +238,21 @@
                 let seriesId='series.'+seriesLabel
                 if(seriesType=='' || seriesType==null || seriesType==undefined){
                     // TODO 弹出对话框，让用户选择新增类型
-                    seriesType='line'
+                    seriesType='bar'
+                    await this.$prompt('选择类型','提示',{
+                        confirmButtonText: '确定'
+                    }).then(({value})=>{
+                        seriesType=value
+                    })
                 }
                 // 先加载默认数据
 
-                // TODO 根据类型加载
-                console.log(lineSeriesDefaultOption)
-                // console.log(eval('line'+'SeriesDefaultOption'))
+                // 根据类型加载
+                let seriesDefaultOption=getSeriesDefaultOption(seriesType)
 
-                // TODO 暂时直接调用line，希望改成根据字符串，自动调用
-                let seriesTreeData=this.constructTreeData(lineSeriesDefaultOption,seriesId)
+                let seriesTreeData=this.constructTreeData(seriesDefaultOption,seriesId)
                 if(seriesData!=null){
-                    // TODO 有数据，加载用户数据
+                    // 有数据，加载用户数据
                     this.treeLoadOption(seriesTreeData,seriesData,seriesId)
                 }
 
@@ -254,7 +260,7 @@
                     label: seriesLabel,//当前的编号n
                     id: seriesId,//series.n
                     children: seriesTreeData,
-                    desc:'折线'
+                    desc:seriesDefaultOption.desc
                 };
 
                 data.children.push(newSeries);
