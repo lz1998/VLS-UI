@@ -2,7 +2,7 @@ export const chartDefaultOption={
     title:{
         desc:'标题组件，包含主标题和副标题',
         show:()=>{return{default:true, desc:'是否显示标题组件',inputType:'text'}},
-        text:()=>{return{default:'主标题', desc:'主标题文本',inputType:'text'}},
+        text:()=>{return{default:'', desc:'主标题文本',inputType:'text'}},
         textStyle:{
             desc:'主标题文本样式',
             color:()=>{return{default:'red', desc:'主标题文字的颜色',inputType:'color'}},
@@ -57,7 +57,7 @@ export const chartDefaultOption={
         icon:()=>{return{default:'circle', desc:'图例项的 icon',inputType:'text'}},
         backgroundColor:()=>{return{default:'transparent', desc:'图例背景色',inputType:'color'}},
         borderColor:()=>{return{default:'#ccc', desc:'图例的边框颜色',inputType:'color'}},
-        borderWidth:()=>{return{default:1, desc:'图例的边框线宽',inputType:'text'}},
+        borderWidth:()=>{return{default:0, desc:'图例的边框线宽',inputType:'text'}},
         borderRadius:()=>{return{default:0, desc:'圆角半径，单位px',inputType:'text'}}
     },
     grid:{
@@ -140,7 +140,7 @@ export const chartDefaultOption={
         show:()=>{return{default:true, desc:'是否显示 y 轴',inputType:'text'}},
         position:()=>{return{default:'left', desc:'y 轴的位置',inputType:'text'}},
         type:()=>{return{default:'value', desc:'坐标轴类型',inputType:'text'}},
-        name:()=>{return{default:'xx', desc:'坐标轴名称',inputType:'text'}},
+        name:()=>{return{default:'', desc:'坐标轴名称',inputType:'text'}},
         nameLocation:()=>{return{default:'end', desc:'坐标轴名称显示位置',inputType:'text'}},
         nameTextStyle:{
             desc:'坐标轴名称的文字样式',
@@ -197,7 +197,7 @@ export const chartDefaultOption={
             padding:()=>{return{default:0, desc:'文字块的内边距',inputType:'text'}}
         }
     },
-    backgroundColor:()=>{return{default:'', desc:'背景色',inputType:'color'}},
+    backgroundColor:()=>{return{default:'rgba(1, 90, 192, 1)', desc:'背景色',inputType:'color'}},
     series:()=>{
         return{
             desc:"图形",
@@ -235,7 +235,7 @@ export const lineSeriesDefaultOption={
     },
     areaStyle:{
         desc:'区域填充样式',
-        color:()=>{return{desc:'填充的颜色',default:'#000',inputType:'color'}},
+        color:()=>{return{desc:'填充的颜色',default:'rgba(5, 255, 255, 0.5)',inputType:'color'}},
         origin:()=>{return{desc:'图形区域的起始位置',default:'auto',inputType:'text'}},
         opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
     },
