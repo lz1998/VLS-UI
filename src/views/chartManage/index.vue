@@ -117,16 +117,9 @@
             },
             loadChartData(){
                 this.chartFormList.forEach(chartItem=>{
-                    console.log(chartItem.dataSourceUrl)
                     getChartData(chartItem.dataSourceUrl).then(res=>{
-                        console.log(res)
-                        chartItem.option.dataset={
-                            source:res.data
-                        }
-                        chartItem.option.yAxis={}
-                        console.log(chartItem)
+                        this.$set(chartItem.option, 'dataset', {source:res.data})
                     })
-
                 })
 
             },
