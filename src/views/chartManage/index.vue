@@ -37,7 +37,7 @@
                     <el-input v-model="chartForm.title"></el-input>
                 </el-form-item>
                 <el-form-item :label-width="chartFormLabelWidth" label="数据源URL">
-                    <el-input></el-input>
+                    <el-input v-model="chartForm.dataSourceUrl"></el-input>
                 </el-form-item>
                 <el-tree :data="optionTreeData" ref="optionTree">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
