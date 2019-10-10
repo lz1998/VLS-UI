@@ -206,6 +206,7 @@ export const chartDefaultOption={
     }
 }
 const seriesDefaultOption={
+    // TODO 需要把 是否 的 inputType 改成 bool
     line:{
         desc:'折线',
         type:()=>{return{desc:'类型',default:'line',inputType:'uneditable'}},// TODO 不可改
