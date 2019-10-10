@@ -40,13 +40,13 @@
                     <el-input v-model="chartForm.dataSourceUrl"></el-input>
                 </el-form-item>
                 <el-tree :data="optionTreeData" ref="optionTree">
-                    <span class="custom-tree-node" slot-scope="{ node, data }">
-                        <span style="width: 200px;display: inline-block;text-align: left;" @click="currentOptionDataId=node.id">{{data.desc}}</span>
+                    <span class="custom-tree-node" slot-scope="{ node, data }" @click="currentOptionDataId=node.id">
+                        <span style="width: 200px;display: inline-block;text-align: left;">{{data.desc}}</span>
                             <!--{{data.id}}-->
 <!--                        {{data.label}}-->
 <!--                        {{node.parent.parent.data.label}}-->
                         <!--叶子节点，非series，可编辑value-->
-                        <span v-if="node.isLeaf && data.id!='series'">
+                        <span v-if="node.isLeaf && data.id!='series'" style="width: 200px;display: inline-block;text-align: left;">
                             <!--非series-->
                             <span v-if="currentOptionDataId!=node.id">{{data.value}}</span>
                             <span v-if="currentOptionDataId==node.id">
