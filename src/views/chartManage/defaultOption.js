@@ -205,98 +205,111 @@ export const chartDefaultOption={
         }
     }
 }
-export const lineSeriesDefaultOption={
-    desc:'折线',
-    type:()=>{return{desc:'类型',default:'line',inputType:'uneditable'}},// TODO 不可改
-    symbol:()=>{return{desc:'标记的图形',default:'emptyCircle',inputType:'text'}},
-    symbolSize:()=>{return{desc:'标记的大小',default:4,inputType:'text'}},
-    symbolKeepAspect:()=>{return{desc:'缩放时保持图形长宽比',default:false,inputType:'text'}},
-    showSymbol:()=>{return{desc:'是否显示标记',default:true,inputType:'text'}},
-    showAllSymbol:()=>{return{desc:'是否显示全部标记',default:'auto',inputType:'text'}},
-    hoverAnimation:()=>{return{desc:'开启鼠标悬浮动画',default:true,inputType:'text'}},
-    connectNulls:()=>{return{desc:'是否连接空数据',default:false,inputType:'text'}},
-    clipOverflow:()=>{return{desc:'是否对超出部分裁剪',default:true,inputType:'text'}},
-    step:()=>{return{desc:'是否是阶梯线图',default:false,inputType:'text'}},
-    // label暂时不想做，以后可以考虑
-    itemStyle:{
-        desc:'折线拐点标志的样式',
-        color:()=>{return{desc:'图形的颜色',default:'自适应',inputType:'color'}},// TODO ???
-        borderColor:()=>{return{desc:'图形的描边颜色',default:'#000',inputType:'color'}},
-        borderWidth:()=>{return{desc:'描边线宽',default:0,inputType:'text'}},
-        borderType:()=>{return{desc:'柱条的描边类型',default:'solid',inputType:'text'}},
-        opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
+const seriesDefaultOption={
+    line:{
+        desc:'折线',
+        type:()=>{return{desc:'类型',default:'line',inputType:'uneditable'}},// TODO 不可改
+        symbol:()=>{return{desc:'标记的图形',default:'emptyCircle',inputType:'text'}},
+        symbolSize:()=>{return{desc:'标记的大小',default:4,inputType:'text'}},
+        symbolKeepAspect:()=>{return{desc:'缩放时保持图形长宽比',default:false,inputType:'text'}},
+        showSymbol:()=>{return{desc:'是否显示标记',default:true,inputType:'text'}},
+        showAllSymbol:()=>{return{desc:'是否显示全部标记',default:'auto',inputType:'text'}},
+        hoverAnimation:()=>{return{desc:'开启鼠标悬浮动画',default:true,inputType:'text'}},
+        connectNulls:()=>{return{desc:'是否连接空数据',default:false,inputType:'text'}},
+        clipOverflow:()=>{return{desc:'是否对超出部分裁剪',default:true,inputType:'text'}},
+        step:()=>{return{desc:'是否是阶梯线图',default:false,inputType:'text'}},
+        // label暂时不想做，以后可以考虑
+        itemStyle:{
+            desc:'折线拐点标志的样式',
+            color:()=>{return{desc:'图形的颜色',default:'自适应',inputType:'color'}},// TODO ???
+            borderColor:()=>{return{desc:'图形的描边颜色',default:'#000',inputType:'color'}},
+            borderWidth:()=>{return{desc:'描边线宽',default:0,inputType:'text'}},
+            borderType:()=>{return{desc:'柱条的描边类型',default:'solid',inputType:'text'}},
+            opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
+        },
+        lineStyle:{
+            desc:'线条样式',
+            color:()=>{return{desc:'线的颜色',default:'#000',inputType:'color'}},
+            width:()=>{return{desc:'线宽',default:2,inputType:'text'}},
+            type:()=>{return{desc:'线的类型',default:'solid',inputType:'text'}},
+            opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
+        },
+        areaStyle:{
+            desc:'区域填充样式',
+            color:()=>{return{desc:'填充的颜色',default:'rgba(5, 255, 255, 0.5)',inputType:'color'}},
+            origin:()=>{return{desc:'图形区域的起始位置',default:'auto',inputType:'text'}},
+            opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
+        },
+        // emphasis暂行不想做
+        smooth:()=>{return{desc:'是否平滑曲线显示',default:false,inputType:'text'}},
+        // TODO dimensions看上去很重要，但是没看懂，暂时不管
+        // TODO encode看上去很重要，但是没看懂，暂时不管
+        seriesLayoutBy:()=>{return{desc:'数据按行还是列',default:'column',inputType:'text'}},
+        // TODO datasetIndex看上去很重要，但是没看懂，暂时不管
+        // TODO markPoint 不太好做，暂时不做
+        // TODO markLine 不太好做，暂时不做
+        silent:()=>{return{desc:'不响应和触发鼠标事件',default:false,inputType:'text'}},
+        animation:()=>{return{desc:'是否开启动画',default:true,inputType:'text'}},
+        animationThreshold:()=>{return{desc:'动画的阈值',default:2000,inputType:'text'}},
+        animationDuration:()=>{return{desc:'初始动画的时长',default:1000,inputType:'text'}},
+        animationEasing:()=>{return{desc:'初始动画的缓动效果',default:'linear',inputType:'text'}},
+        animationDelay:()=>{return{desc:'初始动画的延迟',default:0,inputType:'text'}},
+        animationDurationUpdate:()=>{return{desc:'数据更新动画的时长',default:300,inputType:'text'}},
+        animationDelayUpdate:()=>{return{desc:'数据更新动画的延迟',default:0,inputType:'text'}},
+        // tooltip:{desc:'提示框'} TODO 不好做，暂时不做
     },
-    lineStyle:{
-        desc:'线条样式',
-        color:()=>{return{desc:'线的颜色',default:'#000',inputType:'color'}},
-        width:()=>{return{desc:'线宽',default:2,inputType:'text'}},
-        type:()=>{return{desc:'线的类型',default:'solid',inputType:'text'}},
-        opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
-    },
-    areaStyle:{
-        desc:'区域填充样式',
-        color:()=>{return{desc:'填充的颜色',default:'rgba(5, 255, 255, 0.5)',inputType:'color'}},
-        origin:()=>{return{desc:'图形区域的起始位置',default:'auto',inputType:'text'}},
-        opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
-    },
-    // emphasis暂行不想做
-    smooth:()=>{return{desc:'是否平滑曲线显示',default:false,inputType:'text'}},
-    // TODO dimensions看上去很重要，但是没看懂，暂时不管
-    // TODO encode看上去很重要，但是没看懂，暂时不管
-    seriesLayoutBy:()=>{return{desc:'数据按行还是列',default:'column',inputType:'text'}},
-    // TODO datasetIndex看上去很重要，但是没看懂，暂时不管
-    // TODO markPoint 不太好做，暂时不做
-    // TODO markLine 不太好做，暂时不做
-    silent:()=>{return{desc:'不响应和触发鼠标事件',default:false,inputType:'text'}},
-    animation:()=>{return{desc:'是否开启动画',default:true,inputType:'text'}},
-    animationThreshold:()=>{return{desc:'动画的阈值',default:2000,inputType:'text'}},
-    animationDuration:()=>{return{desc:'初始动画的时长',default:1000,inputType:'text'}},
-    animationEasing:()=>{return{desc:'初始动画的缓动效果',default:'linear',inputType:'text'}},
-    animationDelay:()=>{return{desc:'初始动画的延迟',default:0,inputType:'text'}},
-    animationDurationUpdate:()=>{return{desc:'数据更新动画的时长',default:300,inputType:'text'}},
-    animationDelayUpdate:()=>{return{desc:'数据更新动画的延迟',default:0,inputType:'text'}},
-    // tooltip:{desc:'提示框'} TODO 不好做，暂时不做
-}
-export const barSeriesDefaultOption={
-    desc:'柱子',
-    type:()=>{return{desc:'类型',default:'bar',inputType:'uneditable'}},// TODO 不可改
-    legendHoverLink:()=>{return{desc:'是否启用图例 hover 时的联动高亮',default:'true',inputType:'text'}},
-    coordinateSystem:()=>{return{desc:'该系列使用的坐标系',default:'cartesian2d',inputType:'text'}},
-    xAxisIndex:()=>{return{desc:'使用的 x 轴的 index',default:0,inputType:'text'}},
-    yAxisIndex:()=>{return{desc:'使用的 y 轴的 index',default:0,inputType:'text'}},
-    itemStyle:{
-        desc:'图形样式',
-        color:()=>{return{desc:'柱条的颜色',default:'自适应',inputType:'color'}},// TODO ???
-        borderColor:()=>{return{desc:'柱条的描边颜色',default:'#000',inputType:'color'}},
-        borderWidth:()=>{return{desc:'柱条的描边宽度',default:0,inputType:'text'}},
-        borderType:()=>{return{desc:'柱条的描边类型',default:'solid',inputType:'text'}},
-        barBorderRadius:()=>{return{desc:'圆角半径',default:0,inputType:'text'}},
-        shadowBlur:()=>{return{desc:'图形阴影的模糊大小',default:10,inputType:'text'}},
-        shadowColor:()=>{return{desc:'阴影颜色',default:'#000',inputType:'color'}},
-        shadowOffsetX:()=>{return{desc:'阴影水平方向上的偏移距离',default:0,inputType:'text'}},
-        shadowOffsetY:()=>{return{desc:'阴影垂直方向上的偏移距离',default:0,inputType:'text'}},
-        opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}},
+    bar:{
+        desc:'柱子',
+        type:()=>{return{desc:'类型',default:'bar',inputType:'uneditable'}},// TODO 不可改
+        legendHoverLink:()=>{return{desc:'是否启用图例 hover 时的联动高亮',default:'true',inputType:'text'}},
+        coordinateSystem:()=>{return{desc:'该系列使用的坐标系',default:'cartesian2d',inputType:'text'}},
+        xAxisIndex:()=>{return{desc:'使用的 x 轴的 index',default:0,inputType:'text'}},
+        yAxisIndex:()=>{return{desc:'使用的 y 轴的 index',default:0,inputType:'text'}},
+        itemStyle:{
+            desc:'图形样式',
+            color:()=>{return{desc:'柱条的颜色',default:'自适应',inputType:'color'}},// TODO ???
+            borderColor:()=>{return{desc:'柱条的描边颜色',default:'#000',inputType:'color'}},
+            borderWidth:()=>{return{desc:'柱条的描边宽度',default:0,inputType:'text'}},
+            borderType:()=>{return{desc:'柱条的描边类型',default:'solid',inputType:'text'}},
+            barBorderRadius:()=>{return{desc:'圆角半径',default:0,inputType:'text'}},
+            shadowBlur:()=>{return{desc:'图形阴影的模糊大小',default:10,inputType:'text'}},
+            shadowColor:()=>{return{desc:'阴影颜色',default:'#000',inputType:'color'}},
+            shadowOffsetX:()=>{return{desc:'阴影水平方向上的偏移距离',default:0,inputType:'text'}},
+            shadowOffsetY:()=>{return{desc:'阴影垂直方向上的偏移距离',default:0,inputType:'text'}},
+            opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}},
 
-    },
-    //stack:()=>{return{desc:'数据堆叠',default:null,inputType:'text'}},
-    cursor:()=>{return{desc:'鼠标悬浮时在图形元素上时鼠标的样式是什么',default:'pointer',inputType:'text'}},
-    barWidth:()=>{return{desc:'柱条的宽度',default:'自适应',inputType:'text'}},
-    barMaxWidth:()=>{return{desc:'柱条最大宽度',default:'自适应',inputType:'text'}},
-    barMinHeight:()=>{return{desc:'柱条最小高度',default:0,inputType:'text'}},
-    barGap:()=>{return{desc:'不同系列的柱间距离',default:"30%",inputType:'text'}},
-    barCategoryGap:()=>{return{desc:'同一系列的柱间距离',default:'20%',inputType:'text'}},
-    large:()=>{return{desc:'是否开启大数据量优化',default:false,inputType:'text'}},
-    largeThreshold:()=>{return{desc:'开启绘制优化的阈值',default:400,inputType:'text'}},
-    progressive:()=>{return{desc:'渐进式渲染时每一帧绘制图形数量',default:5000,inputType:'text'}},
-    animation:()=>{return{desc:'是否开启动画',default:'true',inputType:'text'}},
-    animationThreshold:()=>{return{desc:'是否开启动画的阈值',default:2000,inputType:'text'}},
-    animationDuration:()=>{return{desc:'同一系列的柱间距离',default:1000,inputType:'text'}},
-    animationEasing:()=>{return{desc:'初始动画的缓动效果',default:'cubicOut',inputType:'text'}},
-    animationDelay:()=>{return{desc:'初始动画的延迟',default:0,inputType:'text'}},
-    animationDurationUpdate:()=>{return{desc:'数据更新动画的时长',default:300,inputType:'text'}},
-    animationEasingUpdate:()=>{return{desc:'数据更新动画的缓动效果',default:'cubicOut',inputType:'text'}},
-    animationDelayUpdate:()=>{return{desc:'数据更新动画的延迟',default:0,inputType:'text'}},
+        },
+        //stack:()=>{return{desc:'数据堆叠',default:null,inputType:'text'}},
+        cursor:()=>{return{desc:'鼠标悬浮时在图形元素上时鼠标的样式是什么',default:'pointer',inputType:'text'}},
+        barWidth:()=>{return{desc:'柱条的宽度',default:'自适应',inputType:'text'}},
+        barMaxWidth:()=>{return{desc:'柱条最大宽度',default:'自适应',inputType:'text'}},
+        barMinHeight:()=>{return{desc:'柱条最小高度',default:0,inputType:'text'}},
+        barGap:()=>{return{desc:'不同系列的柱间距离',default:"30%",inputType:'text'}},
+        barCategoryGap:()=>{return{desc:'同一系列的柱间距离',default:'20%',inputType:'text'}},
+        large:()=>{return{desc:'是否开启大数据量优化',default:false,inputType:'text'}},
+        largeThreshold:()=>{return{desc:'开启绘制优化的阈值',default:400,inputType:'text'}},
+        progressive:()=>{return{desc:'渐进式渲染时每一帧绘制图形数量',default:5000,inputType:'text'}},
+        animation:()=>{return{desc:'是否开启动画',default:'true',inputType:'text'}},
+        animationThreshold:()=>{return{desc:'是否开启动画的阈值',default:2000,inputType:'text'}},
+        animationDuration:()=>{return{desc:'同一系列的柱间距离',default:1000,inputType:'text'}},
+        animationEasing:()=>{return{desc:'初始动画的缓动效果',default:'cubicOut',inputType:'text'}},
+        animationDelay:()=>{return{desc:'初始动画的延迟',default:0,inputType:'text'}},
+        animationDurationUpdate:()=>{return{desc:'数据更新动画的时长',default:300,inputType:'text'}},
+        animationEasingUpdate:()=>{return{desc:'数据更新动画的缓动效果',default:'cubicOut',inputType:'text'}},
+        animationDelayUpdate:()=>{return{desc:'数据更新动画的延迟',default:0,inputType:'text'}},
+    }
 }
 export function getSeriesDefaultOption(seriesType) {
-    return eval(seriesType+'SeriesDefaultOption')
+    return seriesDefaultOption[seriesType]
+}
+export function getAllSeriesType(){
+    let seriesTypeList=[]
+    for(let key in seriesDefaultOption){
+        let item={
+            value:key,
+            desc:seriesDefaultOption[key].desc
+        }
+        seriesTypeList.push(item)
+    }
+    return seriesTypeList
 }

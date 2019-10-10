@@ -59,6 +59,9 @@
                         <!--如果是series，有新增按钮-->
                         <span v-if="data.id=='series'">
                             <!--加上stop防止树形控件被点击到-->
+                            <select v-model="newSeriesType" @click.stop="">
+                                <option v-for="seriesType in allSeriesType" :value="seriesType.value">{{seriesType.desc}}</option>
+                            </select>
                             <span class="btn-add" @click.stop="appendSeries(data)">添加</span>
                         </span>
                         <!--如果是series的子节点，有删除按钮-->
@@ -89,7 +92,7 @@
     import chartline from "@/components/chartline.vue"
     import {listChart,setChart,getChartsByTitleContaining,delChartById} from "@/api/chart.js"
     import {getChartData} from "@/api/data.js"
-    import {chartDefaultOption,getSeriesDefaultOption} from './defaultOption.js'
+    import {chartDefaultOption,getSeriesDefaultOption,getAllSeriesType} from './defaultOption.js'
     export default {
         name: "index",
         components:{
@@ -128,7 +131,8 @@
                     dataSourceUrl:'',
                     title:'',
                     option:''
-                }
+                },
+                newSeriesType:'line',
             }
         },
         methods:{
@@ -254,13 +258,8 @@
                 }
                 let seriesId='series.'+seriesLabel
                 if(seriesType=='' || seriesType==null || seriesType==undefined){
-                    // TODO 弹出对话框，让用户选择新增类型
-                    seriesType='bar'
-                    await this.$prompt('选择类型','提示',{
-                        confirmButtonText: '确定'
-                    }).then(({value})=>{
-                        seriesType=value
-                    })
+                    // 如果参数没有类型，按照select选中的添加
+                    seriesType=this.newSeriesType
                 }
                 // 先加载默认数据
 
@@ -385,6 +384,12 @@
             }
 
         },
+        computed:{
+            allSeriesType(){
+                console.log(getAllSeriesType())
+                return getAllSeriesType()
+            }
+        },
         created() {
             this.loadData()
         }
@@ -424,6 +429,7 @@
             }
         }
         .btn-add{
+            margin-left: 20px;
             display: inline-block;
             background-color: #67C23A;
             color: white;
