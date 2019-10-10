@@ -1,7 +1,7 @@
 export const chartDefaultOption={
     title:{
         desc:'标题组件，包含主标题和副标题',
-        show:()=>{return{default:true, desc:'是否显示标题组件',inputType:'text'}},
+        show:()=>{return{default:true, desc:'是否显示标题组件',inputType:'bool'}},
         text:()=>{return{default:'', desc:'主标题文本',inputType:'text'}},
         textStyle:{
             desc:'主标题文本样式',
@@ -33,7 +33,7 @@ export const chartDefaultOption={
     },
     legend:{
         desc:'图例组件',
-        show:()=>{return{default:true, desc:'是否显示图例组件',inputType:'text'}},
+        show:()=>{return{default:true, desc:'是否显示图例组件',inputType:'bool'}},
         left:()=>{return{default:'auto', desc:'图例组件离容器左侧的距离',inputType:'text'}},
         top:()=>{return{default:'auto', desc:'图例组件离容器上侧的距离',inputType:'text'}},
         right:()=>{return{default:'auto', desc:'图例组件离容器右侧的距离',inputType:'text'}},
@@ -62,7 +62,7 @@ export const chartDefaultOption={
     },
     grid:{
         desc:'直角坐标系内绘图网格组件',
-        show:()=>{return{default:false, desc:'是否显示直角坐标系网格',inputType:'text'}},
+        show:()=>{return{default:false, desc:'是否显示直角坐标系网格',inputType:'bool'}},
         left:()=>{return{default:'10%', desc:'组件离容器左侧的距离',inputType:'text'}},
         top:()=>{return{default:60, desc:'组件离容器上侧的距离',inputType:'text'}},
         right:()=>{return{default:'10%', desc:'组件离容器右侧的距离',inputType:'text'}},
@@ -75,7 +75,7 @@ export const chartDefaultOption={
     },
     xAxis:{
         desc:'直角坐标系 grid 中的 x 轴',
-        show:()=>{return{default:true, desc:'是否显示 x 轴',inputType:'text'}},
+        show:()=>{return{default:true, desc:'是否显示 x 轴',inputType:'bool'}},
         position:()=>{return{default:'bottom', desc:'x 轴的位置',inputType:'text'}},
         type:()=>{return{default:'category', desc:'坐标轴类型',inputType:'text'}},
         name:()=>{return{default:'', desc:'坐标轴名称',inputType:'text'}},
@@ -137,7 +137,7 @@ export const chartDefaultOption={
     },
     yAxis:{
         desc:'直角坐标系 grid 中的 y 轴',
-        show:()=>{return{default:true, desc:'是否显示 y 轴',inputType:'text'}},
+        show:()=>{return{default:true, desc:'是否显示 y 轴',inputType:'bool'}},
         position:()=>{return{default:'left', desc:'y 轴的位置',inputType:'text'}},
         type:()=>{return{default:'value', desc:'坐标轴类型',inputType:'text'}},
         name:()=>{return{default:'', desc:'坐标轴名称',inputType:'text'}},
@@ -260,7 +260,7 @@ const seriesDefaultOption={
     },
     bar:{
         desc:'柱子',
-        type:()=>{return{desc:'类型',default:'bar',inputType:'uneditable'}},// TODO 不可改
+        type:()=>{return{desc:'类型',default:'bar',inputType:'uneditable'}},
         legendHoverLink:()=>{return{desc:'是否启用图例 hover 时的联动高亮',default:'true',inputType:'text'}},
         coordinateSystem:()=>{return{desc:'该系列使用的坐标系',default:'cartesian2d',inputType:'text'}},
         xAxisIndex:()=>{return{desc:'使用的 x 轴的 index',default:0,inputType:'text'}},
@@ -297,7 +297,18 @@ const seriesDefaultOption={
         animationDurationUpdate:()=>{return{desc:'数据更新动画的时长',default:300,inputType:'text'}},
         animationEasingUpdate:()=>{return{desc:'数据更新动画的缓动效果',default:'cubicOut',inputType:'text'}},
         animationDelayUpdate:()=>{return{desc:'数据更新动画的延迟',default:0,inputType:'text'}},
+    },
+    // TODO 需要添加配置内容
+    pie:{
+        desc:'饼',
+        type:()=>{return{desc:'类型',default:'pie',inputType:'uneditable'}}
+    },
+    // TODO 需要添加配置内容
+    scatter:{
+        desc:'散点',
+        type:()=>{return{desc:'类型',default:'scatter',inputType:'uneditable'}}
     }
+
 }
 export function getSeriesDefaultOption(seriesType) {
     return seriesDefaultOption[seriesType]

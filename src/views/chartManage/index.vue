@@ -33,18 +33,20 @@
         <!--新增/编辑图表对话框-->
         <el-dialog :visible.sync="chartDialogVisible" :title="isAddOperation?'新增图表':'编辑图表'">
             <el-form :model="chartForm">
+
                 <el-form-item :label-width="chartFormLabelWidth" label="图表标题">
                     <el-input v-model="chartForm.title"></el-input>
                 </el-form-item>
                 <el-form-item :label-width="chartFormLabelWidth" label="数据源URL">
                     <el-input v-model="chartForm.dataSourceUrl"></el-input>
                 </el-form-item>
+
                 <el-tree :data="optionTreeData" ref="optionTree">
                     <span class="custom-tree-node" slot-scope="{ node, data }" @click="currentOptionDataId=node.id">
                         <span style="width: 200px;display: inline-block;text-align: left;">{{data.desc}}</span>
-                            <!--{{data.id}}-->
-<!--                        {{data.label}}-->
-<!--                        {{node.parent.parent.data.label}}-->
+                        <!--{{data.id}}-->
+                        <!--{{data.label}}-->
+                        <!--{{node.parent.parent.data.label}}-->
                         <!--叶子节点，非series，可编辑value-->
                         <span v-if="node.isLeaf && data.id!='series'" style="width: 200px;display: inline-block;text-align: left;">
                             <!--非series-->
@@ -52,6 +54,10 @@
                             <span v-if="currentOptionDataId==node.id">
                                 <span v-if="data.inputType=='uneditable'">{{data.value}}</span>
                                 <input v-if="data.inputType=='text'" size="mini" v-model="data.value"></input>
+                                <select v-if="data.inputType=='bool'" v-model="data.value" @click.stop="">
+                                    <option :value="true">是</option>
+                                    <option :value="false">否</option>
+                                </select>
                                 <!--<input type="color" v-model="data.value"></input>-->
                                 <el-color-picker v-if="data.inputType=='color'" v-model="data.value" size="mini" show-alpha :predefine="predefineColors"></el-color-picker>
                             </span>
@@ -70,20 +76,24 @@
                         </span>
                     </span>
                 </el-tree>
+
+                <!--预览-->
+                <el-form-item v-if="previewOption">
+                    <div style="margin:0 auto;width:23vw;height:28vh;" >
+                        <chart
+                                :options="previewOption"
+                                :auto-resize="true"
+                                style="width: 100%; height: 100%;"
+                        />
+                    </div>
+                </el-form-item>
                 <el-form-item>
+                    <el-button type="warning" @click="refreshPreview">预览</el-button>
                     <el-button type="primary" @click="saveChart">保存</el-button>
                     <el-button @click="chartDialogVisible=false">取消</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
-        <!--<el-dialog :visible.sync="seriesSelectDialogShow" title="选择类型">-->
-            <!--<el-form>-->
-                <!--<el-form-item></el-form-item>-->
-                <!--<el-form-item>-->
-                    <!--<el-button type="primary" @click="saveChart">保存</el-button>-->
-                <!--</el-form-item>-->
-            <!--</el-form>-->
-        <!--</el-dialog>-->
 
     </div>
 </template>
@@ -133,21 +143,27 @@
                     option:''
                 },
                 newSeriesType:'line',
+                previewOption:null
             }
         },
         methods:{
+            refreshPreview(){
+                this.previewOption=this.constructOptionData(this.optionTreeData)
+                this.loadChartData(this.previewOption,this.chartForm.dataSourceUrl)
+            },
             loadData(){
+                console.log(3)
                 listChart().then(res=>{
                     res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
                     this.chartFormList=res.chartList
-                    this.loadChartData()
+                    this.chartFormList.forEach(chartFormItem=>{
+                        this.loadChartData(chartFormItem.option,chartFormItem.dataSourceUrl)
+                    })
                 })
             },
-            loadChartData(){
-                this.chartFormList.forEach(chartItem=>{
-                    getChartData(chartItem.dataSourceUrl).then(res=>{
-                        this.$set(chartItem.option, 'dataset', {source:res.data})
-                    })
+            loadChartData(chartOption, dataSourceUrl){
+                getChartData(dataSourceUrl).then(res=>{
+                    this.$set(chartOption, 'dataset', {source:res.data})
                 })
             },
             // 根据option生成树形控件
@@ -214,7 +230,6 @@
             // 树加载option，参数treeData,需要加载到treeData的option(后端获取)
             treeLoadOption(treeData,myjson, id){
                 for(let key in myjson){
-9
                     let _id=''
                     if(id=='' || id==null || id==undefined){
                         _id=key
@@ -309,6 +324,7 @@
                     title:'',
                     option:''
                 }
+                this.previewOption=null
 
             },
             showEditChartDialog(index){
@@ -319,6 +335,7 @@
                 this.chartForm=JSON.parse(JSON.stringify(this.chartFormList[index]))
                 this.optionTreeData=this.constructTreeData(chartDefaultOption,'')
                 this.treeLoadOption(this.optionTreeData,this.chartForm.option,'')
+                this.refreshPreview()
             },
             delChart(index){
 
