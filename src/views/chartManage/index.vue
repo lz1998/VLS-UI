@@ -50,7 +50,10 @@
                             <!--非series-->
                             <span v-if="currentOptionDataId!=node.id">{{data.value}}</span>
                             <span v-if="currentOptionDataId==node.id">
-                                <input size="mini" v-model="data.value"></input>
+                                <span v-if="data.inputType=='uneditable'">{{data.value}}</span>
+                                <input v-if="data.inputType=='text'" size="mini" v-model="data.value"></input>
+                                <!--<input type="color" v-model="data.value"></input>-->
+                                <el-color-picker v-if="data.inputType=='color'" v-model="data.value" size="mini"></el-color-picker>
                             </span>
                         </span>
                         <!--如果是series，有新增按钮-->
@@ -134,6 +137,7 @@
                     }else if(myjson[key]!=null){
                         obj.value=myjson[key]().default
                         obj.desc=myjson[key]().desc
+                        obj.inputType=myjson[key]().inputType
                     }
                     list.push(obj)
                 }
@@ -223,9 +227,11 @@
                     seriesType='line'
                 }
                 // 先加载默认数据
+
                 // TODO 根据类型加载
                 console.log(lineSeriesDefaultOption)
-                console.log(eval('lineSeriesDefaultOption'))
+                // console.log(eval('line'+'SeriesDefaultOption'))
+
                 // TODO 暂时直接调用line，希望改成根据字符串，自动调用
                 let seriesTreeData=this.constructTreeData(lineSeriesDefaultOption,seriesId)
                 if(seriesData!=null){
