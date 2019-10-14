@@ -23,7 +23,6 @@
                 <i class="el-icon-setting"></i>
                 <span slot="title">账号管理</span>
             </el-menu-item>
-
         </el-menu>
     </div>
 
