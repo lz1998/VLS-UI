@@ -197,6 +197,44 @@ export const chartDefaultOption={
             padding:()=>{return{default:0, desc:'文字块的内边距',inputType:'text'}}
         }
     },
+    visualMap:{
+        desc:'视觉映射组件',
+        show:()=>{return{default:false, desc:'是否显示',inputType:'text'}},
+        min:()=>{return{default:0, desc:'组件最小值',inputType:'text'}},
+        max:()=>{return{default:300, desc:'组件最大值',inputType:'text'}},
+        splitNumber:()=>{return{default:5, desc:'分割数据',inputType:'text'}},
+        color:()=>{return{default: ['#bf444c', '#d88273', '#f6efa6'], desc:'颜色',inputType:'text'}},
+    },
+    geo:{
+        desc:'地理坐标系组件',
+        show:()=>{return{default:false, desc:'是否显示',inputType:'text'}},
+        map:()=>{return{default:'china', desc:'地图类型',inputType:'text'}},
+        label:{
+            desc:'图形上的文本标签',
+            normal:{
+                desc:'普通状态下',
+                show:()=>{return{default:false, desc:'是否显示',inputType:'text'}},
+            },
+            emphasis:{
+                desc:'高亮状态下',
+                show:()=>{return{default:false, desc:'是否显示',inputType:'text'}},
+            }
+        },
+        itemStyle:{
+            desc:'地图区域的多边形图形样式',
+            normal:{
+                desc:'普通状态下',
+                areaColor:()=>{return{default:'#eee', desc:'地图区域颜色',inputType:'text'}},
+                borderColor:()=>{return{default:'#000', desc:'描边颜色',inputType:'text'}},
+            },
+            emphasis:{
+                desc:'高亮状态下',
+                areaColor:()=>{return{default:'#eee', desc:'地图区域颜色',inputType:'text'}},
+                borderColor:()=>{return{default:'#000', desc:'描边颜色',inputType:'text'}},
+            }
+        },
+
+    },
     backgroundColor:()=>{return{default:'rgba(1, 90, 192, 1)', desc:'背景色',inputType:'color'}},
     series:()=>{
         return{
@@ -297,7 +335,38 @@ const seriesDefaultOption={
         animationDurationUpdate:()=>{return{desc:'数据更新动画的时长',default:300,inputType:'text'}},
         animationEasingUpdate:()=>{return{desc:'数据更新动画的缓动效果',default:'cubicOut',inputType:'text'}},
         animationDelayUpdate:()=>{return{desc:'数据更新动画的延迟',default:0,inputType:'text'}},
-    }
+    },
+    scatter:{
+        desc:'散点图',
+        type:()=>{return{desc:'类型',default:'scatter',inputType:'uneditable'}},// TODO 不可改
+        coordinateSystem:()=>{return{desc:'该系列使用的坐标系',default:'geo',inputType:'text'}},
+        label:{
+            desc:'图形上的文本标签',
+            normal:{
+                desc:'普通状态下',
+                show:()=>{return{default:false, desc:'是否显示',inputType:'text'}},
+            },
+            emphasis:{
+                desc:'高亮状态下',
+                show:()=>{return{default:false, desc:'是否显示',inputType:'text'}},
+            }
+        },
+        itemStyle:{
+            desc:'地图区域的多边形图形样式',
+            normal:{
+                desc:'普通状态下',
+                borderColor:()=>{return{default:'#000', desc:'描边颜色',inputType:'color'}},
+                borderWidth:()=>{return{default:0, desc:'描边线宽',inputType:'text'}},
+            },
+            emphasis:{
+                desc:'高亮状态下',
+                borderColor:()=>{return{default:'#fff', desc:'描边颜色',inputType:'color'}},
+                borderWidth:()=>{return{default:1, desc:'描边线宽',inputType:'text'}},
+            }
+        },
+
+    },
+
 }
 export function getSeriesDefaultOption(seriesType) {
     return seriesDefaultOption[seriesType]
