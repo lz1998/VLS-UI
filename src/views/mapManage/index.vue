@@ -27,7 +27,20 @@
                 </div>
             </div>
         </div>
+        <div class="box">
+            <div style="background-color: red;width: 1;order: 1;">
+                1234
+            </div>
+            <div style="background-color: blue;width: 2;order: 10">
+                5678
+            </div>
+            <div style="background-color: yellow;width: 1;order: 100">
+                12342151253
+            </div>
+
+        </div>
     </div>
+
 
 </template>
 
@@ -582,5 +595,10 @@
 
         }
 
+    }
+    .box{
+        display: flex;
+        //flex-direction: row-reverse;
+        //flex-wrap: nowrap;
     }
 </style>
