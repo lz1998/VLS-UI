@@ -307,7 +307,9 @@
                 getChartsByTitleContaining(data).then(res=>{
                     res.chartList.forEach(item=>{item.option=JSON.parse(item.option)})
                     this.chartFormList=res.chartList
-                    this.loadChartData()
+                    this.chartFormList.forEach(chartFormItem=>{
+                        this.loadChartData(chartFormItem.option,chartFormItem.dataSourceUrl)
+                    })
                 })
             },
             showAddChartDialog(){
