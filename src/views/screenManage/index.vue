@@ -3,65 +3,77 @@
         <div class="screen-header">
             <div style="width:100%;border: 1px solid;">123</div>
             <div style="width:200%;border: 1px solid;">123</div>
-            <div style="width:100%;"><time1></time1></div>
+            <div style="width:100%;">
+                <time1></time1>
+            </div>
         </div>
         <div class="screen-body">
             <div class="left-right">
-                <div class="chart-box"  @click="sendId(1)">
+                <div class="chart-box" @click="sendId(1)">
                     <chart
-                            :options="chartList[1].option"
+                            v-if="screenChartList.length>1"
+                            :options="screenChartList[1].option"
                             :auto-resize="true"
                             style="width: 100%; height: 100%;"
                     />
                 </div>
-                <div class="chart-box"  @click="sendId(2)">
+                <div class="chart-box" @click="sendId(2)">
                     <chart
-                            :options="chartList[2].option"
+                            v-if="screenChartList.length>2"
+                            :options="screenChartList[2].option"
                             :auto-resize="true"
                             style="width: 100%; height: 100%;"
                     />
                 </div>
-                <div class="chart-box"  @click="sendId(3)">
+                <div class="chart-box" @click="sendId(3)">
 
                 </div>
             </div>
             <div class="middle">
-                <div class="chart-map"  @click="sendId(0)">123</div>
+                <div class="chart-map" @click="sendId(0)">
+                    <chart
+                            v-if="screenChartList.length>0"
+                            :options="screenChartList[0].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
                 <div class="bottom-box">
-                    <div class="chart-bottombox"  @click="sendId(4)">123</div>
-                    <div class="chart-bottombox"  @click="sendId(5)">123</div>
+                    <div class="chart-bottombox" @click="sendId(4)">123</div>
+                    <div class="chart-bottombox" @click="sendId(5)">123</div>
                 </div>
             </div>
             <div class="left-right">
-                <div class="chart-box"  @click="sendId(8)">123</div>
-                <div class="chart-box"  @click="sendId(7)">123</div>
-                <div class="chart-box"  @click="sendId(6)">123</div>
+                <div class="chart-box" @click="sendId(8)">123</div>
+                <div class="chart-box" @click="sendId(7)">123</div>
+                <div class="chart-box" @click="sendId(6)">123</div>
             </div>
         </div>
-        <el-dialog :visible.sync="chartDialogShow" >
+        <el-dialog :visible.sync="chartDialogShow">
             <el-form :model="chartForm">
                 <el-form-item>
                     <span style="width: 200px;display: inline-block;text-align: left;font-size: 20px">请选择图表：</span>
                     <span style="width: 500px;display: inline-block;text-align: left;font-size: 20px">
                             <!--加上stop防止树形控件被点击到-->
-                            <el-select v-model="previewChart.previewIndex">
-                                <el-option :value="index" :label="chartItem.title+' id:'+chartItem.id" v-for="(chartItem,index) in chartFormList"></el-option>
+                            <el-select v-model="chartForm.chartIndex">
+                                <el-option :value="index" :label="chartItem.title+' id:'+chartItem.id"
+                                           v-for="(chartItem,index) in chartList"></el-option>
                             </el-select>
                             <span class="btn-add" @click="refreshPreview">预览</span>
                     </span>
                 </el-form-item>
-                <el-form-item v-if="previewChart.previewOption">
-                    <div style="margin:0 auto;width:25vw;height:30vh;" >
+                <el-form-item v-if="chartForm.chartOption">
+                    <div style="margin:0 auto;width:25vw;height:30vh;">
                         <chart
-                                :options="previewChart.previewOption"
+                                :options="chartForm.chartOption"
                                 :auto-resize="true"
                                 style="width: 100%; height: 100%;"
                         />
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" >保存</el-button>
-                    <el-button >取消</el-button>
+                    <el-button type="primary">保存</el-button>
+                    <el-button>取消</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -72,6 +84,8 @@
     import time1 from '../../components/Time'
     import {listChart} from "@/api/chart.js"
     import {getChartData} from "@/api/data.js"
+    import {getScreen} from "@/api/screen.js"
+
     export default {
         name: "index",
         components: {
@@ -79,70 +93,20 @@
         },
         data() {
             return {
-                previewChart: {
-                    previewIndex:null,
-                    previewId:null,
-                    previewOption:{},
-                    previewUrl:null
-                },
-                chartFormList: [],
-                chartDialogShow: false,
                 chartForm: {
-                    chartid: null,
+                    chartIndex: null,
+                    chartId: null,
+                    chartOption: {},
+                    dataUrl: null,
                     positionId: null
                 },
-                chartList: [
-                    {
-                        chartId: 33,
-                        option: {
-                            xAxis: {
-                                type: 'category',
-                                boundaryGap: false,
-                                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                            },
-                            yAxis: {
-                                type: 'value'
-                            },
-                            series: [{
-                                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                                type: 'line',
-                                areaStyle: {}
-                            }]
-                        }
-                    },
-                    {
-                        chartId: 10,
-                        option: {
-                            xAxis: {
-                                type: 'category',
-                                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                            },
-                            yAxis: {
-                                type: 'value'
-                            },
-                            series: [{
-                                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                                type: 'line'
-                            }]
-                        }
-                    },
-                    {
-                        chartId: 40,
-                        option: {
-                            xAxis: {
-                                type: 'category',
-                                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                            },
-                            yAxis: {
-                                type: 'value'
-                            },
-                            series: [{
-                                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                                type: 'line'
-                            }]
-                        }
-                    }
-                ],
+                chartList: [],
+                chartDialogShow: false,
+                /* chartForm: {
+                     chartid: null,
+                     positionId: null
+                 },*/
+                screenChartList: [],
 
             }
         },
@@ -150,92 +114,151 @@
             sendId(positionId) {
                 this.chartForm.positionId = positionId;
                 this.chartDialogShow = true
+
+                /*listChart().then(res => {
+                    res.chartList.forEach(item => {
+                        item.option = JSON.parse(item.option)
+                    })
+                    this.chartList = res.chartList
+                    console.log(123213213123123213)
+                     this.chartList.forEach(chartFormItem => {
+                        console.log(chartFormItem.dataSourceUrl)
+                         this.loadChartData(chartFormItem.option, chartFormItem.dataSourceUrl)
+                     })
+                })*/
+
+            },
+            loadChartData(chartOption, dataSourceUrl) {
+                getChartData(dataSourceUrl).then(res => {
+                    this.$set(chartOption, 'dataset', {source: res.data})
+                })
+            },
+            refreshPreview() {
+                this.chartForm.chartId = this.chartList[this.chartForm.chartIndex].id;
+                this.chartForm.chartOption = this.chartList[this.chartForm.chartIndex].option;
+                this.chartForm.dataUrl = this.chartList[this.chartForm.chartIndex].dataSourceUrl;
+                this.loadChartData(this.chartForm.chartOption, this.chartForm.dataUrl)
+
+            },
+            loadData() {
                 listChart().then(res => {
                     res.chartList.forEach(item => {
                         item.option = JSON.parse(item.option)
                     })
-                    this.chartFormList = res.chartList
-                     this.chartFormList.forEach(chartFormItem => {
+                    this.chartList = res.chartList
+                    this.chartList.forEach(chartFormItem => {
                         console.log(chartFormItem.dataSourceUrl)
-                         this.loadChartData(chartFormItem.option, chartFormItem.dataSourceUrl)
-                     })
-                })
+                        this.loadChartData(chartFormItem.option, chartFormItem.dataSourceUrl)
+                    })
 
-            },
-            loadChartData(chartOption, dataSourceUrl){
-                getChartData(dataSourceUrl).then(res=>{
-                    this.$set(chartOption, 'dataset', {source:res.data})
-                })
-            },
-            refreshPreview(){
-                this.previewChart.previewId=this.chartFormList[this.previewChart.previewIndex].id;
-                this.previewChart.previewOption=this.chartFormList[this.previewChart.previewIndex].option;
-                this.previewChart.previewUrl=this.chartFormList[this.previewChart.previewIndex].dataSourceUrl;
-                this.loadChartData(this.previewChart.previewOption, this.previewChart.previewUrl)
 
+                    getScreen().then(res => {
+                        if (!res.status) {
+                            this.$message("失败")
+                            return
+                        } else {
+                            let screen = res.screen;
+                            for (let i = 0; i < 9; i++) {
+
+                                let tmp = {}
+                                tmp.chartId = screen["chart" + i.toString() + "Id"];
+                                console.log(tmp.chartId)
+                                if (tmp.chartId > 0) {
+                                    tmp.option = this.chartList.filter(chartItem => {
+                                        return chartItem.id == tmp.chartId;
+                                    })[0].option
+                                } else {
+                                    tmp.option = {}
+                                }
+                                console.log(tmp.option)
+                                this.screenChartList.push(tmp)
+
+                            }
+                            console.log(this.screenChartList)
+
+
+                        }
+                    })
+                })
             }
 
+        },
+        mounted() {
+            this.loadData()
         }
     }
 </script>
 
 <style lang="scss">
-    .screen-manage{
+    .screen-manage {
         width: 100%;
         height: 100%;
-        .screen-header{
+
+        .screen-header {
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
             width: 100%;
             height: 10%;
         }
-        .screen-body{
+
+        .screen-body {
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
             width: 100%;
             height: 90%;
-            .left-right{
+
+            .left-right {
                 display: flex;
                 flex-direction: column;
                 width: 100%;
                 height: 100%;
-                .chart-box{
+
+                .chart-box {
                     width: 100%;
                     height: 100%;
                     border: 1px solid;
+                    box-sizing: border-box;
+
 
                 }
             }
-            .middle{
+
+            .middle {
                 display: flex;
                 flex-direction: column;
                 width: 200%;
                 height: 100%;
-                .chart-map{
+
+                .chart-map {
                     width: 100%;
                     height: 200%;
                     border: 1px solid;
-                    background-color: #80FFFF ;
+                    box-sizing: border-box;
+                    background-color: #80FFFF;
                 }
-                .bottom-box{
+
+                .bottom-box {
                     display: flex;
                     flex-direction: row;
                     width: 100%;
                     height: 100%;
                     border: 1px solid;
-                    .chart-bottombox{
+                    box-sizing: border-box;
+
+                    .chart-bottombox {
                         width: 100%;
                         height: 100%;
                         border: 1px solid;
-
+                        box-sizing: border-box;
                     }
                 }
             }
         }
     }
-    .btn-add{
+
+    .btn-add {
         margin-left: 20px;
         display: inline-block;
         background-color: #67C23A;
