@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="time">
         <div class="nowTime">
             {{getCurDate()}}
         </div>
@@ -64,13 +64,17 @@
 </script>
 
 <style lang="scss">
-    .nowTime{
+    .time{
         width:100%;
         height:100%;
-        line-height: 5vh;
-        background-color: #000080;
-        text-align: center;
-        font-size: 30px;
-        color: #80FFFF;
+        .nowTime{
+            width:100%;
+            height:50%;
+            line-height: 5vh;
+            background-color: #000080;
+            text-align: center;
+            font-size: 30px;
+            color: #80FFFF;
+        }
     }
 </style>

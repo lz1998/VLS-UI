@@ -34,6 +34,11 @@ export default new Router({
           component: () => import('../views/chartManage/index.vue')
         },
         {
+          path: '/mapManage',
+          name: 'mapManage',
+          component: () => import('../views/mapManage/index.vue')
+        },
+        {
           path: '/screenManage',
           name: 'screenManage',
           component: () => import('../views/screenManage/index.vue')

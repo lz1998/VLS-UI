@@ -1,6 +1,5 @@
 <template>
     <div class="chart-manage">
-
         <el-form :inline="true" :model="queryChartForm">
             <el-form-item label="图表标题">
                 <el-input v-model="queryChartForm.title" placeholder="图表标题"/>
@@ -10,7 +9,6 @@
                 <el-button type="primary" @click="showAddChartDialog">新增图表</el-button>
             </el-form-item>
         </el-form>
-
         <div class="chart-container">
             <div class="chart-item" v-for="(chartItem,index) in chartFormList">
                 <div class="chart-title">
@@ -29,7 +27,6 @@
                 </div>
             </div>
         </div>
-
         <!--新增/编辑图表对话框-->
         <el-dialog :visible.sync="chartDialogVisible" :title="isAddOperation?'新增图表':'编辑图表'">
             <el-form :model="chartForm">
@@ -39,8 +36,10 @@
                 <el-form-item :label-width="chartFormLabelWidth" label="数据源URL">
                     <el-input v-model="chartForm.dataSourceUrl"></el-input>
                 </el-form-item>
-                <el-tree :data="optionTreeData" ref="optionTree">
-                    <span class="custom-tree-node" slot-scope="{ node, data }" @click="currentOptionDataId=node.id">
+                <div class="wrap">
+                    <div class="left">
+                        <el-tree :data="optionTreeData" ref="optionTree">
+                       <span class="custom-tree-node" slot-scope="{ node, data }" @click="currentOptionDataId=node.id">
                         <span style="width: 200px;display: inline-block;text-align: left;">{{data.desc}}</span>
                         <!--{{data.id}}-->
                         <!--{{data.label}}-->
@@ -73,20 +72,23 @@
                             <span class="btn-del" @click.stop="deleteSeries(node,data)">删除</span>
                         </span>
                     </span>
-                </el-tree>
-
-                <!--预览-->
-                <el-form-item v-if="previewOption">
-                    <div style="margin:0 auto;width:23vw;height:28vh;" >
-                        <chart
-                                :options="previewOption"
-                                :auto-resize="true"
-                                style="width: 100%; height: 100%;"
-                        />
+                        </el-tree>
                     </div>
-                </el-form-item>
+                    <div class="right">
+                        <!--预览-->
+                        <el-form-item v-if="previewOption">
+                            <div style="margin:0 auto;width:23vw;height:28vh;" >
+                                <chart
+                                        :options="previewOption"
+                                        :auto-resize="true"
+                                        style="width: 100%; height: 100%;"
+                                />
+                            </div>
+                            <el-button type="warning" @click="refreshPreview">预览</el-button>
+                        </el-form-item>
+                    </div>
+                </div>
                 <el-form-item>
-                    <el-button type="warning" @click="refreshPreview">预览</el-button>
                     <el-button type="primary" @click="saveChart">保存</el-button>
                     <el-button @click="chartDialogVisible=false">取消</el-button>
                 </el-form-item>
@@ -462,4 +464,13 @@
             border-radius: 5px;
         }
     }
+    .wrap {
+        display: -webkit-box;
+    }
+    .left,
+    .right {
+        padding: 10px;
+
+    }
+
 </style>
