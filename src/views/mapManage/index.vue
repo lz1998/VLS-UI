@@ -67,7 +67,7 @@
         },
         methods:{
             test(){
-                console.log(this.chartFormList[index].option)
+                console.log(this.chartList[index].option)
             }
         },
         mounted() {
