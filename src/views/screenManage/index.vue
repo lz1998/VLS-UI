@@ -26,7 +26,12 @@
                     />
                 </div>
                 <div class="chart-box" @click="sendId(3)">
-
+                    <chart
+                            v-if="screenChartList.length>3"
+                            :options="screenChartList[3].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
                 </div>
             </div>
             <div class="middle">
@@ -39,14 +44,49 @@
                     />
                 </div>
                 <div class="bottom-box">
-                    <div class="chart-bottombox" @click="sendId(4)">123</div>
-                    <div class="chart-bottombox" @click="sendId(5)">123</div>
+                    <div class="chart-bottombox" @click="sendId(4)">
+                        <chart
+                                v-if="screenChartList.length>4"
+                                :options="screenChartList[4].option"
+                                :auto-resize="true"
+                                style="width: 100%; height: 100%;"
+                        />
+                    </div>
+                    <div class="chart-bottombox" @click="sendId(5)">
+                        <chart
+                                v-if="screenChartList.length>5"
+                                :options="screenChartList[5].option"
+                                :auto-resize="true"
+                                style="width: 100%; height: 100%;"
+                        />
+                    </div>
                 </div>
             </div>
             <div class="left-right">
-                <div class="chart-box" @click="sendId(8)">123</div>
-                <div class="chart-box" @click="sendId(7)">123</div>
-                <div class="chart-box" @click="sendId(6)">123</div>
+                <div class="chart-box" @click="sendId(8)">
+                    <chart
+                            v-if="screenChartList.length>8"
+                            :options="screenChartList[8].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+                <div class="chart-box" @click="sendId(7)">
+                    <chart
+                            v-if="screenChartList.length>7"
+                            :options="screenChartList[7].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+                <div class="chart-box" @click="sendId(6)">
+                    <chart
+                            v-if="screenChartList.length>6"
+                            :options="screenChartList[6].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
             </div>
         </div>
         <el-dialog :visible.sync="chartDialogShow">
@@ -72,7 +112,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">保存</el-button>
+                    <el-button type="primary" @click="setChart()">保存</el-button>
                     <el-button>取消</el-button>
                 </el-form-item>
             </el-form>
@@ -85,6 +125,7 @@
     import {listChart} from "@/api/chart.js"
     import {getChartData} from "@/api/data.js"
     import {getScreen} from "@/api/screen.js"
+    import {setScreen} from "@/api/screen.js"
 
     export default {
         name: "index",
@@ -115,18 +156,6 @@
                 this.chartForm.positionId = positionId;
                 this.chartDialogShow = true
 
-                /*listChart().then(res => {
-                    res.chartList.forEach(item => {
-                        item.option = JSON.parse(item.option)
-                    })
-                    this.chartList = res.chartList
-                    console.log(123213213123123213)
-                     this.chartList.forEach(chartFormItem => {
-                        console.log(chartFormItem.dataSourceUrl)
-                         this.loadChartData(chartFormItem.option, chartFormItem.dataSourceUrl)
-                     })
-                })*/
-
             },
             loadChartData(chartOption, dataSourceUrl) {
                 getChartData(dataSourceUrl).then(res => {
@@ -147,11 +176,12 @@
                     })
                     this.chartList = res.chartList
                     this.chartList.forEach(chartFormItem => {
-                        console.log(chartFormItem.dataSourceUrl)
+/*                        console.log(chartFormItem.dataSourceUrl)*/
                         this.loadChartData(chartFormItem.option, chartFormItem.dataSourceUrl)
                     })
 
 
+                    this.screenChartList=[]
                     getScreen().then(res => {
                         if (!res.status) {
                             this.$message("失败")
@@ -159,10 +189,9 @@
                         } else {
                             let screen = res.screen;
                             for (let i = 0; i < 9; i++) {
-
                                 let tmp = {}
                                 tmp.chartId = screen["chart" + i.toString() + "Id"];
-                                console.log(tmp.chartId)
+                               // console.log(tmp.chartId)
                                 if (tmp.chartId > 0) {
                                     tmp.option = this.chartList.filter(chartItem => {
                                         return chartItem.id == tmp.chartId;
@@ -170,19 +199,53 @@
                                 } else {
                                     tmp.option = {}
                                 }
-                                console.log(tmp.option)
+                               // console.log(tmp.option)
                                 this.screenChartList.push(tmp)
 
                             }
-                            console.log(this.screenChartList)
-
-
+                           // console.log(this.screenChartList)
                         }
                     })
                 })
+            },
+            setChart() {
+                let data = new URLSearchParams()
+                data.append("backgroundColor", "red")
+                data.append("id", 1)
+                data.append("imgUrl", "1")
+                data.append("notice", "1")
+
+                for (let i = 0; i < 9; i++) {
+                    if (this.chartForm.positionId == i) {
+                        data.append("chart"+i.toString()+"Id", this.chartForm.chartId)
+                    } else {
+                        data.append("chart"+i.toString()+"Id", this.screenChartList[i].chartId)
+                    }
+                }
+                setScreen(data).then(res => {
+                    if (res.status) {
+                        // success
+                        this.$message({
+                            message: "保存成功",
+                            type: 'success',
+                            duration: 3000
+                        })
+                        this.loadData()
+                    } else {
+                        this.$message({
+                            message: "保存失败",
+                            type: 'error',
+                            duration: 3000
+                        })
+                    }
+                })
+                this.chartDialogShow = false
+
             }
 
+
         },
+
         mounted() {
             this.loadData()
         }

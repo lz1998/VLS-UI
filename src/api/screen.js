@@ -5,3 +5,10 @@ export function getScreen() {
         method: 'post'
     })
 }
+export function setScreen(data) {
+    return request({
+        url:'/screen/setScreen',
+        method: 'post',
+        data
+    })
+}
