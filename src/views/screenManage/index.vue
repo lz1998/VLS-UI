@@ -2,7 +2,15 @@
     <div class="screen-manage">
         <div class="screen-header">
             <div style="width:100%;border: 1px solid;">123</div>
-            <div style="width:200%;border: 1px solid;">123</div>
+            <div style="width:200%;border: 1px solid;">
+                <div style="width:100%;height: 100%" v-if="isNoticeEditing!=false" @click="addNotice">
+                    <marquee class="roll-info">{{notice}}</marquee>
+                </div>
+                <div style="width:100%;height: 100%;" v-if="isNoticeEditing==false" >
+                    <el-input   v-model="notice" style="height: 100%;width: 70%;font-size: large;margin-top: 20px"></el-input>
+                    <el-button @click="saveNotice">保存</el-button>
+                </div>
+            </div>
             <div style="width:100%;">
                 <time1></time1>
             </div>
@@ -134,6 +142,8 @@
         },
         data() {
             return {
+                isNoticeEditing:true,
+                notice:"热烈欢迎李政前来参观",
                 chartForm: {
                     chartIndex: null,
                     chartId: null,
@@ -152,6 +162,38 @@
             }
         },
         methods: {
+            addNotice(){
+              this.isNoticeEditing=!this.isNoticeEditing
+            },
+            saveNotice(){
+                let data = new URLSearchParams()
+                data.append("backgroundColor", "red")
+                data.append("id", 1)
+                data.append("imgUrl", "1")
+                data.append("notice", this.notice)
+
+                for (let i = 0; i < 9; i++) {
+                    data.append("chart"+i.toString()+"Id", this.screenChartList[i].chartId)
+                }
+                setScreen(data).then(res => {
+                    if (res.status) {
+                        // success
+                        this.$message({
+                            message: "保存成功",
+                            type: 'success',
+                            duration: 3000
+                        })
+                        this.loadScreenData()
+                    } else {
+                        this.$message({
+                            message: "保存失败",
+                            type: 'error',
+                            duration: 3000
+                        })
+                    }
+                })
+                this.isNoticeEditing=!this.isNoticeEditing
+            },
             sendId(positionId) {
                 this.chartForm.positionId = positionId;
                 this.chartDialogShow = true
@@ -259,6 +301,17 @@
             flex-wrap: nowrap;
             width: 100%;
             height: 10%;
+            .roll-info{
+                width:100%;
+                height:5vh;
+                line-height: 5vh;
+                margin-top:2.5vh;
+                font-size:3vh;
+                font-weight: 700;
+                border-radius: 2vh;
+                background-color: #000080;
+                color:#80FFFF
+            }
         }
 
         .screen-body {
