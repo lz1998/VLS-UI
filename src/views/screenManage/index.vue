@@ -169,42 +169,39 @@
                 this.loadChartData(this.chartForm.chartOption, this.chartForm.dataUrl)
 
             },
-            loadData() {
-                listChart().then(res => {
+            async loadScreenData(){
+                this.screenChartList=[]
+                await getScreen().then(res => {
+                    if (!res.status) {
+                        this.$message("失败")
+                        return
+                    } else {
+                        let screen = res.screen;
+                        for (let i = 0; i < 9; i++) {
+                            let tmp = {}
+                            tmp.chartId = screen["chart" + i.toString() + "Id"];
+                            if (tmp.chartId > 0) {
+                                tmp.option = this.chartList.filter(chartItem => {
+                                    return chartItem.id == tmp.chartId;
+                                })[0].option
+                            } else {
+                                tmp.option = {}
+                            }
+                            this.screenChartList.push(tmp)
+
+                        }
+                        // console.log(this.screenChartList)
+                    }
+                })
+            },
+            async loadChartList() {
+                await listChart().then(res => {
                     res.chartList.forEach(item => {
                         item.option = JSON.parse(item.option)
                     })
                     this.chartList = res.chartList
                     this.chartList.forEach(chartFormItem => {
-/*                        console.log(chartFormItem.dataSourceUrl)*/
                         this.loadChartData(chartFormItem.option, chartFormItem.dataSourceUrl)
-                    })
-
-
-                    this.screenChartList=[]
-                    getScreen().then(res => {
-                        if (!res.status) {
-                            this.$message("失败")
-                            return
-                        } else {
-                            let screen = res.screen;
-                            for (let i = 0; i < 9; i++) {
-                                let tmp = {}
-                                tmp.chartId = screen["chart" + i.toString() + "Id"];
-                               // console.log(tmp.chartId)
-                                if (tmp.chartId > 0) {
-                                    tmp.option = this.chartList.filter(chartItem => {
-                                        return chartItem.id == tmp.chartId;
-                                    })[0].option
-                                } else {
-                                    tmp.option = {}
-                                }
-                               // console.log(tmp.option)
-                                this.screenChartList.push(tmp)
-
-                            }
-                           // console.log(this.screenChartList)
-                        }
                     })
                 })
             },
@@ -230,7 +227,7 @@
                             type: 'success',
                             duration: 3000
                         })
-                        this.loadData()
+                        this.loadScreenData()
                     } else {
                         this.$message({
                             message: "保存失败",
@@ -242,12 +239,11 @@
                 this.chartDialogShow = false
 
             }
-
-
         },
 
-        mounted() {
-            this.loadData()
+        async mounted() {
+            await this.loadChartList()
+            await this.loadScreenData()
         }
     }
 </script>
