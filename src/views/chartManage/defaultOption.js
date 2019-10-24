@@ -145,8 +145,8 @@ export const chartDefaultOption={
         nameTextStyle:{
             desc:'坐标轴名称的文字样式',
             color:()=>{return{default:'white', desc:'坐标轴名称的颜色',inputType:'color'}},
-            fontStyle:()=>{return{default:'normal', desc:'坐标轴名称文字字体的风格',inputType:'text'}},
-            fontWeight:()=>{return{default:'normal', desc:'坐标轴名称文字字体的粗细',inputType:'text'}},
+            fontStyle:()=>{return{default:'normal', desc:'坐标轴名称字体风格',inputType:'text'}},
+            fontWeight:()=>{return{default:'normal', desc:'坐标轴名称字体粗细',inputType:'text'}},
             fontSize:()=>{return{default:12, desc:'坐标轴名称文字的字体大小',inputType:'text'}},
             lineHeight:()=>{return{default:56, desc:'行高',inputType:'text'}}
         },
@@ -156,8 +156,8 @@ export const chartDefaultOption={
             desc:'坐标轴轴线相关设置',
             show:()=>{return{default:true, desc:'是否显示坐标轴轴线',inputType:'text'}},
             symbol:()=>{return{default:'none', desc:'轴线两边的箭头',inputType:'text'}},
-            symbolSize:()=>{return{default:[10, 15], desc:'轴线两边的箭头的大小',inputType:'text'}},
-            symbolOffset:()=>{return{default:[0, 0] , desc:'轴线两边的箭头的偏移',inputType:'text'}},
+            symbolSize:()=>{return{default:[10, 15], desc:'轴线两边箭头大小',inputType:'text'}},
+            symbolOffset:()=>{return{default:[0, 0] , desc:'轴线两边箭头偏移',inputType:'text'}},
             lineStyle:{
                 desc:'轴线样式',
                 color:()=>{return{default:'#333', desc:'轴线颜色',inputType:'color'}},
@@ -168,21 +168,21 @@ export const chartDefaultOption={
         axisTick:{
             desc:'坐标轴刻度相关设置',
             show:()=>{return{default:true, desc:'是否显示坐标轴刻度',inputType:'text'}},
-            interval:()=>{return{default:'auto', desc:'坐标轴刻度的显示间隔',inputType:'text'}},
-            inside:()=>{return{default:false, desc:'坐标轴刻度是否朝内，默认朝外',inputType:'text'}},
+            interval:()=>{return{default:'auto', desc:'坐标轴刻度间隔',inputType:'text'}},
+            inside:()=>{return{default:false, desc:'坐标轴刻度是否朝内',inputType:'text'}},
             length:()=>{return{default:5, desc:'坐标轴刻度的长度',inputType:'text'}},
             lineStyle:{
                 desc:'线条样式',
                 color:()=>{return{default:'#333', desc:'刻度线的颜色',inputType:'color'}},
                 width:()=>{return{default:1, desc:'坐标轴刻度线宽',inputType:'text'}},
-                type:()=>{return{default:'solid', desc:'坐标轴刻度线的类型',inputType:'text'}}
+                type:()=>{return{default:'solid', desc:'坐标轴刻度线类型',inputType:'text'}}
             }
         },
         axisLabel:{
             desc:'坐标轴刻度标签的相关设置',
             show:()=>{return{default:true, desc:'是否显示刻度标签',inputType:'text'}},
-            interval:()=>{return{default:'auto', desc:'坐标轴刻度标签的显示间隔',inputType:'text'}},
-            inside:()=>{return{default:false, desc:'刻度标签是否朝内，默认朝外',inputType:'text'}},
+            interval:()=>{return{default:'auto', desc:'坐标轴刻度标签间隔',inputType:'text'}},
+            inside:()=>{return{default:false, desc:'刻度标签是否朝内',inputType:'text'}},
             rotate:()=>{return{default:0, desc:'刻度标签旋转的角度',inputType:'text'}},
             margin:()=>{return{default:8 , desc:'刻度标签与轴线之间的距离',inputType:'text'}},
             color:()=>{return{default:'white', desc:'刻度标签文字的颜色',inputType:'color'}},

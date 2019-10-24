@@ -212,6 +212,7 @@
 
             },
             async loadScreenData(){
+                // TODO 假设最初没有screen，初始化一个
                 this.screenChartList=[]
                 await getScreen().then(res => {
                     if (!res.status) {

@@ -37,6 +37,7 @@
                     <el-input v-model="chartForm.dataSourceUrl"></el-input>
                 </el-form-item>
                 <div class="wrap">
+                    <!--TODO 这里界面有问题-->
                     <div class="left">
                         <el-tree :data="optionTreeData" ref="optionTree">
                        <span class="custom-tree-node" slot-scope="{ node, data }" @click="currentOptionDataId=node.id">
@@ -248,7 +249,6 @@
                                 seriesList.forEach(seriesItem=>{
                                     this.appendSeries(treeDataItem,seriesItem.type,seriesItem)
                                 })
-                                // TODO break
                             }
                         })
 
