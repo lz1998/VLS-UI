@@ -36,15 +36,15 @@
                 <el-form-item :label-width="chartFormLabelWidth" label="数据源URL">
                     <el-input v-model="chartForm.dataSourceUrl"></el-input>
                 </el-form-item>
-                <div class="wrap">
-                    <div class="left">
-                        <el-tree :data="optionTreeData" ref="optionTree">
+                <el-row>
+                    <el-col :span="12" style="padding: 5px;">
+                        <div style="width:100%;height: 100%;"><el-tree :data="optionTreeData" ref="optionTree">
                        <span class="custom-tree-node" slot-scope="{ node, data }" @click="currentOptionDataId=node.id">
                         <span style="width: 200px;display: inline-block;text-align: left;">{{data.desc}}</span>
-                        <!--{{data.id}}-->
-                        <!--{{data.label}}-->
-                        <!--{{node.parent.parent.data.label}}-->
-                        <!--叶子节点，非series，可编辑value-->
+                           <!--{{data.id}}-->
+                           <!--{{data.label}}-->
+                           <!--{{node.parent.parent.data.label}}-->
+                           <!--叶子节点，非series，可编辑value-->
                         <span v-if="node.isLeaf && data.id!='series'" style="width: 200px;display: inline-block;text-align: left;">
                             <!--非series-->
                             <span v-if="currentOptionDataId!=node.id">{{data.value}}</span>
@@ -59,7 +59,7 @@
                                 <el-color-picker v-if="data.inputType=='color'" v-model="data.value" size="mini" show-alpha :predefine="predefineColors"></el-color-picker>
                             </span>
                         </span>
-                        <!--如果是series，有新增按钮-->
+                           <!--如果是series，有新增按钮-->
                         <span v-if="data.id=='series'">
                             <!--加上stop防止树形控件被点击到-->
                             <select v-model="newSeriesType" @click.stop="">
@@ -67,16 +67,15 @@
                             </select>
                             <span class="btn-add" @click.stop="appendSeries(data)">添加</span>
                         </span>
-                        <!--如果是series的子节点，有删除按钮-->
+                           <!--如果是series的子节点，有删除按钮-->
                         <span v-if="node.parent.data.id=='series'">
                             <span class="btn-del" @click.stop="deleteSeries(node,data)">删除</span>
                         </span>
                     </span>
-                        </el-tree>
-                    </div>
-                    <div class="right">
-                        <!--预览-->
-                        <el-form-item v-if="previewOption">
+                        </el-tree></div>
+                    </el-col>
+                    <el-col :span="12" style="padding: 5px;">
+                        <div style="width:100%;height: 100%;"><el-form-item v-if="previewOption">
                             <div style="margin:0 auto;width:23vw;height:28vh;" >
                                 <chart
                                         :options="previewOption"
@@ -85,14 +84,14 @@
                                 />
                             </div>
                             <el-button type="warning" @click="refreshPreview">预览</el-button>
-                        </el-form-item>
-                    </div>
-                </div>
+                        </el-form-item></div>
+                    </el-col>
+                </el-row>
                 <el-form-item>
                     <el-button type="primary" @click="saveChart">保存</el-button>
                     <el-button @click="chartDialogVisible=false">取消</el-button>
                 </el-form-item>
-            </el-form>
+          </el-form>
         </el-dialog>
 
     </div>
@@ -462,13 +461,13 @@
             border-radius: 5px;
         }
     }
-    .wrap {
+/*    .wrap {
         display: -webkit-box;
     }
     .left,
     .right {
         padding: 10px;
 
-    }
+    }*/
 
 </style>
