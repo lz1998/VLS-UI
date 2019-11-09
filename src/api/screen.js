@@ -12,3 +12,10 @@ export function setScreen(data) {
         data
     })
 }
+export function getScreenById(data) {
+    return request({
+        url:'/screen/getScreenById',
+        method: 'post',
+        data
+    })
+}

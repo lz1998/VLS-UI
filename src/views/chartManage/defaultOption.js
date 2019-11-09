@@ -150,7 +150,7 @@ export const chartDefaultOption={
             fontSize:()=>{return{default:12, desc:'坐标轴名称文字的字体大小',inputType:'text'}},
             lineHeight:()=>{return{default:56, desc:'行高',inputType:'text'}}
         },
-        nameGap:()=>{return{default:15, desc:'x坐标轴名称与轴线之间的距离',inputType:'text'}},
+        nameGap:()=>{return{default:15, desc:'y坐标轴名称与轴线之间的距离',inputType:'text'}},
         splitNumber:()=>{return{default:5, desc:'坐标轴的分割段数',inputType:'text'}},
         axisLine:{
             desc:'坐标轴轴线相关设置',
@@ -168,8 +168,8 @@ export const chartDefaultOption={
         axisTick:{
             desc:'坐标轴刻度相关设置',
             show:()=>{return{default:true, desc:'是否显示坐标轴刻度',inputType:'text'}},
-            interval:()=>{return{default:'auto', desc:'坐标轴刻度间隔',inputType:'text'}},
-            inside:()=>{return{default:false, desc:'坐标轴刻度是否朝内',inputType:'text'}},
+            interval:()=>{return{default:'auto', desc:'坐标轴刻度的显示间隔',inputType:'text'}},
+            inside:()=>{return{default:false, desc:'坐标轴刻度是否朝内',inputType:'bool'}},
             length:()=>{return{default:5, desc:'坐标轴刻度的长度',inputType:'text'}},
             lineStyle:{
                 desc:'线条样式',
@@ -181,8 +181,8 @@ export const chartDefaultOption={
         axisLabel:{
             desc:'坐标轴刻度标签的相关设置',
             show:()=>{return{default:true, desc:'是否显示刻度标签',inputType:'text'}},
-            interval:()=>{return{default:'auto', desc:'坐标轴刻度标签间隔',inputType:'text'}},
-            inside:()=>{return{default:false, desc:'刻度标签是否朝内',inputType:'text'}},
+            interval:()=>{return{default:'auto', desc:'坐标轴刻度标签的显示间隔',inputType:'text'}},
+            inside:()=>{return{default:false, desc:'刻度标签是否朝内',inputType:'bool'}},
             rotate:()=>{return{default:0, desc:'刻度标签旋转的角度',inputType:'text'}},
             margin:()=>{return{default:8 , desc:'刻度标签与轴线之间的距离',inputType:'text'}},
             color:()=>{return{default:'white', desc:'刻度标签文字的颜色',inputType:'color'}},

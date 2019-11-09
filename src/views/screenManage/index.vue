@@ -17,25 +17,25 @@
         </div>
         <div class="screen-body">
             <div class="left-right">
-                <div class="chart-box" @click="sendId(1)">
+                <div class="chart-box" @click="sendId(1)" v-if="screenChartList.length>1">
+                    <div class="add-chart" v-if="screenChartList[1].chartId<0">点击添加图表</div>
                     <chart
-                            v-if="screenChartList.length>1"
                             :options="screenChartList[1].option"
                             :auto-resize="true"
                             style="width: 100%; height: 100%;"
                     />
                 </div>
-                <div class="chart-box" @click="sendId(2)">
+                <div class="chart-box" @click="sendId(2)" v-if="screenChartList.length>2">
+                    <div class="add-chart" v-if="screenChartList[2].chartId<0">点击添加图表</div>
                     <chart
-                            v-if="screenChartList.length>2"
                             :options="screenChartList[2].option"
                             :auto-resize="true"
                             style="width: 100%; height: 100%;"
                     />
                 </div>
-                <div class="chart-box" @click="sendId(3)">
+                <div class="chart-box" @click="sendId(3)" v-if="screenChartList.length>3">
+                    <div class="add-chart" v-if="screenChartList[3].chartId<0">点击添加图表</div>
                     <chart
-                            v-if="screenChartList.length>3"
                             :options="screenChartList[3].option"
                             :auto-resize="true"
                             style="width: 100%; height: 100%;"
@@ -43,26 +43,26 @@
                 </div>
             </div>
             <div class="middle">
-                <div class="chart-map" @click="sendId(0)">
+                <div class="chart-map" @click="sendId(0)" v-if="screenChartList.length>0">
+                    <div class="add-chart" v-if="screenChartList[0].chartId<0">点击添加图表</div>
                     <chart
-                            v-if="screenChartList.length>0"
                             :options="screenChartList[0].option"
                             :auto-resize="true"
                             style="width: 100%; height: 100%;"
                     />
                 </div>
                 <div class="bottom-box">
-                    <div class="chart-bottombox" @click="sendId(4)">
+                    <div class="chart-bottombox" @click="sendId(4)" v-if="screenChartList.length>4">
+                        <div class="add-chart" v-if="screenChartList[4].chartId<0">点击添加图表</div>
                         <chart
-                                v-if="screenChartList.length>4"
                                 :options="screenChartList[4].option"
                                 :auto-resize="true"
                                 style="width: 100%; height: 100%;"
                         />
                     </div>
-                    <div class="chart-bottombox" @click="sendId(5)">
+                    <div class="chart-bottombox" @click="sendId(5)" v-if="screenChartList.length>5">
+                        <div class="add-chart" v-if="screenChartList[5].chartId<0">点击添加图表</div>
                         <chart
-                                v-if="screenChartList.length>5"
                                 :options="screenChartList[5].option"
                                 :auto-resize="true"
                                 style="width: 100%; height: 100%;"
@@ -71,25 +71,25 @@
                 </div>
             </div>
             <div class="left-right">
-                <div class="chart-box" @click="sendId(8)">
-                    <chart
-                            v-if="screenChartList.length>8"
-                            :options="screenChartList[8].option"
-                            :auto-resize="true"
-                            style="width: 100%; height: 100%;"
-                    />
+                <div class="chart-box" @click="sendId(8)" v-if="screenChartList.length>8">
+                    <div class="add-chart" v-if="screenChartList[8].chartId<0">点击添加图表</div>
+                        <chart
+                                :options="screenChartList[8].option"
+                                :auto-resize="true"
+                                style="width: 100%; height: 100%;"
+                        />
                 </div>
-                <div class="chart-box" @click="sendId(7)">
+                <div class="chart-box" @click="sendId(7)" v-if="screenChartList.length>7">
+                    <div class="add-chart" v-if="screenChartList[7].chartId<0">点击添加图表</div>
                     <chart
-                            v-if="screenChartList.length>7"
                             :options="screenChartList[7].option"
                             :auto-resize="true"
                             style="width: 100%; height: 100%;"
                     />
                 </div>
-                <div class="chart-box" @click="sendId(6)">
+                <div class="chart-box" @click="sendId(6)" v-if="screenChartList.length>6">
+                    <div class="add-chart" v-if="screenChartList[6].chartId<0">点击添加图表</div>
                     <chart
-                            v-if="screenChartList.length>6"
                             :options="screenChartList[6].option"
                             :auto-resize="true"
                             style="width: 100%; height: 100%;"
@@ -107,7 +107,7 @@
                                 <el-option :value="index" :label="chartItem.title+' id:'+chartItem.id"
                                            v-for="(chartItem,index) in chartList"></el-option>
                             </el-select>
-                            <span class="btn-add" @click="refreshPreview">预览</span>
+                            <el-button class="btn-add" @click="refreshPreview">预览</el-button>
                     </span>
                 </el-form-item>
                 <el-form-item v-if="chartForm.chartOption">
@@ -218,7 +218,7 @@
                     if (!res.status) {
                         this.$message("失败")
                         return
-                    } else {
+                    } else if(res.screen!=undefined&&res.screen!=null){
                         let screen = res.screen;
                         for (let i = 0; i < 9; i++) {
                             let tmp = {}
@@ -234,6 +234,14 @@
 
                         }
                         // console.log(this.screenChartList)
+                    }else{
+                        for (let i = 0; i < 9; i++) {
+                            let tmp = {
+                                chartId:-1,
+                                option:{}
+                            }
+                            this.screenChartList.push(tmp)
+                        }
                     }
                 })
             },
@@ -333,8 +341,6 @@
                     height: 100%;
                     border: 1px solid;
                     box-sizing: border-box;
-
-
                 }
             }
 
@@ -371,17 +377,18 @@
         }
     }
 
+
     .btn-add {
         margin-left: 20px;
         display: inline-block;
         background-color: #67C23A;
         color: white;
-        width: 60px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 20px;
         text-align: center;
-        height: 40px;
+    }
+
+    .add-chart{
+        text-align: center;
+        font-size: x-large;
     }
 
 </style>
