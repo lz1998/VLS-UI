@@ -1,14 +1,19 @@
 <template>
     <div class="screen-manage">
         <div class="screen-header">
-            <div style="width:100%;border: 1px solid;">123</div>
+            <div style="width:100%;border: 1px solid;">
+                <el-button v-if="!imgUrl" @click="handleLogoFile" type="success">点击上传logo</el-button>
+                <img style="width: 100%;height:100%" :src="imgUrl" class="logoImg preview" v-if="imgUrl" @click="handleLogoFile" >
+                <input @change="getImageFile" ref="logo"  type="file" style="display: none"
+                       accept="image/jpg, image/jpeg, image/gif, image/png">
+            </div>
             <div style="width:200%;border: 1px solid;">
                 <div style="width:100%;height: 100%" v-if="isNoticeEditing!=false" @click="addNotice">
                     <marquee class="roll-info">{{notice}}</marquee>
                 </div>
                 <div style="width:100%;height: 100%;" v-if="isNoticeEditing==false" >
                     <el-input   v-model="notice" style="height: 100%;width: 70%;font-size: large;margin-top: 20px"></el-input>
-                    <el-button @click="saveNotice">保存</el-button>
+                    <el-button @click="handleSaveNotice">保存</el-button>
                 </div>
             </div>
             <div style="width:100%;">
@@ -98,10 +103,10 @@
             </div>
         </div>
         <el-dialog :visible.sync="chartDialogShow">
-            <el-form :model="chartForm">
-                <el-form-item>
-                    <span style="width: 200px;display: inline-block;text-align: left;font-size: 20px">请选择图表：</span>
-                    <span style="width: 500px;display: inline-block;text-align: left;font-size: 20px">
+        <el-form :model="chartForm">
+            <el-form-item>
+                <span style="width: 200px;display: inline-block;text-align: left;font-size: 20px">请选择图表：</span>
+                <span style="width: 500px;display: inline-block;text-align: left;font-size: 20px">
                             <!--加上stop防止树形控件被点击到-->
                             <el-select v-model="chartForm.chartIndex">
                                 <el-option :value="index" :label="chartItem.title+' id:'+chartItem.id"
@@ -109,20 +114,43 @@
                             </el-select>
                             <el-button class="btn-add" @click="refreshPreview">预览</el-button>
                     </span>
-                </el-form-item>
-                <el-form-item v-if="chartForm.chartOption">
-                    <div style="margin:0 auto;width:25vw;height:30vh;">
-                        <chart
-                                :options="chartForm.chartOption"
-                                :auto-resize="true"
-                                style="width: 100%; height: 100%;"
-                        />
-                    </div>
-                </el-form-item>
+            </el-form-item>
+            <el-form-item v-if="chartForm.chartOption">
+                <div style="margin:0 auto;width:25vw;height:30vh;">
+                    <chart
+                            :options="chartForm.chartOption"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="handleSaveScreenChart">保存</el-button>
+                <el-button @click="chartDialogShow=false">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+        <el-dialog :visible.sync="logoDialogShow">
+            <el-form :model="chartForm">
                 <el-form-item>
-                    <el-button type="primary" @click="setChart()">保存</el-button>
-                    <el-button>取消</el-button>
+                    <el-upload
+                            class="upload-demo"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :on-success="getImageUrl"
+                            :file-list="fileList"
+                            :limit="1"
+                            list-type="picture"
+                           >
+                        <el-button size="small" type="primary" >点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+                    <el-button size="small" type="primary" @click="saveLogo" >保存logo</el-button>
+<!--                    <input @change="getImageFile" ref="gallery"  type="file"
+                           accept="image/jpg, image/jpeg, image/gif, image/png">-->
                 </el-form-item>
+
             </el-form>
         </el-dialog>
     </div>
@@ -130,6 +158,7 @@
 
 <script type="text/ecmascript-6">
     import time1 from '../../components/Time'
+    import uploadLogo1 from '../../components/uploadLogo'
     import {listChart} from "@/api/chart.js"
     import {getChartData} from "@/api/data.js"
     import {getScreen} from "@/api/screen.js"
@@ -138,10 +167,23 @@
     export default {
         name: "index",
         components: {
-            time1
+            time1,
+            uploadLogo1
         },
         data() {
             return {
+                fileList: [],
+/*                imgUrl:null,
+                logoName:'',
+                logoPreviewName:'',
+                logoUrl:'',
+                logoPreviewUrl:'',*/
+                imgUrl:null,
+                logoShow:false,
+                logoForm:{
+                    name:"",
+                    url:""
+                },
                 isNoticeEditing:true,
                 notice:"热烈欢迎李政前来参观",
                 chartForm: {
@@ -153,46 +195,64 @@
                 },
                 chartList: [],
                 chartDialogShow: false,
+                logoDialogShow: false,
                 /* chartForm: {
                      chartid: null,
                      positionId: null
                  },*/
                 screenChartList: [],
+                screenId:null
 
             }
         },
         methods: {
+/*            getImageFile(fileList) {
+                let file = fileList[0];
+                console.log(file)
+                let reader = new FileReader()
+                reader.onload = () => {
+                    this.imgUrl = reader.result
+                    console.log(this.imgUrl)
+                }
+                reader.readAsDataURL(file);
+            },*/
+            handleLogoFile(){
+                this.$refs.logo.click();
+            },
+            getImageFile(e){
+                let file = e.target.files[0];
+                console.log(file)
+                let reader = new FileReader()
+                reader.onload = () => {
+                    this.imgUrl = reader.result
+                    this.saveScreen()
+                }
+                reader.readAsDataURL(file);
+            },
+            getImageUrl(response,file,fileList){
+                file = file.raw;
+                let reader = new FileReader()
+                reader.onload = () => {
+                    this.imgUrl = reader.result
+                    console.log(this.imgUrl)
+                }
+                reader.readAsDataURL(file);
+            },
+            saveLogo(){
+                this.logoDialogShow=false
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                   console.log(file);
+                   console.log(this.imgUrl)
+            },
+            send(){
+                this.logoDialogShow=true
+            },
             addNotice(){
               this.isNoticeEditing=!this.isNoticeEditing
-            },
-            saveNotice(){
-                let data = new URLSearchParams()
-                data.append("backgroundColor", "red")
-                data.append("id", 1)
-                data.append("imgUrl", "1")
-                data.append("notice", this.notice)
-
-                for (let i = 0; i < 9; i++) {
-                    data.append("chart"+i.toString()+"Id", this.screenChartList[i].chartId)
-                }
-                setScreen(data).then(res => {
-                    if (res.status) {
-                        // success
-                        this.$message({
-                            message: "保存成功",
-                            type: 'success',
-                            duration: 3000
-                        })
-                        this.loadScreenData()
-                    } else {
-                        this.$message({
-                            message: "保存失败",
-                            type: 'error',
-                            duration: 3000
-                        })
-                    }
-                })
-                this.isNoticeEditing=!this.isNoticeEditing
             },
             sendId(positionId) {
                 this.chartForm.positionId = positionId;
@@ -207,9 +267,7 @@
             refreshPreview() {
                 this.chartForm.chartId = this.chartList[this.chartForm.chartIndex].id;
                 this.chartForm.chartOption = this.chartList[this.chartForm.chartIndex].option;
-                this.chartForm.dataUrl = this.chartList[this.chartForm.chartIndex].dataSourceUrl;
-                this.loadChartData(this.chartForm.chartOption, this.chartForm.dataUrl)
-
+                this.loadChartData(this.chartForm.chartOption,this.chartList[this.chartForm.chartIndex].dataSourceUrl)
             },
             async loadScreenData(){
                 // TODO 假设最初没有screen，初始化一个
@@ -231,8 +289,10 @@
                                 tmp.option = {}
                             }
                             this.screenChartList.push(tmp)
-
                         }
+                        this.notice=screen.notice
+                        this.imgUrl=screen.imgUrl
+                        this.screenId=screen.id
                         // console.log(this.screenChartList)
                     }else{
                         for (let i = 0; i < 9; i++) {
@@ -243,6 +303,7 @@
                             this.screenChartList.push(tmp)
                         }
                     }
+
                 })
             },
             async loadChartList() {
@@ -256,19 +317,31 @@
                     })
                 })
             },
-            setChart() {
-                let data = new URLSearchParams()
+            handleSaveScreenChart(){
+                // 保存图表id
+                this.screenChartList[this.chartForm.positionId].chartId=this.chartList[this.chartForm.chartIndex].id
+                this.chartDialogShow = false
+                this.saveScreen()
+            },
+            handleSaveNotice(){
+                // 保存顶部通知
+                this.isNoticeEditing=!this.isNoticeEditing
+                this.saveScreen()
+            },
+            saveScreen(){
+                // 保存所有数据到后端
+                let data = new FormData()
+                if(this.screenId){
+                    data.append("id", this.screenId)
+                }
                 data.append("backgroundColor", "red")
-                data.append("id", 1)
-                data.append("imgUrl", "1")
-                data.append("notice", "1")
-
+                if(this.imgUrl){
+                    data.append("imgUrl", this.imgUrl)
+                }
+                console.log(this.imgUrl)
+                data.append("notice", this.notice)
                 for (let i = 0; i < 9; i++) {
-                    if (this.chartForm.positionId == i) {
-                        data.append("chart"+i.toString()+"Id", this.chartForm.chartId)
-                    } else {
-                        data.append("chart"+i.toString()+"Id", this.screenChartList[i].chartId)
-                    }
+                    data.append("chart"+i.toString()+"Id", this.screenChartList[i].chartId)
                 }
                 setScreen(data).then(res => {
                     if (res.status) {
@@ -287,8 +360,6 @@
                         })
                     }
                 })
-                this.chartDialogShow = false
-
             }
         },
 

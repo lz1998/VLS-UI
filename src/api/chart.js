@@ -29,3 +29,10 @@ export function delChartById(data) {
         data
     })
 }
+export function getChartById(data) {
+    return request({
+        url:'/chart/getChartById',
+        method: 'post',
+        data
+    })
+}
