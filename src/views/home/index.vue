@@ -131,7 +131,6 @@
                     }else{
                         let data=new URLSearchParams()
                         data.append("id",id)
-                        console.log("id======")
                         console.log(id)
                         getChartById(data).then(async res=>{
                             console.log("res======")
