@@ -1,7 +1,17 @@
 <template>
     <div class="screen-manage">
         <div class="screen-header">
-            <div style="width:100%;border: 1px solid;">123</div>
+            <div style="width:100%;border: 1px solid;">
+                <el-upload
+                        v-bind:class="{'avatar-uploader':!imageUrl}"
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                    <el-avatar v-if="imageUrl" :size="62" :src="imageUrl"></el-avatar>
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </div>
             <div style="width:200%;border: 1px solid;">
                 <div style="width:100%;height: 100%" v-if="isNoticeEditing!=false" @click="addNotice">
                     <marquee class="roll-info">{{notice}}</marquee>
@@ -158,7 +168,8 @@
                      positionId: null
                  },*/
                 screenChartList: [],
-
+                //图片
+                imageUrl:''
             }
         },
         methods: {
@@ -281,6 +292,22 @@
                 })
                 this.chartDialogShow = false
 
+            },
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isPNG = file.type === 'image/png';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG&&!isPNG) {
+                    this.$message.error('上传头像图片只能是图像!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
             }
         },
 
@@ -295,13 +322,31 @@
     .screen-manage {
         width: 100%;
         height: 100%;
-
         .screen-header {
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
             width: 100%;
             height: 10%;
+            .avatar-uploader .el-upload {
+                border: 1px dashed #d9d9d9;
+                border-radius: 6px;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                z-index: 100;
+            }
+            .avatar-uploader .el-upload:hover {
+                border-color: #409EFF;
+            }
+            .avatar-uploader-icon {
+                font-size: 25px;
+                color: #8c939d;
+                width: 62px;
+                height: 62px;
+                line-height: 62px;
+                text-align: center;
+            }
             .roll-info{
                 width:100%;
                 height:5vh;
@@ -314,7 +359,6 @@
                 color:#80FFFF
             }
         }
-
         .screen-body {
             display: flex;
             flex-direction: row;
@@ -369,7 +413,7 @@
                 }
             }
         }
-    }
+        }
 
     .btn-add {
         margin-left: 20px;
