@@ -1,9 +1,9 @@
 <template>
-    <div class="home">
+    <div class="home" v-if="!loading">
         <el-row class="header">
             <el-col :span="6" class="header-item">
                 <div class="wrapper-in">
-                    <logo :img="screen.imgUrl"></logo>
+                    <img :src="screen.imgUrl"></img>
                 </div>
             </el-col>
             <el-col :span="12" class="header-item">
@@ -110,6 +110,7 @@
         },
         data() {
             return {
+                loading:true,
                 screen:{},
                 chartOptionList:[]
             }
@@ -132,10 +133,11 @@
                         let data=new URLSearchParams()
                         data.append("id",id)
                         console.log(id)
-                        getChartById(data).then(async res=>{
+                        await getChartById(data).then(async res=>{
                             console.log("res======")
                             console.log(res)
-                            let option=res.chart.option
+                            let option=JSON.parse(res.chart.option)
+
                             let dataSourceUrl=res.chart.dataSourceUrl
 
                             await this.loadChartData(option,dataSourceUrl)
@@ -152,17 +154,13 @@
                 // console.log(chartOption)
                 // console.log(dataSourceUrl)
                 getChartData(dataSourceUrl).then(res => {
-                    console.log("data====")
-                    console.log(res)
-                    chartOption.dataset={}
-                    chartOption.dataset.source=res.data
-                    // this.$set(chartOption, 'dataset', {source: res.data})
-                    console.log("data end====")
+                    this.$set(chartOption, 'dataset', {source: res.data})
                 })
             }
         },
-        mounted() {
-            this.loadScreen(2)
+        async mounted() {
+            await this.loadScreen(1)
+            this.loading=false
         }
     }
 </script>

@@ -3,6 +3,6 @@ module.exports = {
     productionSourceMap:false,
     assetsDir:'static',
     devServer:{
-        proxy:"http://127.0.0.1/"
+        proxy:"http://vls.lz1998.xin/"
     }
 }
