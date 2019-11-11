@@ -3,7 +3,7 @@
         <el-row class="header">
             <el-col :span="6" class="header-item">
                 <div class="wrapper-in">
-                    <img :src="screen.imgUrl"></img>
+                    <img style="width: 100%;height:100%" :src="screen.imgUrl"/>
                 </div>
             </el-col>
             <el-col :span="12" class="header-item">
@@ -19,7 +19,7 @@
         <el-row>
             <el-col :span="6">
                 <el-row class="wrapper-out">
-                    <div class="wrapper-in" v-if="screen">
+                    <div class="wrapper-in">
                         <chart
                                 :options="chartOptionList[1]"
                                 :auto-resize="true"
@@ -29,7 +29,7 @@
                     </div>
                 </el-row>
                 <el-row class="wrapper-out">
-                    <div class="wrapper-in" v-if="screen">
+                    <div class="wrapper-in">
                         <chart
                                 :options="chartOptionList[2]"
                                 :auto-resize="true"
@@ -38,7 +38,7 @@
 
                     </div>
                 </el-row>
-                <el-row class="wrapper-out" v-if="screen">
+                <el-row class="wrapper-out">
                     <div class="wrapper-in">
                         <chart
                                 :options="chartOptionList[3]"
@@ -51,19 +51,31 @@
             <el-col :span="12">
                 <el-row class="wrapper-map-out">
                     <div class="wrapper-in">
-                        <map1></map1>
+                        <chart
+                                :options="chartOptionList[0]"
+                                :auto-resize="true"
+                                style="width: 100%; height: 100%;"
+                        />
 
                     </div>
                 </el-row>
                 <el-row>
                     <el-col :span="12" class="wrapper-out">
                         <div class="wrapper-in">
-                            <chartline seriesType="line"></chartline>
+                            <chart
+                                    :options="chartOptionList[4]"
+                                    :auto-resize="true"
+                                    style="width: 100%; height: 100%;"
+                            />
                         </div>
                     </el-col>
                     <el-col :span="12" class="wrapper-out">
                         <div class="wrapper-in">
-                            <chartline seriesType="bar"></chartline>
+                            <chart
+                                    :options="chartOptionList[5]"
+                                    :auto-resize="true"
+                                    style="width: 100%; height: 100%;"
+                            />
                         </div>
                     </el-col>
                 </el-row>
@@ -71,17 +83,29 @@
             <el-col :span="6">
                 <el-row class="wrapper-out">
                     <div class="wrapper-in">
-                        <chartline seriesType="line"></chartline>
+                        <chart
+                                :options="chartOptionList[8]"
+                                :auto-resize="true"
+                                style="width: 100%; height: 100%;"
+                        />
                     </div>
                 </el-row>
                 <el-row class="wrapper-out">
                     <div class="wrapper-in">
-                        <chartline seriesType="effectScatter"></chartline>
+                        <chart
+                                :options="chartOptionList[7]"
+                                :auto-resize="true"
+                                style="width: 100%; height: 100%;"
+                        />
                     </div>
                 </el-row>
                 <el-row class="wrapper-out">
                     <div class="wrapper-in">
-                        <chartline seriesType="line"></chartline>
+                        <chart
+                                :options="chartOptionList[6]"
+                                :auto-resize="true"
+                                style="width: 100%; height: 100%;"
+                        />
                     </div>
                 </el-row>
             </el-col>
