@@ -2,17 +2,24 @@
     <div class="screen-manage">
         <div class="screen-header">
             <div style="width:100%;border: 1px solid;">
-                <el-button v-if="!imgUrl" @click="handleLogoFile" type="success">点击上传logo</el-button>
-                <img style="width: 100%;height:100%" :src="imgUrl" class="logoImg preview" v-if="imgUrl" @click="handleLogoFile" >
-                <input @change="getImageFile" ref="logo"  type="file" style="display: none"
-                       accept="image/jpg, image/jpeg, image/gif, image/png">
+                <img v-if="imgUrl" :src="imgUrl" @click="clickUpload" class="Image" >
+                <img v-show="imgUrl" :src="imgUrl" @click="clickUpload" class="Image" >
+                <el-upload v-show="!imgUrl"
+                           v-bind:class="{'avatar-uploader':!imgUrl}"
+                           action="https://jsonplaceholder.typicode.com/posts/"
+                           :show-file-list="false"
+                           :on-success="handleAvatarSuccess"
+                >
+                    <i ref="clickupload" class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
             </div>
             <div style="width:200%;border: 1px solid;">
                 <div style="width:100%;height: 100%" v-if="isNoticeEditing!=false" @click="addNotice">
                     <marquee class="roll-info">{{notice}}</marquee>
                 </div>
-                <div style="width:100%;height: 100%;" v-if="isNoticeEditing==false" >
-                    <el-input   v-model="notice" style="height: 100%;width: 70%;font-size: large;margin-top: 20px"></el-input>
+                <div style="width:100%;height: 100%;" v-if="isNoticeEditing==false">
+                    <el-input v-model="notice"
+                              style="height: 100%;width: 70%;font-size: large;margin-top: 20px"></el-input>
                     <el-button @click="handleSaveNotice">保存</el-button>
                 </div>
             </div>
@@ -78,11 +85,11 @@
             <div class="left-right">
                 <div class="chart-box" @click="sendId(8)" v-if="screenChartList.length>8">
                     <div class="add-chart" v-if="screenChartList[8].chartId<0">点击添加图表</div>
-                        <chart
-                                :options="screenChartList[8].option"
-                                :auto-resize="true"
-                                style="width: 100%; height: 100%;"
-                        />
+                    <chart
+                            :options="screenChartList[8].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
                 </div>
                 <div class="chart-box" @click="sendId(7)" v-if="screenChartList.length>7">
                     <div class="add-chart" v-if="screenChartList[7].chartId<0">点击添加图表</div>
@@ -103,10 +110,10 @@
             </div>
         </div>
         <el-dialog :visible.sync="chartDialogShow">
-        <el-form :model="chartForm">
-            <el-form-item>
-                <span style="width: 200px;display: inline-block;text-align: left;font-size: 20px">请选择图表：</span>
-                <span style="width: 500px;display: inline-block;text-align: left;font-size: 20px">
+            <el-form :model="chartForm">
+                <el-form-item>
+                    <span style="width: 200px;display: inline-block;text-align: left;font-size: 20px">请选择图表：</span>
+                    <span style="width: 500px;display: inline-block;text-align: left;font-size: 20px">
                             <!--加上stop防止树形控件被点击到-->
                             <el-select v-model="chartForm.chartIndex">
                                 <el-option :value="index" :label="chartItem.title+' id:'+chartItem.id"
@@ -114,22 +121,22 @@
                             </el-select>
                             <el-button class="btn-add" @click="refreshPreview">预览</el-button>
                     </span>
-            </el-form-item>
-            <el-form-item v-if="chartForm.chartOption">
-                <div style="margin:0 auto;width:25vw;height:30vh;">
-                    <chart
-                            :options="chartForm.chartOption"
-                            :auto-resize="true"
-                            style="width: 100%; height: 100%;"
-                    />
-                </div>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="handleSaveScreenChart">保存</el-button>
-                <el-button @click="chartDialogShow=false">取消</el-button>
-            </el-form-item>
-        </el-form>
-    </el-dialog>
+                </el-form-item>
+                <el-form-item v-if="chartForm.chartOption">
+                    <div style="margin:0 auto;width:25vw;height:30vh;">
+                        <chart
+                                :options="chartForm.chartOption"
+                                :auto-resize="true"
+                                style="width: 100%; height: 100%;"
+                        />
+                    </div>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="handleSaveScreenChart">保存</el-button>
+                    <el-button @click="chartDialogShow=false">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
         <el-dialog :visible.sync="logoDialogShow">
             <el-form :model="chartForm">
                 <el-form-item>
@@ -142,13 +149,13 @@
                             :file-list="fileList"
                             :limit="1"
                             list-type="picture"
-                           >
-                        <el-button size="small" type="primary" >点击上传</el-button>
+                    >
+                        <el-button size="small" type="primary">点击上传</el-button>
                         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                     </el-upload>
-                    <el-button size="small" type="primary" @click="saveLogo" >保存logo</el-button>
-<!--                    <input @change="getImageFile" ref="gallery"  type="file"
-                           accept="image/jpg, image/jpeg, image/gif, image/png">-->
+                    <el-button size="small" type="primary" @click="saveLogo">保存logo</el-button>
+                    <!--                    <input @change="getImageFile" ref="gallery"  type="file"
+                                               accept="image/jpg, image/jpeg, image/gif, image/png">-->
                 </el-form-item>
 
             </el-form>
@@ -173,19 +180,19 @@
         data() {
             return {
                 fileList: [],
-/*                imgUrl:null,
-                logoName:'',
-                logoPreviewName:'',
-                logoUrl:'',
-                logoPreviewUrl:'',*/
-                imgUrl:null,
-                logoShow:false,
-                logoForm:{
-                    name:"",
-                    url:""
+                /*                imgUrl:null,
+                                logoName:'',
+                                logoPreviewName:'',
+                                logoUrl:'',
+                                logoPreviewUrl:'',*/
+                imgUrl: '',
+                logoShow: false,
+                logoForm: {
+                    name: "",
+                    url: ""
                 },
-                isNoticeEditing:true,
-                notice:"热烈欢迎李政前来参观",
+                isNoticeEditing: true,
+                notice: "热烈欢迎李政前来参观",
                 chartForm: {
                     chartIndex: null,
                     chartId: null,
@@ -201,25 +208,25 @@
                      positionId: null
                  },*/
                 screenChartList: [],
-                screenId:null
+                screenId: null
 
             }
         },
         methods: {
-/*            getImageFile(fileList) {
-                let file = fileList[0];
-                console.log(file)
-                let reader = new FileReader()
-                reader.onload = () => {
-                    this.imgUrl = reader.result
-                    console.log(this.imgUrl)
-                }
-                reader.readAsDataURL(file);
-            },*/
-            handleLogoFile(){
+            /*            getImageFile(fileList) {
+                            let file = fileList[0];
+                            console.log(file)
+                            let reader = new FileReader()
+                            reader.onload = () => {
+                                this.imgUrl = reader.result
+                                console.log(this.imgUrl)
+                            }
+                            reader.readAsDataURL(file);
+                        },*/
+            handleLogoFile() {
                 this.$refs.logo.click();
             },
-            getImageFile(e){
+            getImageFile(e) {
                 let file = e.target.files[0];
                 console.log(file)
                 let reader = new FileReader()
@@ -229,7 +236,7 @@
                 }
                 reader.readAsDataURL(file);
             },
-            getImageUrl(response,file,fileList){
+            getImageUrl(response, file, fileList) {
                 file = file.raw;
                 let reader = new FileReader()
                 reader.onload = () => {
@@ -238,21 +245,21 @@
                 }
                 reader.readAsDataURL(file);
             },
-            saveLogo(){
-                this.logoDialogShow=false
+            saveLogo() {
+                this.logoDialogShow = false
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
             handlePreview(file) {
-                   console.log(file);
-                   console.log(this.imgUrl)
+                console.log(file);
+                console.log(this.imgUrl)
             },
-            send(){
-                this.logoDialogShow=true
+            send() {
+                this.logoDialogShow = true
             },
-            addNotice(){
-              this.isNoticeEditing=!this.isNoticeEditing
+            addNotice() {
+                this.isNoticeEditing = !this.isNoticeEditing
             },
             sendId(positionId) {
                 this.chartForm.positionId = positionId;
@@ -267,16 +274,16 @@
             refreshPreview() {
                 this.chartForm.chartId = this.chartList[this.chartForm.chartIndex].id;
                 this.chartForm.chartOption = this.chartList[this.chartForm.chartIndex].option;
-                this.loadChartData(this.chartForm.chartOption,this.chartList[this.chartForm.chartIndex].dataSourceUrl)
+                this.loadChartData(this.chartForm.chartOption, this.chartList[this.chartForm.chartIndex].dataSourceUrl)
             },
-            async loadScreenData(){
+            async loadScreenData() {
                 // TODO 假设最初没有screen，初始化一个
-                this.screenChartList=[]
+                this.screenChartList = []
                 await getScreen().then(res => {
                     if (!res.status) {
                         this.$message("失败")
                         return
-                    } else if(res.screen!=undefined&&res.screen!=null){
+                    } else if (res.screen != undefined && res.screen != null) {
                         let screen = res.screen;
                         for (let i = 0; i < 9; i++) {
                             let tmp = {}
@@ -290,15 +297,15 @@
                             }
                             this.screenChartList.push(tmp)
                         }
-                        this.notice=screen.notice
-                        this.imgUrl=screen.imgUrl
-                        this.screenId=screen.id
+                        this.notice = screen.notice
+                        this.imgUrl = screen.imgUrl
+                        this.screenId = screen.id
                         // console.log(this.screenChartList)
-                    }else{
+                    } else {
                         for (let i = 0; i < 9; i++) {
                             let tmp = {
-                                chartId:-1,
-                                option:{}
+                                chartId: -1,
+                                option: {}
                             }
                             this.screenChartList.push(tmp)
                         }
@@ -317,31 +324,31 @@
                     })
                 })
             },
-            handleSaveScreenChart(){
+            handleSaveScreenChart() {
                 // 保存图表id
-                this.screenChartList[this.chartForm.positionId].chartId=this.chartList[this.chartForm.chartIndex].id
+                this.screenChartList[this.chartForm.positionId].chartId = this.chartList[this.chartForm.chartIndex].id
                 this.chartDialogShow = false
                 this.saveScreen()
             },
-            handleSaveNotice(){
+            handleSaveNotice() {
                 // 保存顶部通知
-                this.isNoticeEditing=!this.isNoticeEditing
+                this.isNoticeEditing = !this.isNoticeEditing
                 this.saveScreen()
             },
-            saveScreen(){
+            saveScreen() {
                 // 保存所有数据到后端
                 let data = new FormData()
-                if(this.screenId){
+                if (this.screenId) {
                     data.append("id", this.screenId)
                 }
                 data.append("backgroundColor", "red")
-                if(this.imgUrl){
+                if (this.imgUrl) {
                     data.append("imgUrl", this.imgUrl)
                 }
                 console.log(this.imgUrl)
                 data.append("notice", this.notice)
                 for (let i = 0; i < 9; i++) {
-                    data.append("chart"+i.toString()+"Id", this.screenChartList[i].chartId)
+                    data.append("chart" + i.toString() + "Id", this.screenChartList[i].chartId)
                 }
                 setScreen(data).then(res => {
                     if (res.status) {
@@ -360,6 +367,19 @@
                         })
                     }
                 })
+            },
+
+            handleAvatarSuccess(res, file) {
+                let reader = new FileReader()
+                reader.onload = () => {
+                    this.imgUrl = reader.result
+                    console.log(this.imgUrl)
+                    this.saveScreen()
+                }
+                reader.readAsDataURL(file.raw);
+            },
+            clickUpload(){
+                this.$refs.clickupload.click()
             }
         },
 
@@ -381,16 +401,41 @@
             flex-wrap: nowrap;
             width: 100%;
             height: 10%;
-            .roll-info{
-                width:100%;
-                height:5vh;
+            .Image{
+                z-index: 100;
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+            .avatar-uploader .el-upload {
+                border: 1px dashed #d9d9d9;
+                border-radius: 6px;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                z-index: 100;
+            }
+            .avatar-uploader .el-upload:hover {
+                border-color: #409EFF;
+            }
+            .avatar-uploader-icon {
+                font-size: 25px;
+                color: #8c939d;
+                width: 62px;
+                height: 62px;
+                line-height: 62px;
+                text-align: center;
+            }
+            .roll-info {
+                width: 100%;
+                height: 5vh;
                 line-height: 5vh;
-                margin-top:2.5vh;
-                font-size:3vh;
+                margin-top: 2.5vh;
+                font-size: 3vh;
                 font-weight: 700;
                 border-radius: 2vh;
                 background-color: #000080;
-                color:#80FFFF
+                color: #80FFFF
             }
         }
 
@@ -457,7 +502,7 @@
         text-align: center;
     }
 
-    .add-chart{
+    .add-chart {
         text-align: center;
         font-size: x-large;
     }
