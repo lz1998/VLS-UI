@@ -109,6 +109,10 @@
                 </div>
             </div>
         </div>
+        <div style="margin-top: 10px">
+            <span style="font-size: xx-large;margin-right: 100px">请给大屏背景选择颜色</span>
+            <el-color-picker v-model="color" show-alpha @change="showColor" @active-change="showActivecolor"></el-color-picker>
+        </div>
         <el-dialog :visible.sync="chartDialogShow">
             <el-form :model="chartForm">
                 <el-form-item>
@@ -179,12 +183,9 @@
         },
         data() {
             return {
+                color: 'rgba(19, 206, 102, 0.8)',
+                backgroundColor:null,
                 fileList: [],
-                /*                imgUrl:null,
-                                logoName:'',
-                                logoPreviewName:'',
-                                logoUrl:'',
-                                logoPreviewUrl:'',*/
                 imgUrl: '',
                 logoShow: false,
                 logoForm: {
@@ -213,16 +214,15 @@
             }
         },
         methods: {
-            /*            getImageFile(fileList) {
-                            let file = fileList[0];
-                            console.log(file)
-                            let reader = new FileReader()
-                            reader.onload = () => {
-                                this.imgUrl = reader.result
-                                console.log(this.imgUrl)
-                            }
-                            reader.readAsDataURL(file);
-                        },*/
+            showActivecolor(s){
+                console.log(s)
+            },
+            showColor(color){
+                this.backgroundColor=color;
+                console.log(this.backgroundColor)
+                this.saveScreen()
+
+            },
             handleLogoFile() {
                 this.$refs.logo.click();
             },
@@ -341,7 +341,10 @@
                 if (this.screenId) {
                     data.append("id", this.screenId)
                 }
-                data.append("backgroundColor", "red")
+                if (this.backgroundColor) {
+                    data.append("backgroundColor", this.backgroundColor)
+                }
+
                 if (this.imgUrl) {
                     data.append("imgUrl", this.imgUrl)
                 }

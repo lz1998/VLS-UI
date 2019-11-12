@@ -1,6 +1,6 @@
 <template>
-    <div class="home" v-if="!loading">
-        <el-row class="header">
+    <div class="home" v-if="!loading" v-bind:style="{ backgroundColor:screen.backgroundColor}">
+        <el-row class="header" >
             <el-col :span="6" class="header-item">
                 <div class="wrapper-in">
                     <img style="width: 100%;height:100%" :src="screen.imgUrl"/>
@@ -192,20 +192,17 @@
     .header {
         width: 100%;
         height: 10vh;
-        background-color: #000080;
     }
 
     .wrapper-out {
         width: 25vw;
         height: 30vh;
         padding: 1vh 1vw;
-        background-color: #0000BF;
     }
 
     .wrapper-in {
         width: 100%;
         height: 100%;
-        background-color: #000080;
         border-radius: 10px;
     }
 
@@ -213,13 +210,11 @@
         width: 50vw;
         height: 60vh;
         padding: 1vh 1vw;
-        background-color: #0000BF;
     }
 
     .header-item {
         height: 100%;
         padding: 0 1vw;
-        background-color: #0000BF;
     }
 
     .roll-info {
@@ -230,7 +225,7 @@
         font-size: 3vh;
         font-weight: 700;
         border-radius: 2vh;
-        background-color: #000080;
+        background-color: rgba(16, 22, 54, 1);
         color: #80FFFF
     }
 </style>

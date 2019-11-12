@@ -71,7 +71,6 @@
             width:100%;
             height:50%;
             line-height: 5vh;
-            background-color: #000080;
             text-align: center;
             font-size: 30px;
             color: #80FFFF;
