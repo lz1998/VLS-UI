@@ -48,7 +48,7 @@ export const chartDefaultOption={
         itemHeight:()=>{return{default:14, desc:'图例标记的图形高度',inputType:'text'}},
         textStyle:{
             desc:'图例的公用文本样式',
-            color:()=>{return{default:'#333', desc:'文字的颜色',inputType:'color'}},
+            color:()=>{return{default:'rgba(250, 212, 0, 1)', desc:'文字的颜色',inputType:'color'}},
             fontStyle:()=>{return{default:'normal', desc:'文字字体的风格',inputType:'text'}},
             fontWeight:()=>{return{default:'normal', desc:'文字字体的粗细',inputType:'text'}},
             fontSize:()=>{return{default:12, desc:'文字的字体大小',inputType:'text'}},
@@ -235,7 +235,7 @@ export const chartDefaultOption={
         },
 
     },
-    backgroundColor:()=>{return{default:'rgba(1, 90, 192, 1)', desc:'背景色',inputType:'color'}},
+    backgroundColor:()=>{return{default:'rgba(16, 22, 54, 1)', desc:'背景色',inputType:'color'}},
     series:()=>{
         return{
             desc:"图形",
@@ -260,22 +260,22 @@ const seriesDefaultOption={
         // label暂时不想做，以后可以考虑
         itemStyle:{
             desc:'折线拐点标志的样式',
-            color:()=>{return{desc:'图形的颜色',default:'自适应',inputType:'color'}},// TODO ???
-            borderColor:()=>{return{desc:'图形的描边颜色',default:'#000',inputType:'color'}},
+            color:()=>{return{desc:'图形的颜色',default:'rgba(144, 238, 144, 1)',inputType:'color'}},// TODO ???
+            borderColor:()=>{return{desc:'图形的描边颜色',default:'rgba(144, 238, 144, 1)',inputType:'color'}},
             borderWidth:()=>{return{desc:'描边线宽',default:0,inputType:'text'}},
             borderType:()=>{return{desc:'柱条的描边类型',default:'solid',inputType:'text'}},
             opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
         },
         lineStyle:{
             desc:'线条样式',
-            color:()=>{return{desc:'线的颜色',default:'#000',inputType:'color'}},
+            color:()=>{return{desc:'线的颜色',default:'rgba(144, 238, 144, 1)',inputType:'color'}},
             width:()=>{return{desc:'线宽',default:2,inputType:'text'}},
             type:()=>{return{desc:'线的类型',default:'solid',inputType:'text'}},
             opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
         },
         areaStyle:{
             desc:'区域填充样式',
-            color:()=>{return{desc:'填充的颜色',default:'rgba(5, 255, 255, 0.5)',inputType:'color'}},
+            color:()=>{return{desc:'填充的颜色',default:'rgba(144, 238, 144, 0)',inputType:'color'}},
             origin:()=>{return{desc:'图形区域的起始位置',default:'auto',inputType:'text'}},
             opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}}
         },

@@ -183,7 +183,7 @@
             }
         },
         async mounted() {
-            await this.loadScreen(1)
+            await this.loadScreen(this.$route.query.id)
             this.loading=false
         }
     }
@@ -225,7 +225,6 @@
         font-size: 3vh;
         font-weight: 700;
         border-radius: 2vh;
-        background-color: rgba(16, 22, 54, 1);
         color: #80FFFF
     }
 </style>

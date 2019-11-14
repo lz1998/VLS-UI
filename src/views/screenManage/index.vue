@@ -1,8 +1,15 @@
 <template>
     <div class="screen-manage">
+        <div style="margin-bottom: 10px;float: left">
+            <span style="font-size: xx-large;margin-right: 100px">请给大屏背景选择颜色</span>
+            <el-color-picker v-model="backgroundColor" show-alpha @change="showColor" @active-change="showActivecolor"></el-color-picker>
+        </div>
+        <div style="margin-bottom: 20px;float: right">
+            <el-button @click="toChild" style="background-color: greenyellow">确认布置到home界面中</el-button>
+        </div>
         <div class="screen-header">
             <div style="width:100%;border: 1px solid;">
-                <img v-if="imgUrl" :src="imgUrl" @click="clickUpload" class="Image" >
+<!--            <img v-if="imgUrl" :src="imgUrl" @click="clickUpload" class="Image" >-->
                 <img v-show="imgUrl" :src="imgUrl" @click="clickUpload" class="Image" >
                 <el-upload v-show="!imgUrl"
                            v-bind:class="{'avatar-uploader':!imgUrl}"
@@ -23,7 +30,7 @@
                     <el-button @click="handleSaveNotice">保存</el-button>
                 </div>
             </div>
-            <div style="width:100%;">
+            <div style="width:100%; border:1px solid;">
                 <time1></time1>
             </div>
         </div>
@@ -109,10 +116,6 @@
                 </div>
             </div>
         </div>
-        <div style="margin-top: 10px">
-            <span style="font-size: xx-large;margin-right: 100px">请给大屏背景选择颜色</span>
-            <el-color-picker v-model="color" show-alpha @change="showColor" @active-change="showActivecolor"></el-color-picker>
-        </div>
         <el-dialog :visible.sync="chartDialogShow">
             <el-form :model="chartForm">
                 <el-form-item>
@@ -183,8 +186,7 @@
         },
         data() {
             return {
-                color: 'rgba(19, 206, 102, 0.8)',
-                backgroundColor:null,
+                backgroundColor:'rgba(16, 22, 54, 1)',
                 fileList: [],
                 imgUrl: '',
                 logoShow: false,
@@ -214,13 +216,22 @@
             }
         },
         methods: {
+            toChild(){
+
+                this.saveScreen()
+                this.$router.push({
+                    path:'/home',
+                    query:{
+                        id:this.screenId
+                    }
+                })
+            },
             showActivecolor(s){
                 console.log(s)
             },
             showColor(color){
                 this.backgroundColor=color;
                 console.log(this.backgroundColor)
-                this.saveScreen()
 
             },
             handleLogoFile() {
@@ -300,6 +311,7 @@
                         this.notice = screen.notice
                         this.imgUrl = screen.imgUrl
                         this.screenId = screen.id
+                        this.backgroundColor=screen.backgroundColor;
                         // console.log(this.screenChartList)
                     } else {
                         for (let i = 0; i < 9; i++) {
@@ -328,12 +340,10 @@
                 // 保存图表id
                 this.screenChartList[this.chartForm.positionId].chartId = this.chartList[this.chartForm.chartIndex].id
                 this.chartDialogShow = false
-                this.saveScreen()
             },
             handleSaveNotice() {
                 // 保存顶部通知
                 this.isNoticeEditing = !this.isNoticeEditing
-                this.saveScreen()
             },
             saveScreen() {
                 // 保存所有数据到后端
