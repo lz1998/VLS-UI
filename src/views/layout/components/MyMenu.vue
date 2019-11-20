@@ -11,10 +11,10 @@
                 <i class="el-icon-menu"></i>
                 <span slot="title">图表管理</span>
             </el-menu-item>
-            <!--<el-menu-item index="/mapManage">-->
-                <!--<i class="el-icon-map-location"></i>-->
-                <!--<span slot="title">地图管理</span>-->
-            <!--</el-menu-item>-->
+<!--            <el-menu-item index="/mapManage">-->
+<!--                <i class="el-icon-map-location"></i>-->
+<!--                <span slot="title">地图管理</span>-->
+<!--            </el-menu-item>-->
             <el-menu-item index="/screenManage">
                 <i class="el-icon-news"></i>
                 <span slot="title">大屏管理</span>
