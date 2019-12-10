@@ -1,130 +1,62 @@
 <template>
-    <div class="login-container">
-        <el-form class="login-form" :model="loginForm" ref="loginForm" :rules="loginFormRules">
-
-            <div class="title-container">
-                <h3 class="title">大屏管理后台</h3>
-            </div>
-            <el-form-item prop="username">
-                <el-input
-                        v-model="loginForm.username"
-                        placeholder="用户名"
-                        type="text"
-                        tabindex="1"
-                        autocomplete="on"
-                        prefix-icon="el-icon-user">
-                </el-input>
-            </el-form-item>
-
-            <el-form-item prop="password">
-                <el-input
-                        v-model="loginForm.password"
-                        placeholder="密码"
-                        type="password"
-                        tabindex="2"
-                        prefix-icon="el-icon-lock">
-                </el-input>
-            </el-form-item>
-            <el-button type="primary" style="width:100%;" @click="handleLogin">登录</el-button>
-        </el-form>
+    <div class="login" style="height: 100%">
+        <v-container fluid fill-height style="background-color: #2d3a4b">
+            <v-row align="center" justify="center">
+                <v-col cols="10" sm="6" md="4">
+                    <h2 class="headline white--text text-center mb-4">大屏管理后台</h2>
+                    <v-form ref="loginForm">
+                        <v-text-field
+                                label="UserName"
+                                prepend-inner-icon="account_box"
+                                v-model="login.username"
+                                color="primary"
+                                solo
+                                :rules="nameRules"></v-text-field>
+                        <v-text-field
+                                label="Password"
+                                prepend-inner-icon="lock"
+                                type="password"
+                                v-model="login.password"
+                                color="primary"
+                                :rules="passwordRules"
+                                solo></v-text-field>
+                        <v-btn class="primary" @click="submit" block>Login</v-btn>
+                    </v-form>
+                </v-col>
+            </v-row>
+        </v-container>
     </div>
 </template>
-
-<script type="text/ecmascript-6">
-    import {login} from '@/api/test.js'
+<script>
     export default {
-        name: "Login",
         data() {
             return {
-                loginForm: {
-                    username: "",
-                    password: ""
+                login: {
+                    username: '',
+                    password: ''
                 },
-                loginFormRules: {
-                    username: [
-                        {required: true, message: '请输入用户名', trigger: 'blur'}
-                    ],
-                    password: [
-                        {required: true, message: '请输入密码', trigger: 'blur'}
-                    ]
-                }
+                nameRules: [
+                    v => !!v || 'Name is required',
+                ],
+                passwordRules: [
+                    v => !!v || 'Password is required',
+                ],
             }
         },
         methods: {
-            handleLogin() {
-                this.$refs['loginForm'].validate(valid => {
-                    // console.log(valid)
-                    if(valid){
-
-                        this.$store.dispatch('Login',this.loginForm).then(()=>{
-                            console.log("登录成功")
-                            console.log(this.$store.state.username)
-                            this.$router.push("/layout")
-                        }).catch(()=>{
-                            console.log("登录失败")
-                        })
-
-
-                    }else{
-
-                    }
-                })
-            }
-        }
-    };
-</script>
-
-
-<style lang="scss">
-    .login-container {
-        min-height: 100vh;
-        width: 100%;
-        background-color: #2d3a4b;
-        overflow: hidden;
-
-        .login-form {
-            position: relative;
-            width: 520px;
-            max-width: 80%;
-            padding: 160px 10% 0;
-            margin: 0 auto;
-            overflow: hidden;
-
-            .title-container {
-                position: relative;
-
-                .title {
-                    font-size: 26px;
-                    color: #eee;
-                    margin: 0px auto 40px auto;
-                    text-align: center;
-                    font-weight: bold;
+            submit() {
+                if(this.$refs.loginForm.validate()){
+                    this.$store.dispatch('Login',this.login).then( () => {
+                        console.log("succeed")
+                        this.$router.push('/layout')
+                        console.log('username:'+this.$store.state.username)
+                    }).catch(() => {
+                        console.log('failed')
+                    })
                 }
             }
-
-            .el-form-item {
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                background: rgba(0, 0, 0, 0.1);
-                border-radius: 5px;
-                color: #454545;
-
-                .el-input {
-                    display: inline-block;
-                    height: 52px;
-                    width: 100%;
-
-                    input {
-                        background: transparent;
-                        border: 0px;
-                        padding: 12px 5px 12px 30px;
-                        color: #fff;
-                        height: 52px;
-                        caret-color: #fff;
-                    }
-                }
-            }
-
         }
-
     }
+</script>
+<style>
 </style>

@@ -7,6 +7,8 @@ import './mock'
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import vuetify from '@/plugins/vuetify'
+Vue.use(vuetify)
 Vue.use(ElementUI);
 
 
@@ -36,8 +38,11 @@ Vue.component('chart', ECharts)
 Vue.config.productionTip = false
 
 new Vue({
+  vuetify,
   router,
   store,
+  // components: { App },
+  // template: '<App/>',
   render: h => h(App)
 }).$mount('#app')
 

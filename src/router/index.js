@@ -22,7 +22,7 @@ export default new Router({
     {
       path: '/layout',
       name: 'layout',
-      component: () => import('../views/layout/Layout.vue'),
+      component: () => import('../views/layout/index.vue'),
       children:[
         {
           path: '/',
