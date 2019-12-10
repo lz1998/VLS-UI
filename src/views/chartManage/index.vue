@@ -422,7 +422,7 @@
             .chart-item{
                 float: left;
                 margin:1vw;
-                width:25vw;
+                width:30vw;
                 height:42vh;
                 border:1px solid #aaa;
                 border-radius: 5px;
@@ -438,7 +438,7 @@
                 }
                 .chart{
                     margin:1vh 1vw;
-                    width:23vw;
+                    width:28vw;
                     height:28vh;
                     background-color: #000080;
                 }
