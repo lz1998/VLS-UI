@@ -318,7 +318,7 @@ const seriesDefaultOption={
             opacity:()=>{return{desc:'图形透明度',default:1,inputType:'text'}},
 
         },
-        //stack:()=>{return{desc:'数据堆叠',default:null,inputType:'text'}},
+        //stack:()=>{return{desc:'数据堆叠',default:null,inputType:'test'}},
         cursor:()=>{return{desc:'鼠标悬浮时在图形元素上时鼠标的样式是什么',default:'pointer',inputType:'text'}},
         barWidth:()=>{return{desc:'柱条的宽度',default:'自适应',inputType:'text'}},
         barMaxWidth:()=>{return{desc:'柱条最大宽度',default:'自适应',inputType:'text'}},

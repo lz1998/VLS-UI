@@ -64,7 +64,8 @@
                 links:[
                     {icon:'dashboard',text:'图表管理',route:'/chartManage'},
                     {icon:'computer',text:'大屏管理',route:'/screenManage'},
-                    {icon:'settings',text:'账号管理',route:'/accountManage'}
+                    {icon:'settings',text:'账号管理',route:'/accountManage'},
+                    {icon:'',text:'test',route:'/test'}
                 ],
                 item:1
             }

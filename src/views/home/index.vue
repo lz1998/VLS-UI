@@ -195,7 +195,7 @@
     }
 
     .wrapper-out {
-        width: 25vw;
+        width: 24.5vw;
         height: 30vh;
         padding: 1vh 1vw;
     }
