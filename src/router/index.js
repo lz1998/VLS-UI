@@ -29,6 +29,11 @@ export default new Router({
                     redirect: '/chartManage'
                 },
                 {
+                    path: '/dataManage',
+                    name: 'dataManage',
+                    component: () => import('../views/dataManage/index.vue')
+                },
+                {
                     path: '/chartManage',
                     name: 'chartManage',
                     component: () => import('../views/chartManage/index.vue')
@@ -39,15 +44,15 @@ export default new Router({
                     component: () => import('../views/mapManage/index.vue')
                 },
                 {
-                    path: '/test',
-                    name: 'test',
-                    component: () => import('../views/test/index.vue')
-                },
-                {
                     path: '/screenManage',
-                    name: 'screenManage',
+                    name: 'test',
                     component: () => import('../views/screenManage/index.vue')
                 },
+                // {
+                //     path: '/oldScreenManage',
+                //     name: 'oldScreenManage',
+                //     component: () => import('../views/oldScreenManage/index.vue')
+                // },
                 {
                     path: '/accountManage',
                     name: 'accountManage',

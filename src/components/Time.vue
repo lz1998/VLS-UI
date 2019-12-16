@@ -3,11 +3,9 @@
         <div class="nowTime">
             {{getCurDate()}}
         </div>
-
         <div class="nowTime">
             {{getCurTime()}}
         </div>
-
     </div>
 
 </template>
@@ -72,8 +70,9 @@
             height:50%;
             line-height: 5vh;
             text-align: center;
-            font-size: 30px;
-            color: #80FFFF;
+            font-size: 20px;
+            color: #ffffff;
+            background-color: rgba(16, 22, 54, 1);
         }
     }
 </style>

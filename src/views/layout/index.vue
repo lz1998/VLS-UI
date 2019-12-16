@@ -1,14 +1,17 @@
 <template>
-    <v-app>
+<!--    <v-app>-->
+    <div class="layout">
         <Navbar />
         <v-content>
             <router-view></router-view>
         </v-content>
-    </v-app>
+    </div>
+<!--    </v-app>-->
 </template>
 <script>
     import Navbar from "@/views/layout/components/Navbar";
     export default{
+        name:'layout',
         components:{
             Navbar
         }

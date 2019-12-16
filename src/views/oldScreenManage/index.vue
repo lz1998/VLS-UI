@@ -1,137 +1,120 @@
 <template>
-    <div class="screen">
-        <div class="chart">
-            <v-toolbar color="#EEEEEE" flat dense>
-                <h1 class="v-subheader black--text">请选择大屏背景颜色</h1>
-                <el-color-picker v-model="backgroundColor" show-alpha @change="showColor" @active-change="showActivecolor"></el-color-picker>
-                <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="toChild">确认布置到home界面中</v-btn>
-            </v-toolbar>
-            <v-row no-gutters>
-                <v-col cols="3">
-                    <div id="image" style="height: 8vh">
-                        <img v-show="imgUrl" :src="imgUrl" @click="clickUpload"  style="width: 100%;height: 100%" >
-                        <el-upload v-show="!imgUrl"
-                                   v-bind:class="{'avatar-uploader':!imgUrl}"
-                                   action="https://jsonplaceholder.typicode.com/posts/"
-                                   :show-file-list="false"
-                                   :on-success="handleAvatarSuccess"
-                        >
-                            <i ref="clickupload" class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                    </div>
-                </v-col>
-                <v-col cols="6" id="notice">
-                    <div style="height: 8vh">
-                        <div style="width:100%;height: 100%" v-if="isNoticeEditing!=false" @click="addNotice">
-                            <marquee class="roll-info">{{notice}}</marquee>
-                        </div>
-                        <div style="width:100%;height: 100%;" v-if="isNoticeEditing==false">
-                            <el-input v-model="notice"
-                                      style="height: 100%;width: 70%;font-size: large;margin-top: 20px"></el-input>
-                            <el-button @click="handleSaveNotice">保存</el-button>
-                        </div>
-                    </div>
-                </v-col>
-                <v-col cols="3" id="time">
-                    <div class="time" style="height: 8vh">
-                        <time1> </time1>
-                    </div>
-                </v-col>
-            </v-row>
-            <v-row no-gutters>
-                <v-col cols="3">
-                    <v-row no-gutters>
-                        <v-col cols="12" id="1">
-                            <div style="height: 25vh" @click="sendId(1)">
-                                <chart
-                                        :options="screenChartList[1].option"
-                                        :auto-resize="true"
-                                        style="width: 100%; height: 100%;"
-                                />
-                            </div>
-                        </v-col>
-                        <v-col cols="12">
-                            <div style="height: 25vh" @click="sendId(2)">
-                                <chart
-                                        :options="screenChartList[2].option"
-                                        :auto-resize="true"
-                                        style="width: 100%; height: 100%;"
-                                />
-                            </div>
-                        </v-col>
-                    </v-row>
-                </v-col>
-                <v-col cols="6">
-                    <div style="height: 50vh" id="0" @click="sendId(0)">
-                        <chart
-                                :options="screenChartList[0].option"
-                                :auto-resize="true"
-                                style="width: 100%; height: 100%;"
-                        />
-                    </div>
-                </v-col>
-                <v-col cols="3">
-                    <v-row no-gutters>
-                        <v-col cols="12" id="8">
-                            <div style="height: 25vh" @click="sendId(8)">
-                                <chart
-                                        :options="screenChartList[8].option"
-                                        :auto-resize="true"
-                                        style="width: 100%; height: 100%;"
-                                />
-                            </div>
-                        </v-col>
-                        <v-col cols="12" id="7">
-                            <div style="height: 25vh" @click="sendId(7)">
-                                <chart
-                                        :options="screenChartList[7].option"
-                                        :auto-resize="true"
-                                        style="width: 100%; height: 100%;"
-                                />
-                            </div>
-                        </v-col>
-                    </v-row>
-                </v-col>
-            </v-row>
-            <v-row no-gutters>
-                <v-col cols="3">
-                    <div style="height: 25vh" id="3" @click="sendId(3)" >
-                        <chart
-                                :options="screenChartList[3].option"
-                                :auto-resize="true"
-                                style="width: 100%; height: 100%;"
-                        />
-                    </div>
-                </v-col>
-                <v-col cols="3">
-                    <div style="height: 25vh" id="4" @click="sendId(4)">
+    <div class="screen-manage">
+        <div style="margin-bottom: 10px;float: left">
+            <span style="font-size: xx-large;margin-right: 100px">请给大屏背景选择颜色</span>
+            <el-color-picker v-model="backgroundColor" show-alpha @change="showColor" @active-change="showActivecolor"></el-color-picker>
+        </div>
+        <div style="margin-bottom: 20px;float: right">
+            <el-button @click="toChild" style="background-color: greenyellow">确认布置到home界面中</el-button>
+        </div>
+        <div class="screen-header">
+            <div style="width:100%;border: 1px solid;">
+<!--            <img v-if="imgUrl" :src="imgUrl" @click="clickUpload" class="Image" >-->
+                <img v-show="imgUrl" :src="imgUrl" @click="clickUpload" class="Image" >
+                <el-upload v-show="!imgUrl"
+                           v-bind:class="{'avatar-uploader':!imgUrl}"
+                           action="https://jsonplaceholder.typicode.com/posts/"
+                           :show-file-list="false"
+                           :on-success="handleAvatarSuccess"
+                >
+                    <i ref="clickupload" class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </div>
+            <div style="width:200%;border: 1px solid;">
+                <div style="width:100%;height: 100%" v-if="isNoticeEditing!=false" @click="addNotice">
+                    <marquee class="roll-info">{{notice}}</marquee>
+                </div>
+                <div style="width:100%;height: 100%;" v-if="isNoticeEditing==false">
+                    <el-input v-model="notice"
+                              style="height: 100%;width: 70%;font-size: large;margin-top: 20px"></el-input>
+                    <el-button @click="handleSaveNotice">保存</el-button>
+                </div>
+            </div>
+            <div style="width:100%; border:1px solid;">
+                <time1></time1>
+            </div>
+        </div>
+        <div class="screen-body">
+            <div class="left-right">
+                <div class="chart-box" @click="sendId(1)" v-if="screenChartList.length>1">
+                    <div class="add-chart" v-if="screenChartList[1].chartId<0">点击添加图表</div>
+                    <chart
+                            :options="screenChartList[1].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+                <div class="chart-box" @click="sendId(2)" v-if="screenChartList.length>2">
+                    <div class="add-chart" v-if="screenChartList[2].chartId<0">点击添加图表</div>
+                    <chart
+                            :options="screenChartList[2].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+                <div class="chart-box" @click="sendId(3)" v-if="screenChartList.length>3">
+                    <div class="add-chart" v-if="screenChartList[3].chartId<0">点击添加图表</div>
+                    <chart
+                            :options="screenChartList[3].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+            </div>
+            <div class="middle">
+                <div class="chart-map" @click="sendId(0)" v-if="screenChartList.length>0">
+                    <div class="add-chart" v-if="screenChartList[0].chartId<0">点击添加图表</div>
+                    <chart
+                            :options="screenChartList[0].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+                <div class="bottom-box">
+                    <div class="chart-bottombox" @click="sendId(4)" v-if="screenChartList.length>4">
+                        <div class="add-chart" v-if="screenChartList[4].chartId<0">点击添加图表</div>
                         <chart
                                 :options="screenChartList[4].option"
                                 :auto-resize="true"
                                 style="width: 100%; height: 100%;"
                         />
                     </div>
-                </v-col>
-                <v-col cols="3">
-                    <div style="height: 25vh" id="5" @click="sendId(5)">
+                    <div class="chart-bottombox" @click="sendId(5)" v-if="screenChartList.length>5">
+                        <div class="add-chart" v-if="screenChartList[5].chartId<0">点击添加图表</div>
                         <chart
                                 :options="screenChartList[5].option"
                                 :auto-resize="true"
                                 style="width: 100%; height: 100%;"
                         />
                     </div>
-                </v-col>
-                <v-col cols="3">
-                    <div style="height: 25vh" id="6" @click="sendId(6)">
-                        <chart
-                                :options="screenChartList[6].option"
-                                :auto-resize="true"
-                                style="width: 100%; height: 100%;"
-                        />
-                    </div>
-                </v-col>
-            </v-row>
+                </div>
+            </div>
+            <div class="left-right">
+                <div class="chart-box" @click="sendId(8)" v-if="screenChartList.length>8">
+                    <div class="add-chart" v-if="screenChartList[8].chartId<0">点击添加图表</div>
+                    <chart
+                            :options="screenChartList[8].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+                <div class="chart-box" @click="sendId(7)" v-if="screenChartList.length>7">
+                    <div class="add-chart" v-if="screenChartList[7].chartId<0">点击添加图表</div>
+                    <chart
+                            :options="screenChartList[7].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+                <div class="chart-box" @click="sendId(6)" v-if="screenChartList.length>6">
+                    <div class="add-chart" v-if="screenChartList[6].chartId<0">点击添加图表</div>
+                    <chart
+                            :options="screenChartList[6].option"
+                            :auto-resize="true"
+                            style="width: 100%; height: 100%;"
+                    />
+                </div>
+            </div>
         </div>
         <el-dialog :visible.sync="chartDialogShow">
             <el-form :model="chartForm">
@@ -186,7 +169,8 @@
         </el-dialog>
     </div>
 </template>
-<script>
+
+<script type="text/ecmascript-6">
     import time1 from '../../components/Time'
     import uploadLogo1 from '../../components/uploadLogo'
     import {listChart} from "@/api/chart.js"
@@ -195,14 +179,14 @@
     import {setScreen} from "@/api/screen.js"
 
     export default {
-        name: "screen",
+        name: "index",
         components: {
             time1,
             uploadLogo1
         },
         data() {
             return {
-                backgroundColor: 'rgba(16, 22, 54, 1)',
+                backgroundColor:'rgba(16, 22, 54, 1)',
                 fileList: [],
                 imgUrl: '',
                 logoShow: false,
@@ -232,21 +216,21 @@
             }
         },
         methods: {
-            toChild() {
+            toChild(){
 
                 this.saveScreen()
                 this.$router.push({
-                    path: '/home',
-                    query: {
-                        id: this.screenId
+                    path:'/home',
+                    query:{
+                        id:this.screenId
                     }
                 })
             },
-            showActivecolor(s) {
+            showActivecolor(s){
                 console.log(s)
             },
-            showColor(color) {
-                this.backgroundColor = color;
+            showColor(color){
+                this.backgroundColor=color;
                 console.log(this.backgroundColor)
 
             },
@@ -327,7 +311,7 @@
                         this.notice = screen.notice
                         this.imgUrl = screen.imgUrl
                         this.screenId = screen.id
-                        this.backgroundColor = screen.backgroundColor;
+                        this.backgroundColor=screen.backgroundColor;
                         // console.log(this.screenChartList)
                     } else {
                         for (let i = 0; i < 9; i++) {
@@ -354,8 +338,10 @@
             },
             handleSaveScreenChart() {
                 // 保存图表id
-                this.screenChartList[this.chartForm.positionId].chartId = this.chartList[this.chartForm.chartIndex].id
+                this.screenChartList[this.chartForm.positionId] = this.chartList[this.chartForm.chartIndex]
                 this.chartDialogShow = false
+
+
             },
             handleSaveNotice() {
                 // 保存顶部通知
@@ -407,7 +393,7 @@
                 }
                 reader.readAsDataURL(file.raw);
             },
-            clickUpload() {
+            clickUpload(){
                 this.$refs.clickupload.click()
             }
         },
@@ -418,3 +404,122 @@
         }
     }
 </script>
+
+<style lang="scss">
+    .screen-manage {
+        width: 100%;
+        height: 100%;
+
+        .screen-header {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            width: 100%;
+            height: 10%;
+            .Image{
+                z-index: 100;
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+            .avatar-uploader .el-upload {
+                border: 1px dashed #d9d9d9;
+                border-radius: 6px;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                z-index: 100;
+            }
+            .avatar-uploader .el-upload:hover {
+                border-color: #409EFF;
+            }
+            .avatar-uploader-icon {
+                font-size: 25px;
+                color: #8c939d;
+                width: 62px;
+                height: 62px;
+                line-height: 62px;
+                text-align: center;
+            }
+            .roll-info {
+                width: 100%;
+                height: 5vh;
+                line-height: 5vh;
+                margin-top: 2.5vh;
+                font-size: 3vh;
+                font-weight: 700;
+                border-radius: 2vh;
+                background-color: #000080;
+                color: #80FFFF
+            }
+        }
+
+        .screen-body {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            width: 100%;
+            height: 90%;
+
+            .left-right {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                height: 100%;
+
+                .chart-box {
+                    width: 100%;
+                    height: 100%;
+                    border: 1px solid;
+                    box-sizing: border-box;
+                }
+            }
+
+            .middle {
+                display: flex;
+                flex-direction: column;
+                width: 200%;
+                height: 100%;
+
+                .chart-map {
+                    width: 100%;
+                    height: 200%;
+                    border: 1px solid;
+                    box-sizing: border-box;
+                    background-color: #80FFFF;
+                }
+
+                .bottom-box {
+                    display: flex;
+                    flex-direction: row;
+                    width: 100%;
+                    height: 100%;
+                    border: 1px solid;
+                    box-sizing: border-box;
+
+                    .chart-bottombox {
+                        width: 100%;
+                        height: 100%;
+                        border: 1px solid;
+                        box-sizing: border-box;
+                    }
+                }
+            }
+        }
+    }
+
+
+    .btn-add {
+        margin-left: 20px;
+        display: inline-block;
+        background-color: #67C23A;
+        color: white;
+        text-align: center;
+    }
+
+    .add-chart {
+        text-align: center;
+        font-size: x-large;
+    }
+
+</style>

@@ -1,14 +1,18 @@
 <template>
     <div class="chart-manage">
-        <el-form :inline="true" :model="queryChartForm">
-            <el-form-item label="图表标题">
-                <el-input v-model="queryChartForm.title" placeholder="图表标题"/>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="queryChart">查询图表</el-button>
-                <el-button type="primary" @click="showAddChartDialog">新增图表</el-button>
-            </el-form-item>
-        </el-form>
+        <v-row justify="center" align="center">
+            <v-col cols="6">
+                <el-form :inline="true" :model="queryChartForm" style="text-align: center">
+                    <el-form-item label="图表标题">
+                        <el-input v-model="queryChartForm.title" placeholder="图表标题"/>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="queryChart">查询图表</el-button>
+                        <el-button type="primary" @click="showAddChartDialog">新增图表</el-button>
+                    </el-form-item>
+                </el-form>
+            </v-col>
+        </v-row>
         <div class="chart-container">
             <div class="chart-item" v-for="(chartItem,index) in chartFormList">
                 <div class="chart-title">
@@ -21,7 +25,7 @@
                             style="width: 100%; height: 100%;"
                     />
                 </div>
-                <div class="manage">
+                <div class="manage" style="text-align: center">
                     <el-button type="primary" size="small" @click="showEditChartDialog(index)">编辑</el-button>
                     <el-button type="danger" size="small" @click="delChart(index)" >删除</el-button>
                 </div>
@@ -83,13 +87,14 @@
                                         style="width: 100%; height: 100%;"
                                 />
                             </div>
-                            <el-button type="warning" @click="refreshPreview">预览</el-button>
+
                         </el-form-item></div>
                     </el-col>
                 </el-row>
                 <el-form-item>
                     <el-button type="primary" @click="saveChart">保存</el-button>
                     <el-button @click="chartDialogVisible=false">取消</el-button>
+                    <el-button type="warning" @click="refreshPreview">预览</el-button>
                 </el-form-item>
           </el-form>
         </el-dialog>
@@ -220,7 +225,7 @@
                     if(item.id==id){
                         item.value=value
                     }else if(id.substring(0,item.id.length+1)==item.id+"."){
-                        //多匹配一个点，防止title.test，title.textStyle混淆
+                        //多匹配一个点，防止title.screenManage，title.textStyle混淆
                         this.setTreeNodeValueById(item.children,id,value)
                     }
                 })
