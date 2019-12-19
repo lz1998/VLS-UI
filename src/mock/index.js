@@ -1,3 +1,3 @@
 import Mock from 'mockjs'
-
-Mock.mock('/screenManage', 'get', require('./data/test.json'))
+//
+// Mock.mock('/screenManage', 'get', require('./data/test.json'))

@@ -48,11 +48,11 @@ export default new Router({
                     name: 'test',
                     component: () => import('../views/screenManage/index.vue')
                 },
-                // {
-                //     path: '/oldScreenManage',
-                //     name: 'oldScreenManage',
-                //     component: () => import('../views/oldScreenManage/index.vue')
-                // },
+                {
+                    path: '/oldScreenManage',
+                    name: 'oldScreenManage',
+                    component: () => import('../views/oldScreenManage/index.vue')
+                },
                 {
                     path: '/accountManage',
                     name: 'accountManage',
