@@ -432,6 +432,7 @@
                 border:1px solid #aaa;
                 border-radius: 5px;
                 background-color: #000080;
+                text-align: center;
                 .chart-title{
                     width:90%;
                     margin-left: 5%;
@@ -439,7 +440,8 @@
                     line-height:5vh;
                     font-size: 3vh;
                     font-weight: 700;
-                    color:yellow;
+                    color:#E0E0E0;
+                    text-align: center;
                 }
                 .chart{
                     margin:1vh 1vw;

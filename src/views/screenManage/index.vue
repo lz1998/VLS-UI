@@ -10,7 +10,7 @@
             </v-toolbar>
             <v-row no-gutters>
                 <v-col cols="3" >
-                    <div id="image"  style="height: 8vh">
+                    <div id="image"  style="height: 8vh;background-color: rgba(16, 22, 54, 1)">
                         <img v-show="imgUrl" :src="imgUrl" @click="clickUpload" style="width: 100%;height: 100%">
                         <el-upload v-show="!imgUrl"
                                    v-bind:class="{'avatar-uploader':!imgUrl}"

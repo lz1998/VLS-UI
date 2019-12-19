@@ -18,28 +18,32 @@
                 </el-form>
             </v-col>
         </v-row>
-        <v-list rounded >
-            <v-list-item-group v-model="item" color="primary" class="pa-2">
-                <v-list-item
-                        v-for="(item, index) in items"
-                        :key="index"
-                >
-                    <v-list-item-content>
-                        <v-list-item-title>{{item.text}}</v-list-item-title>
-                    </v-list-item-content>
-                    <v-list-item-action>
-                        <v-btn icon text >
-                            <v-icon>delete</v-icon>
-                        </v-btn>
-                    </v-list-item-action>
-                    <v-list-item-action>
-                        <v-btn @click="editData" icon text>
-                            <v-icon>edit</v-icon>
-                        </v-btn>
-                    </v-list-item-action>
-                </v-list-item>
-            </v-list-item-group>
-        </v-list>
+        <v-row justify="center" no-gutters>
+            <v-col cols="11">
+                <v-list rounded>
+                    <v-list-item-group v-model="item" color="primary" class="pa-2">
+                        <v-list-item
+                                v-for="(item, index) in items"
+                                :key="index"
+                        >
+                            <v-list-item-content>
+                                <v-list-item-title>{{item.text}}</v-list-item-title>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon text>
+                                    <v-icon>delete</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                            <v-list-item-action>
+                                <v-btn @click="editData" icon text>
+                                    <v-icon>edit</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-col>
+        </v-row>
         <el-dialog
                 :title="isAddOperation?'添加数据':'修改数据'"
                 :visible.sync="dataVisible"
@@ -83,8 +87,9 @@
                                 </v-col>
                             </v-row>
                         </el-form-item>
-                        <el-form-item v-for="(item,index) in dataForm.content" :key="index" label-width="70px"  :label="'第'+(index+1)+'项'">
-                            <v-row justify="start" align="center" no-gutters >
+                        <el-form-item v-for="(item,index) in dataForm.content" :key="index" label-width="70px"
+                                      :label="'第'+(index+1)+'项'">
+                            <v-row justify="start" align="center" no-gutters>
                                 <v-col cols="5">
                                     <el-input
                                             v-model="item.name"
@@ -102,7 +107,7 @@
                                     </el-input>
                                 </v-col>
                                 <v-col cols="2" v-if="index!=0">
-                                    <el-button @click.prevent="removeDataItem(props)" >删除</el-button>
+                                    <el-button @click.prevent="removeDataItem(item)">删除</el-button>
                                 </v-col>
                             </v-row>
                         </el-form-item>
@@ -125,8 +130,9 @@
     export default {
         data() {
             return {
+                test: 'Hello World',
                 title: '',
-                item:1,
+                item: 1,
                 items: [
                     {text: 'Real-Time', icon: 'mdi-clock'},
                     {text: 'Audience', icon: 'mdi-account'},
@@ -142,8 +148,8 @@
                         value: ''
                     },
                     content: [{
-                        name:'',
-                        value:'',
+                        name: '',
+                        value: ''
                     },
                     ]
                 },
@@ -165,28 +171,43 @@
                 this.dataVisible = true
                 this.isAddOperation = false
             },
-            removeDataItem(item){
+            removeDataItem(item) {
                 let index = this.dataForm.content.indexOf(item)
                 if (index !== -1) {
                     this.dataForm.content.splice(index, 1)
                 }
             },
-            addDataItem(){
+            addDataItem() {
                 this.dataForm.content.push({
                     name: '',
-                    value:'',
+                    value: '',
                     // key: Date.now()
                 })
             },
             resetForm() {
-                this.dataForm.content=[{
-                    name:'',
-                    value:'',
+                this.dataForm.content = [{
+                    name: '',
+                    value: '',
                 },]
             },
-            submitData(){
+            submitData() {
+                let dataForm = new Object({
+                    title: this.dataForm.title,
+                    type: this.dataForm.type,
+                    item: {
+                        name: this.dataForm.item.name,
+                        value: this.dataForm.item.value.split(",").map(Number)
+                    },
+                    content: []
+                })
+                for (let i = 0; i < this.dataForm.content.length; i++) {
+                    dataForm.content.push({
+                        name: this.dataForm.content[i].name,
+                        value: this.dataForm.content[i].value.split(",").map(Number)
+                    })
+                }
+                console.log(dataForm)
                 this.dataVisible=false
-                console.log(this.dataForm)
             }
         }
     }
