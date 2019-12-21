@@ -268,12 +268,12 @@
             toChild() {
 
                 this.saveScreen()
-                this.$router.push({
-                    path: '/home',
-                    query: {
-                        id: this.screenId
-                    }
-                })
+                // this.$router.push({
+                //     path: '/home',
+                //     query: {
+                //         id: this.screenId
+                //     }
+                // })
             },
             showActivecolor(s) {
                 console.log(s)
@@ -387,7 +387,9 @@
             },
             handleSaveScreenChart() {
                 // 保存图表id
+                console.log(this.chartList[this.chartForm.chartIndex])
                 this.screenChartList[this.chartForm.positionId] = this.chartList[this.chartForm.chartIndex]
+                this.screenChartList[this.chartForm.positionId].chartId = this.chartList[this.chartForm.chartIndex].id
                 this.chartDialogShow = false
             },
             handleSaveNotice() {
@@ -410,6 +412,8 @@
                 console.log(this.imgUrl)
                 data.append("notice", this.notice)
                 for (let i = 0; i < 9; i++) {
+                    console.log(i)
+                    console.log(this.screenChartList[i].chartId)
                     data.append("chart" + i.toString() + "Id", this.screenChartList[i].chartId)
                 }
                 setScreen(data).then(res => {
