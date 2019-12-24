@@ -6,7 +6,7 @@
                 <v-form>
                     <v-row align="center" justify="center">
                         <v-col cols="10" md="6">
-                            <el-input v-model="id" placeholder="id"></el-input>
+                            <el-input v-model="id" placeholder="用户名"></el-input>
                         </v-col>
                         <v-col cols="3">
                             <v-btn depressed color="success" @click="queryUser">查询用户</v-btn>
@@ -18,19 +18,18 @@
                 </v-form>
             </v-row>
             <v-row>
-                <v-col cols="12" sm="6" md="3" v-for="user in users" :key="user.id">
+                <v-col cols="12" sm="6" md="3" v-for="user in users" :key="user.name">
                     <v-card class="pa-4 " flat>
                         <v-card-text class="text-center">
-                            <div class="text-left">id:{{user.id}}</div>
                             <v-responsive class="my-4">
                                 <v-avatar size="100">
                                     <img src="http://www.sucaijishi.com/uploadfile/2016/0203/20160203022636507.png">
                                 </v-avatar>
                             </v-responsive>
-                            <div class="subheader">name:{{user.username}}</div>
-                            <v-chip :color="(user.role=='user')?'#3cd1c2':'orange lighten-3'">
+                            <div class="subheader">用户名:{{user.username}}</div>
+                            <v-chip :color="(user.role=='admin')?'#3cd1c2':'orange lighten-3'">
                                 <v-icon left>mdi-account</v-icon>
-                                <div class="grey--text">role:{{ user.role }}</div>
+                                <div class="grey--text">角色:{{ user.role }}</div>
                             </v-chip>
                         </v-card-text>
                         <v-card-actions>
@@ -38,14 +37,14 @@
                                 <v-icon small left>
                                     edit
                                 </v-icon>
-                                <span>edit</span>
+                                <span>编辑</span>
                             </v-btn>
                             <v-spacer></v-spacer>
-                            <v-btn text @click="delUser(user.id)">
+                            <v-btn text @click="delUser(user.username)">
                                 <v-icon small left>
                                     delete
                                 </v-icon>
-                                <span>delete</span>
+                                <span>删除</span>
                             </v-btn>
                         </v-card-actions>
                     </v-card>
@@ -61,17 +60,18 @@
                         </v-btn>
                     </v-card-title>
                     <v-card-text>
-                        <v-form class="px-4">
+                        <v-form class="px-4" ref="userForm">
                             <v-text-field outlined dense label="用户名" color="primary lighten-1"
-                                          v-model="user.username"></v-text-field>
+                                          v-model="user.username" :rules="usernameRules"></v-text-field>
                             <v-text-field outlined dense label="密码" color="primary lighten-1"
-                                          v-model="user.password"></v-text-field>
+                                          v-model="user.password" :rules="passwordRules"></v-text-field>
                             <v-combobox
                                     v-model="user.role"
                                     :items="items"
                                     chips
                                     label="角色"
                                     clearable
+                                    :rules="roleRules"
                             >
                                 <template v-slot:selection="data">
                                     <v-chip
@@ -103,55 +103,50 @@
     </div>
 </template>
 <script>
-    import {delUserById, userList, editUser, addUser, queryUser} from "@/api/userManage";
+    import {getUserList, setUser, deleteUser} from "@/api/user";
 
     export default {
         data() {
             return {
                 id: '',
                 items: [
-                    'administrator',
-                    'user',
+                    'su',
+                    'admin',
                 ],
                 isEditing: false,
                 user: {
-                    id: '',
                     username: '',
                     password: '',
                     role: ''
                 },
                 showDialog: false,
-                users: [
-                    {
-                        id: 1,
-                        username: 'test1',
-                        password: '123456',
-                        role: 'administrator'
-                    }, {
-                        id: 2,
-                        username: 'test2',
-                        password: '145257',
-                        role: 'administrator'
-                    }, {
-                        id: 3,
-                        username: 'test3',
-                        password: '456789',
-                        role: 'administrator'
-                    }, {
-                        id: 4,
-                        username: 'test3',
-                        password: '456789',
-                        role: 'user'
-                    },
+                users: [],
+                usernameRules: [
+                    v => !!v || '请输入用户名',
+                ],
+                passwordRules: [
+                    v => !!v || '请输入密码',
+                ],
+                roleRules:[
+                    v => !!v || '请输入角色',
+
                 ]
             }
         },
         methods: {
-            delUser(id) {
-                // delUserById(id).then(res => {
-                //     console.log(res)
-                // })
-                console.log(id)
+            delUser(username) {
+                let data = {
+                    username:username
+                }
+                deleteUser(data).then(res => {
+                    this.$message({
+                        type:'success',
+                        message:'删除成功'
+                    })
+                    this.loadUserList()
+                    console.log(res)
+                })
+                console.log(username)
             },
             queryUser() {
                 console.log(this.id)
@@ -159,10 +154,10 @@
             showAddUserDialog() {
                 this.user = {}
                 this.isEditing = false
-                this.showDialog = truee
+                this.showDialog = true
             },
             showEditDialog(user) {
-                console.log(user.id)
+                console.log(user.username)
                 this.loadUserData(user)
                 this.isEditing = true
                 this.showDialog = true
@@ -174,27 +169,46 @@
                 this.user.role = user.role
             },
             addOrEditUser() {
-                if (this.isEditing == true) {
-                    // editUser(this.user.id).then(res => {
-                    //     this.users.forEach(item => {
-                    //         if(item.id==this.user.id){
-                    //             item=res.result
-                    //         }
-                    //     })
-                    // })
-                    console.log(this.user.id)
-                } else {
-                    // addUser().then(res => {
-                    //     this.users.push(res.result)
-                    // })
-                    console.log('添加用户')
+                if (this.$refs.userForm.validate()){
+                    // 编辑用户
+                    if (this.isEditing == true) {
+                        setUser(this.user).then(res => {
+                            console.log(res)
+                            this.$message({
+                                type:'success',
+                                message:'编辑成功'
+                            })
+                            this.loadUserList()
+                            this.showDialog=false
+                        })
+                    }
+                    // 添加用户
+                    else {
+                        setUser(this.user).then(() => {
+                            this.$message({
+                                type:'success',
+                                message:'增加成功'
+                            })
+                            this.showDialog=false
+                            this.loadUserList()
+                        })
+                    }
                 }
             },
-            // mounted(){
-            //     userList().then(res =>{
-            //         this.users=res.userList
-            //     })
-            // }
+            loadUserList(){
+                getUserList().then(res => {
+                    this.users=res.userList
+                    console.log(res.userList)
+                })
+            }
+        },
+        // computed(){
+        //   searchUser(this.title){
+        //
+        //     }
+        // },
+        mounted() {
+            this.loadUserList()
         }
     }
 </script>
