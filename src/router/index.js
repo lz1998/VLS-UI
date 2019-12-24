@@ -22,40 +22,47 @@ export default new Router({
         {
             path: '/layout',
             name: 'layout',
+            redirect:'/chartManage',
             component: () => import('../views/layout/index.vue'),
             children: [
                 {
-                    path: '/',
-                    redirect: '/chartManage'
-                },
-                {
                     path: '/dataManage',
-                    name: 'dataManage',
+                    name: '数据管理',
+                    icon:'assignment',
                     component: () => import('../views/dataManage/index.vue')
                 },
                 {
                     path: '/chartManage',
-                    name: 'chartManage',
+                    name: '图表管理',
+                    icon:'dashboard',
                     component: () => import('../views/chartManage/index.vue')
                 },
-                {
-                    path: '/mapManage',
-                    name: 'mapManage',
-                    component: () => import('../views/mapManage/index.vue')
-                },
+                // {
+                //     path: '/mapManage',
+                //     name: 'mapManage',
+                //     component: () => import('../views/mapManage/index.vue')
+                // },
                 {
                     path: '/screenManage',
-                    name: 'test',
+                    name: '大屏管理',
+                    icon:'computer',
                     component: () => import('../views/screenManage/index.vue')
                 },
+                // {
+                //     path: '/oldScreenManage',
+                //     name: 'oldScreenManage',
+                //     component: () => import('../views/oldScreenManage/index.vue')
+                // },
                 {
-                    path: '/oldScreenManage',
-                    name: 'oldScreenManage',
-                    component: () => import('../views/oldScreenManage/index.vue')
+                    path: '/userManage',
+                    name: '用户管理',
+                    icon: 'supervisor_account',
+                    component: () => import('../views/userManage/index.vue')
                 },
                 {
                     path: '/accountManage',
-                    name: 'accountManage',
+                    name: '账号管理',
+                    icon: 'settings',
                     component: () => import('../views/accountManage/index.vue')
                 }
 

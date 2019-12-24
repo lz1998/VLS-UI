@@ -3,7 +3,7 @@
         <v-app-bar color="#2d3a4b" app>
             <v-app-bar-nav-icon @click="drawer=!drawer" class="white--text"></v-app-bar-nav-icon>
             <v-toolbar-title class="text-uppercase white--text">
-                <span class="font-weight-light">大屏数可视化管理</span>
+                <span class="font-weight-light">大屏数据可视化管理</span>
                 <span>管理后台</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -15,9 +15,9 @@
                     </v-btn>
                 </template>
                 <v-list>
-                    <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
+                    <v-list-item v-for="link in $router.options.routes[3].children" :key="link.name" router :to="link.path">
                         <v-list-item-title >
-                            {{link.text}}
+                            {{link.name}}
                         </v-list-item-title>
                     </v-list-item>
                 </v-list>
@@ -44,11 +44,11 @@
             </v-col>
             <v-list rounded >
                 <v-list-item-group v-model='item' color="primary">
-                    <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
+                    <v-list-item v-for="link in $router.options.routes[3].children" :key="link.name" router :to="link.path">
                         <v-list-item-icon>
                             <v-icon v-text="link.icon" class="white--text"></v-icon>
                         </v-list-item-icon>
-                        <v-list-item-title v-text="link.text" class="white--text" @click="drawer=!drawer"></v-list-item-title>
+                        <v-list-item-title v-text="link.name" class="white--text" @click="drawer=!drawer"></v-list-item-title>
                     </v-list-item>
                 </v-list-item-group>
             </v-list>
@@ -61,13 +61,6 @@
         data() {
             return {
                 drawer: false,
-                links:[
-                    {icon:'assignment',text:'数据管理',route:'/dataManage'},
-                    {icon:'dashboard',text:'图表管理',route:'/chartManage'},
-                    {icon:'computer',text:'大屏管理',route:'/screenManage'},
-                    {icon:'settings',text:'账号管理',route:'/accountManage'},
-                    // {icon:'computer',text:'test',route:'/screenManage'}
-                ],
                 item:1
             }
         },

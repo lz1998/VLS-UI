@@ -188,7 +188,7 @@
                         />
                     </div>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item style="text-align: center">
                     <el-button type="primary" @click="handleSaveScreenChart">保存</el-button>
                     <el-button @click="chartDialogShow=false">取消</el-button>
                 </el-form-item>
@@ -244,7 +244,7 @@
                     url: ""
                 },
                 isNoticeEditing: true,
-                notice: "热烈欢迎李政前来参观",
+                notice: "",
                 chartForm: {
                     chartIndex: null,
                     chartId: null,
@@ -268,12 +268,12 @@
             toChild() {
 
                 this.saveScreen()
-                // this.$router.push({
-                //     path: '/home',
-                //     query: {
-                //         id: this.screenId
-                //     }
-                // })
+                this.$router.push({
+                    path: '/home',
+                    query: {
+                        id: this.screenId
+                    }
+                })
             },
             showActivecolor(s) {
                 console.log(s)

@@ -5,10 +5,10 @@
             <v-col cols="4">
                 <el-form>
                     <v-row no-gutters>
-                        <v-col cols="12" sm="6">
+                        <v-col cols="12" md="6">
                             <el-input placeholder="数据标题" v-model="title"></el-input>
                         </v-col>
-                        <v-col cols="12" sm="6">
+                        <v-col cols="12" md="6">
                             <el-form-item style="text-align: right" class="pr-1">
                                 <el-button type="primary">查询数据</el-button>
                                 <el-button type="primary" @click="createData">新增数据</el-button>
@@ -57,16 +57,16 @@
                                     v-model="dataForm.title"
                                     placeholder="数据标题"></el-input>
                         </el-form-item>
-                        <el-form-item label-width="70px" label="图表类型">
-                            <el-select v-model="dataForm.type" placeholder="请选择">
-                                <el-option
-                                        v-for="item in options"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
+<!--                        <el-form-item label-width="70px" label="图表类型">-->
+<!--                            <el-select v-model="dataForm.type" placeholder="请选择">-->
+<!--                                <el-option-->
+<!--                                        v-for="item in options"-->
+<!--                                        :key="item.value"-->
+<!--                                        :label="item.label"-->
+<!--                                        :value="item.value">-->
+<!--                                </el-option>-->
+<!--                            </el-select>-->
+<!--                        </el-form-item>-->
                         <el-form-item label-width="70px" label="数据内容">
                             <v-row justify="center" align="center" no-gutters>
                                 <v-col cols="6">
@@ -142,7 +142,6 @@
                 isAddOperation: true,
                 dataForm: {
                     title: '',
-                    type: '',
                     item: {
                         name: '',
                         value: ''
@@ -153,13 +152,6 @@
                     },
                     ]
                 },
-                options: [{
-                    value: 'chart',
-                    label: '图表'
-                }, {
-                    value: 'map',
-                    label: '地图'
-                }],
             }
         },
         methods: {
@@ -193,17 +185,16 @@
             submitData() {
                 let dataForm = new Object({
                     title: this.dataForm.title,
-                    type: this.dataForm.type,
                     item: {
                         name: this.dataForm.item.name,
-                        value: this.dataForm.item.value.split(",").map(Number)
+                        value: this.dataForm.item.value.split(",")
                     },
                     content: []
                 })
                 for (let i = 0; i < this.dataForm.content.length; i++) {
                     dataForm.content.push({
                         name: this.dataForm.content[i].name,
-                        value: this.dataForm.content[i].value.split(",").map(Number)
+                        value: this.dataForm.content[i].value.split(",")
                     })
                 }
                 console.log(dataForm)

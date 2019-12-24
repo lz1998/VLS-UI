@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 import {Message} from "element-ui";
+import router from '@/router/index'
 
 const service = axios.create({
     baseURL:process.env.BASE_URL
@@ -10,6 +11,7 @@ const service = axios.create({
 // 添加响应拦截器
 service.interceptors.response.use(function (response) {
     // 对响应数据做点什么
+
     let data = response.data
     if(data.retcode==0){
         return data.data;
