@@ -123,7 +123,7 @@
                 users: [],
                 usernameRules: [
                     v => !!v || '请输入用户名',
-                    v => this.allUserName.indexOf(v)<0 || '不允许用户名重复'
+                    v => ((this.allUserName.indexOf(v)<0) || (this.isEditing)) || '不允许用户名重复'
                 ],
                 passwordRules: [
                     v => !!v || '请输入密码',

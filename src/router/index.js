@@ -22,7 +22,7 @@ const routes= [
     {
         path: '/layout',
         name: 'layout',
-        // redirect:'/dataManage',
+        redirect:'/dataManage',
         component: () => import('../views/layout/index.vue'),
         children: [
             {
@@ -92,7 +92,7 @@ Router.beforeEach((to, from, next) => {
             next('/userManage')
         }
         else {
-            next('/dataManage')
+            next()
         }
     }
     else {
