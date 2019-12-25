@@ -41,15 +41,6 @@
                 passwordRules: [
                     v => !!v || 'Password is required',
                 ],
-                routes:[
-                    {
-                        path: '/mapManage',
-                        name: 'test',
-                        component: require.ensure([], (require) => {
-                            resolve(require('@/views/mapManage/index.vue'))
-                        })
-                    },
-                ]
             }
         },
         methods: {
@@ -64,11 +55,6 @@
                     })
                 }
             },
-        },
-        mounted() {
-            this.$router.addRoutes(this.routes)
-            console.log("addRoute")
-            this.$router.options[3].children = this.routes
         }
     }
 </script>

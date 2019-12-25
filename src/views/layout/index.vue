@@ -10,10 +10,13 @@
 </template>
 <script>
     import Navbar from "@/views/layout/components/Navbar";
+    import {permission} from "@/permission/permission";
+    const routes = permission[sessionStorage.getItem('role')]
     export default{
         name:'layout',
         components:{
             Navbar
-        }
+        },
+
     }
 </script>

@@ -6,19 +6,19 @@
                 <v-form>
                     <v-row align="center" justify="center">
                         <v-col cols="10" md="6">
-                            <el-input v-model="id" placeholder="用户名"></el-input>
+                            <el-input v-model="username" placeholder="查询用户名"></el-input>
                         </v-col>
-                        <v-col cols="3">
-                            <v-btn depressed color="success" @click="queryUser">查询用户</v-btn>
-                        </v-col>
-                        <v-col cols="3">
+<!--                        <v-col cols="3">-->
+<!--                            <v-btn depressed color="success" @click="test">查询用户</v-btn>-->
+<!--                        </v-col>-->
+                        <v-col cols="6">
                             <v-btn depressed color="primary" @click="showAddUserDialog">新建用户</v-btn>
                         </v-col>
                     </v-row>
                 </v-form>
             </v-row>
             <v-row>
-                <v-col cols="12" sm="6" md="3" v-for="user in users" :key="user.name">
+                <v-col cols="12" sm="6" md="3" v-for="user in searchUser" :key="user.name">
                     <v-card class="pa-4 " flat>
                         <v-card-text class="text-center">
                             <v-responsive class="my-4">
@@ -108,7 +108,7 @@
     export default {
         data() {
             return {
-                id: '',
+                username: '',
                 items: [
                     'su',
                     'admin',
@@ -123,25 +123,26 @@
                 users: [],
                 usernameRules: [
                     v => !!v || '请输入用户名',
+                    v => this.allUserName.indexOf(v)<0 || '不允许用户名重复'
                 ],
                 passwordRules: [
                     v => !!v || '请输入密码',
                 ],
-                roleRules:[
+                roleRules: [
                     v => !!v || '请输入角色',
-
+                    v => this.items.indexOf(v) >= 0 || '请选择对应的角色'
                 ]
             }
         },
         methods: {
             delUser(username) {
                 let data = {
-                    username:username
+                    username: username
                 }
                 deleteUser(data).then(res => {
                     this.$message({
-                        type:'success',
-                        message:'删除成功'
+                        type: 'success',
+                        message: '删除成功'
                     })
                     this.loadUserList()
                     console.log(res)
@@ -169,44 +170,62 @@
                 this.user.role = user.role
             },
             addOrEditUser() {
-                if (this.$refs.userForm.validate()){
+                if (this.$refs.userForm.validate()) {
                     // 编辑用户
                     if (this.isEditing == true) {
                         setUser(this.user).then(res => {
                             console.log(res)
                             this.$message({
-                                type:'success',
-                                message:'编辑成功'
+                                type: 'success',
+                                message: '编辑成功'
                             })
                             this.loadUserList()
-                            this.showDialog=false
+                            this.showDialog = false
                         })
                     }
                     // 添加用户
                     else {
                         setUser(this.user).then(() => {
                             this.$message({
-                                type:'success',
-                                message:'增加成功'
+                                type: 'success',
+                                message: '增加成功'
                             })
-                            this.showDialog=false
+                            this.showDialog = false
                             this.loadUserList()
                         })
                     }
                 }
             },
-            loadUserList(){
+            loadUserList() {
                 getUserList().then(res => {
-                    this.users=res.userList
-                    console.log(res.userList)
+                    this.users = res.userList
                 })
+            },
+            test(){
+                let allUsername = []
+                this.users.forEach(item => {
+                    allUsername.push(item.username)
+                })
+                allUsername.push(sessionStorage.getItem('username'))
+                console.log(allUsername.indexOf(this.user.username)<0)
             }
         },
-        // computed(){
-        //   searchUser(this.title){
-        //
-        //     }
-        // },
+        computed:{
+            searchUser(){
+                let userResult = this.users
+                return  userResult.filter(item => {
+                    return item.username.indexOf(this.username)>=0
+                })
+            },
+            allUserName(){
+                let allUsername = []
+                this.users.forEach(item => {
+                    allUsername.push(item.username)
+                })
+                allUsername.push(sessionStorage.getItem('username'))
+                return allUsername
+            }
+        },
         mounted() {
             this.loadUserList()
         }

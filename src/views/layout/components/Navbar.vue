@@ -15,8 +15,9 @@
                     </v-btn>
                 </template>
                 <v-list>
-                    <v-list-item v-for="link in $router.options.routes[3].children" :key="link.name" router :to="link.path">
-                        <v-list-item-title >
+                    <v-list-item v-for="link in auth_routes" :key="link.name" router
+                                 :to="link.path">
+                        <v-list-item-title>
                             {{link.name}}
                         </v-list-item-title>
                     </v-list-item>
@@ -25,10 +26,10 @@
 
 
             <v-btn class="white--text" text fab @click="logout">
-                <v-icon right >exit_to_app</v-icon>
+                <v-icon right>exit_to_app</v-icon>
             </v-btn>
         </v-app-bar>
-        <v-navigation-drawer absolute disable-resize-watcher temporary floating class="black" v-model="drawer" >
+        <v-navigation-drawer absolute disable-resize-watcher temporary floating class="black" v-model="drawer">
             <v-col>
                 <v-row class="mt-5" align="center" justify="center">
                     <v-avatar size="200">
@@ -36,19 +37,22 @@
                     </v-avatar>
                 </v-row>
                 <v-row justify="center" class="mt-2">
-                    <p class="white--text subheader font-italic font-weight-light mt-1">{{this.$store.state.username}}</p>
+                    <p class="white--text subheader font-italic font-weight-light mt-1">
+                        用户名:{{username}}</p>
                 </v-row>
                 <v-row justify="center" class=" mb-3">
-<!--                    <Popup></Popup>-->
+                    <!--                    <Popup></Popup>-->
                 </v-row>
             </v-col>
-            <v-list rounded >
+            <v-list rounded>
                 <v-list-item-group v-model='item' color="primary">
-                    <v-list-item v-for="link in $router.options.routes[3].children" :key="link.name" router :to="link.path">
+                    <v-list-item v-for="link in auth_routes" :key="link.name" router
+                                 :to="link.path">
                         <v-list-item-icon>
                             <v-icon v-text="link.icon" class="white--text"></v-icon>
                         </v-list-item-icon>
-                        <v-list-item-title v-text="link.name" class="white--text" @click="drawer=!drawer"></v-list-item-title>
+                        <v-list-item-title v-text="link.name" class="white--text"
+                                           @click="drawer=!drawer"></v-list-item-title>
                     </v-list-item>
                 </v-list-item-group>
             </v-list>
@@ -56,22 +60,29 @@
     </nav>
 </template>
 <script>
-    // import Popup from "@/components/Popup";
+    import {permission} from "@/permission/permission";
+
     export default {
         data() {
             return {
                 drawer: false,
-                item:1
+                item: 1,
+                username:sessionStorage.getItem('username')
             }
         },
-        components:{
-            // Popup
-        },
-        methods:{
-            logout(){
+        methods: {
+            logout() {
                 this.$store.dispatch("Logout")
-                 this.$router.push('/login')
+                this.$router.push('/login')
             }
-    }
+        },
+        computed:{
+            auth_routes() {
+                let all_routes = this.$router.options.routes[3].children
+                return all_routes.filter(item => {
+                    return permission[sessionStorage.getItem('role')].indexOf(item.path)>=0
+                })
+            }
+        }
     }
 </script>
