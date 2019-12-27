@@ -3,7 +3,7 @@
         <v-app-bar color="#2d3a4b" app>
             <v-app-bar-nav-icon @click="drawer=!drawer" class="white--text"></v-app-bar-nav-icon>
             <v-toolbar-title class="text-uppercase white--text">
-                <span class="font-weight-light">大屏数据可视化管理</span>
+                <span class="font-weight-light">大屏数据可视化</span>
                 <span>管理后台</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -29,7 +29,7 @@
                 <v-icon right>exit_to_app</v-icon>
             </v-btn>
         </v-app-bar>
-        <v-navigation-drawer absolute disable-resize-watcher temporary floating class="black" v-model="drawer">
+        <v-navigation-drawer app disable-resize-watcher temporary floating class="black" v-model="drawer">
             <v-col>
                 <v-row class="mt-5" align="center" justify="center">
                     <v-avatar size="200">

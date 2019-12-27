@@ -168,7 +168,7 @@
         </div>
         <el-dialog :visible.sync="chartDialogShow">
             <el-form :model="chartForm">
-                <el-form-item>
+                <el-form-item style="text-align: center">
                     <span style="width: 200px;display: inline-block;text-align: left;font-size: 20px">请选择图表：</span>
                     <span style="width: 500px;display: inline-block;text-align: left;font-size: 20px">
                             <!--加上stop防止树形控件被点击到-->

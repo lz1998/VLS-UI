@@ -43,7 +43,9 @@
         methods:{
             handleUpdatePassword(){
                 if(this.updatePasswordForm.newPassword!=this.updatePasswordForm.repeatPassword){
-                    alert("两次密码不一致")
+                    this.$message({
+                        message:"两次密码不一致",
+                        type:"error"                    })
                     return
                 }
                 let data=new URLSearchParams()
@@ -51,7 +53,10 @@
                 data.append("newPassword",this.updatePasswordForm.newPassword)
                 updatePassword(data).then(res=>{
                     if(res.status){
-                        alert("修改成功")
+                        this.$message({
+                            type:"success",
+                            message:"修改成功"
+                        })
                     }
                 })
 

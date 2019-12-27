@@ -11,7 +11,7 @@
 <!--                        <v-col cols="3">-->
 <!--                            <v-btn depressed color="success" @click="test">查询用户</v-btn>-->
 <!--                        </v-col>-->
-                        <v-col cols="6">
+                        <v-col cols="4" md="6">
                             <v-btn depressed color="primary" @click="showAddUserDialog">新建用户</v-btn>
                         </v-col>
                     </v-row>
@@ -61,10 +61,23 @@
                     </v-card-title>
                     <v-card-text>
                         <v-form class="px-4" ref="userForm">
-                            <v-text-field outlined dense label="用户名" color="primary lighten-1"
-                                          v-model="user.username" :rules="usernameRules"></v-text-field>
-                            <v-text-field outlined dense label="密码" color="primary lighten-1"
-                                          v-model="user.password" :rules="passwordRules"></v-text-field>
+                            <v-text-field
+                                    outlined
+                                    prepend-inner-icon="account_box"
+                                    dense
+                                    label="用户名"
+                                    color="primary lighten-1"
+                                    :disabled="isEditing"
+                                    v-model="user.username"
+                                    :rules="usernameRules"></v-text-field>
+                            <v-text-field
+                                    outlined
+                                    prepend-inner-icon="lock"
+                                    dense
+                                    label="密码"
+                                    color="primary lighten-1"
+                                    v-model="user.password"
+                                    :rules="passwordRules"></v-text-field>
                             <v-combobox
                                     v-model="user.role"
                                     :items="items"
@@ -109,6 +122,7 @@
         data() {
             return {
                 username: '',
+                showPassword:false,
                 items: [
                     'su',
                     'admin',
