@@ -2,6 +2,7 @@ import axios from 'axios'
 import store from '@/store'
 import {Message} from "element-ui";
 import router from '@/router/index'
+import {permission} from "@/permission/permission.js"
 
 const service = axios.create({
     baseURL:process.env.BASE_URL
@@ -22,11 +23,18 @@ service.interceptors.response.use(function (response) {
             duration: 3000
         })
         store.commit('setUsername',null);
-    }else{
+    }else if(data.retcode==4){
         Message({
             message: data.msg,
             type: 'error',
             duration: 3000
+        })
+        router.push(permission[sessionStorage.getItem("role")][0])
+        store.commit('setUsername',null);
+    }else{
+        Message({
+            message: data.msg,
+            type: 'error',
         })
     }
 }, function (error) {

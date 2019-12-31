@@ -396,7 +396,7 @@
                 // 保存顶部通知
                 this.isNoticeEditing = !this.isNoticeEditing
             },
-            saveScreen() {
+            async saveScreen() {
                 // 保存所有数据到后端
                 let data = new FormData()
                 if (this.screenId) {
@@ -416,7 +416,7 @@
                     console.log(this.screenChartList[i].chartId)
                     data.append("chart" + i.toString() + "Id", this.screenChartList[i].chartId)
                 }
-                setScreen(data).then(res => {
+                await setScreen(data).then(res => {
                     if (res.status) {
                         // success
                         this.$message({

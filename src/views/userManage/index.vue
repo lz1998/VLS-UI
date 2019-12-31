@@ -1,6 +1,6 @@
 <template>
     <div class="user-manage ">
-        <v-subheader>userManege</v-subheader>
+        <v-subheader>userManage</v-subheader>
         <v-container class="my-5">
             <v-row justify="center" align="center">
                 <v-form>

@@ -22,7 +22,7 @@ const routes= [
     {
         path: '/layout',
         name: 'layout',
-        redirect:'/dataManage',
+        redirect:'/chartManage',
         component: () => import('../views/layout/index.vue'),
         children: [
             {
