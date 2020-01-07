@@ -1,6 +1,6 @@
 <template>
-    <div class="login" style="height: 100%">
-        <v-container fluid fill-height style="background-color: #2d3a4b">
+    <div class="login" style="height: 100%;background-color: #2d3a4b">
+        <v-container fluid fill-height  >
             <v-row align="center" justify="center">
                 <v-col cols="10" sm="6" md="4">
                     <h2 class="headline white--text text-center mb-4">大屏管理后台</h2>

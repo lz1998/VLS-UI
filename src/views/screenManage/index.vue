@@ -9,8 +9,8 @@
                 <v-btn text color="primary" @click="toChild">确认布置到home界面中</v-btn>
             </v-toolbar>
             <v-row no-gutters>
-                <v-col cols="3" >
-                    <div id="image"  style="height: 8vh;background-color: rgba(16, 22, 54, 1)">
+                <v-col cols="3">
+                    <div id="image" style="height: 8vh;background-color: rgba(16, 22, 54, 1)">
                         <img v-show="imgUrl" :src="imgUrl" @click="clickUpload" style="width: 100%;height: 100%">
                         <el-upload v-show="!imgUrl"
                                    v-bind:class="{'avatar-uploader':!imgUrl}"
@@ -26,7 +26,9 @@
                     <!--                    <v-card height="8vh" outlined>-->
                     <div style="height: 8vh">
                         <div style="width:100%;height: 100%" v-if="isNoticeEditing!=false" @click="addNotice">
-                            <marquee class="white--text title"  style="height: 100%;background-color: rgba(16, 22, 54, 1);">{{notice}}</marquee>
+                            <marquee class="white--text title"
+                                     style="height: 100%;background-color: rgba(16, 22, 54, 1);">{{notice}}
+                            </marquee>
                         </div>
                         <div style="width:100%;height: 100%;" v-if="isNoticeEditing==false">
                             <el-input v-model="notice"
@@ -45,8 +47,8 @@
             <v-row no-gutters>
                 <v-col cols="3">
                     <v-row no-gutters>
-                        <v-col cols="12" id="1" >
-                            <div class="chart_height" @click="sendId(1)" v-if="screenChartList.length>8" >
+                        <v-col cols="12" id="1">
+                            <div class="chart_height outlined" @click="sendId(1)" v-if="screenChartList.length>8">
                                 <chart
                                         :options="screenChartList[1].option"
                                         :auto-resize="true"
@@ -55,7 +57,7 @@
                             </div>
                         </v-col>
                         <v-col cols="12">
-                            <div class="chart_height" @click="sendId(2)" v-if="screenChartList.length>8">
+                            <div class="chart_height outlined" @click="sendId(2)" v-if="screenChartList.length>8">
                                 <chart
                                         :options="screenChartList[2].option"
                                         :auto-resize="true"
@@ -66,7 +68,7 @@
                     </v-row>
                 </v-col>
                 <v-col cols="6">
-                    <div class="map_height" id="0" @click="sendId(0)" v-if="screenChartList.length>8">
+                    <div class="map_height outlined" id="0" @click="sendId(0)" v-if="screenChartList.length>8">
                         <chart
                                 :options="screenChartList[0].option"
                                 :auto-resize="true"
@@ -77,26 +79,49 @@
                 <v-col cols="3">
                     <v-row no-gutters>
                         <v-col cols="12" id="8">
-<!--                            <v-card outlined v-if="screenChartList[8].chartId<0" :height="card_height" @click="sendId(8)" v-if="screenChartList.length>8">-->
-<!--                                <v-card-text>-->
-<!--                                    请点击添加图表-->
-<!--                                </v-card-text>-->
-<!--                            </v-card>-->
-                            <div  class="chart_height" @click="sendId(8)" v-if="screenChartList.length>8">
-                                <chart
-                                        :options="screenChartList[8].option"
-                                        :auto-resize="true"
-                                        style="width: 100%; height: 100%;"
-                                />
+
+                            <!--                                                        <div  class="chart_height outlined" @click="sendId(8)" v-if="screenChartList.length>8">-->
+                            <!--                                                            <chart-->
+                            <!--                                                                    :options="screenChartList[8].option"-->
+                            <!--                                                                    :auto-resize="true"-->
+                            <!--                                                                    style="width: 100%; height: 100%;"-->
+                            <!--                                                            />-->
+                            <!--                                                        </div>-->
+
+                            <div class="table" style="background-color: rgba(16, 22, 54, 1);">
+                                <v-window v-model="step"  vertical class="chart_height">
+                                    <v-window-item v-for="n in numOfwindow" :key="n">
+                                        <v-simple-table fixed-header  dark style="background-color: rgba(16, 22, 54, 1);" >
+                                            <template v-slot:default>
+                                                <thead>
+                                                <tr>
+                                                    <th class="text-left" style="background-color: rgba(16, 22, 54, 1);">title</th>
+                                                    <th class="text-left" style="background-color: rgba(16, 22, 54, 1);">status</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="item in list.slice(3*(n-1),3*(n-1)+3)"
+                                                    :key="item.title">
+                                                    <td>{{ item.title }}</td>
+                                                    <td>{{ item.status }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </template>
+                                        </v-simple-table>
+                                    </v-window-item>
+                                </v-window>
                             </div>
+
+
+
                         </v-col>
                         <v-col cols="12" id="7">
-<!--                            <v-card outlined v-if="screenChartList[7].chartId<0" :height="card_height" @click="sendId(7)" v-if="screenChartList.length>8">-->
-<!--                                <v-card-text>-->
-<!--                                    请点击添加图表-->
-<!--                                </v-card-text>-->
-<!--                            </v-card>-->
-                            <div  class="chart_height" @click="sendId(7)" v-if="screenChartList.length>8">
+                            <!--                            <v-card outlined v-if="screenChartList[7].chartId<0" :height="card_height" @click="sendId(7)" v-if="screenChartList.length>8">-->
+                            <!--                                <v-card-text>-->
+                            <!--                                    请点击添加图表-->
+                            <!--                                </v-card-text>-->
+                            <!--                            </v-card>-->
+                            <div class="chart_height outlined" @click="sendId(7)" v-if="screenChartList.length>8">
                                 <chart
                                         :options="screenChartList[7].option"
                                         :auto-resize="true"
@@ -109,12 +134,12 @@
             </v-row>
             <v-row no-gutters>
                 <v-col cols="3">
-<!--                    <v-card outlined v-if="screenChartList[3].chartId<0" :height="card_height" @click="sendId(3)" v-if="screenChartList.length>8">-->
-<!--                        <v-card-text>-->
-<!--                            请点击添加图表-->
-<!--                        </v-card-text>-->
-<!--                    </v-card>-->
-                    <div class="chart_height" id="3" @click="sendId(3)" v-if="screenChartList.length>8" >
+                    <!--                    <v-card outlined v-if="screenChartList[3].chartId<0" :height="card_height" @click="sendId(3)" v-if="screenChartList.length>8">-->
+                    <!--                        <v-card-text>-->
+                    <!--                            请点击添加图表-->
+                    <!--                        </v-card-text>-->
+                    <!--                    </v-card>-->
+                    <div class="chart_height outlined" id="3" @click="sendId(3)" v-if="screenChartList.length>8">
                         <chart
                                 :options="screenChartList[3].option"
                                 :auto-resize="true"
@@ -123,12 +148,12 @@
                     </div>
                 </v-col>
                 <v-col cols="3">
-<!--                    <v-card outlined v-if="screenChartList[4].chartId<0" :height="card_height" @click="sendId(4)" v-if="screenChartList.length>8">-->
-<!--                        <v-card-text>-->
-<!--                            请点击添加图表-->
-<!--                        </v-card-text>-->
-<!--                    </v-card>-->
-                    <div  class="chart_height" id="4" @click="sendId(4)" v-if="screenChartList.length>8" >
+                    <!--                    <v-card outlined v-if="screenChartList[4].chartId<0" :height="card_height" @click="sendId(4)" v-if="screenChartList.length>8">-->
+                    <!--                        <v-card-text>-->
+                    <!--                            请点击添加图表-->
+                    <!--                        </v-card-text>-->
+                    <!--                    </v-card>-->
+                    <div class="chart_height outlined" id="4" @click="sendId(4)" v-if="screenChartList.length>8">
                         <chart
                                 :options="screenChartList[4].option"
                                 :auto-resize="true"
@@ -137,12 +162,12 @@
                     </div>
                 </v-col>
                 <v-col cols="3">
-<!--                    <v-card outlined v-if="screenChartList[5].chartId<0" :height="card_height" @click="sendId(5)" v-if="screenChartList.length>8">-->
-<!--                        <v-card-text>-->
-<!--                            请点击添加图表-->
-<!--                        </v-card-text>-->
-<!--                    </v-card>-->
-                    <div class="chart_height" id="5" @click="sendId(5)" v-if="screenChartList.length>8">
+                    <!--                    <v-card outlined v-if="screenChartList[5].chartId<0" :height="card_height" @click="sendId(5)" v-if="screenChartList.length>8">-->
+                    <!--                        <v-card-text>-->
+                    <!--                            请点击添加图表-->
+                    <!--                        </v-card-text>-->
+                    <!--                    </v-card>-->
+                    <div class="chart_height outlined" id="5" @click="sendId(5)" v-if="screenChartList.length>8">
                         <chart
                                 :options="screenChartList[5].option"
                                 :auto-resize="true"
@@ -151,12 +176,12 @@
                     </div>
                 </v-col>
                 <v-col cols="3">
-<!--                    <v-card outlined v-if="screenChartList[6].chartId<0" :height="card_height" @click="sendId(6)" v-if="screenChartList.length>8">-->
-<!--                        <v-card-text>-->
-<!--                            请点击添加图表-->
-<!--                        </v-card-text>-->
-<!--                    </v-card>-->
-                    <div  class="chart_height" id="6" @click="sendId(6)" v-if="screenChartList.length>8">
+                    <!--                    <v-card outlined v-if="screenChartList[6].chartId<0" :height="card_height" @click="sendId(6)" v-if="screenChartList.length>8">-->
+                    <!--                        <v-card-text>-->
+                    <!--                            请点击添加图表-->
+                    <!--                        </v-card-text>-->
+                    <!--                    </v-card>-->
+                    <div class="chart_height outlined" id="6" @click="sendId(6)" v-if="screenChartList.length>8">
                         <chart
                                 :options="screenChartList[6].option"
                                 :auto-resize="true"
@@ -174,7 +199,7 @@
                             <!--加上stop防止树形控件被点击到-->
                             <el-select v-model="chartForm.chartIndex">
                                 <el-option :value="index" :label="chartItem.title+' id:'+chartItem.id"
-                                           v-for="(chartItem,index) in chartList " ></el-option>
+                                           v-for="(chartItem,index) in chartList "></el-option>
                             </el-select>
                             <el-button class="btn-add" @click="refreshPreview">预览</el-button>
                     </span>
@@ -261,7 +286,31 @@
                  },*/
                 screenChartList: [],
                 screenId: null,
-                card_height:'25vh'
+                list: [
+                    {
+                        title: "1231",
+                        status: "未整改"
+                    }, {
+                        title: "dsad",
+                        status: "未整改"
+                    }, {
+                        title: "xixi",
+                        status: "未整改"
+                    }, {
+                        title: "1睡大觉降低哦1",
+                        status: "未整改"
+                    }, {
+                        title: "就覅万佛i问",
+                        status: "未整改"
+                    }, {
+                        title: "试点单位就",
+                        status: "未整改"
+                    }, {
+                        title: "试单位就",
+                        status: "未整改"
+                    },
+                ],
+                step: 0
             }
         },
         methods: {
@@ -448,7 +497,22 @@
                 this.$refs.clickupload.click()
             }
         },
-
+        computed: {
+            numOfwindow() {
+                let listNum = this.list.length
+                let mo = Math.floor(listNum / 3)
+                if (listNum % 3 == 0)
+                    return mo
+                else
+                    return mo + 1
+            },
+        },
+        created () {
+            setInterval(() => {
+                if(false) return
+                if (++this.step >= this.numOfwindow()) this.step = 0
+            }, 3000)
+        },
         async mounted() {
             await this.loadChartList()
             await this.loadScreenData()
@@ -456,10 +520,16 @@
     }
 </script>
 <style>
-    .chart_height{
+    .chart_height {
         height: 25vh;
     }
-    .map_height{
+
+    .map_height {
         height: 50vh;
+    }
+
+    .outlined {
+        border-style: solid;
+        border-width: 0px;
     }
 </style>
