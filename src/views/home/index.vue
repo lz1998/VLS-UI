@@ -83,11 +83,12 @@
             <el-col :span="6">
                 <el-row class="wrapper-out">
                     <div class="wrapper-in">
-                        <chart
-                                :options="chartOptionList[8]"
-                                :auto-resize="true"
-                                style="width: 100%; height: 100%;"
-                        />
+<!--                        <chart-->
+<!--                                :options="chartOptionList[8]"-->
+<!--                                :auto-resize="true"-->
+<!--                                style="width: 100%; height: 100%;"-->
+<!--                        />-->
+                        <table1/>
                     </div>
                 </el-row>
                 <el-row class="wrapper-out">
@@ -116,6 +117,7 @@
 <script>
     import Time1 from "@/components/Time.vue"
     import logo from "@/components/logo.vue"
+    import table1 from "../../components/table";
     import img from '@/image/logo.png'
     import chartline from "@/components/chartline.vue"
     import map1 from "@/components/map1.vue"
@@ -130,7 +132,8 @@
             Time1,
             logo,
             chartline,
-            map1
+            map1,
+            table1
         },
         data() {
             return {
